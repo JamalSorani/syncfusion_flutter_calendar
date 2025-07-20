@@ -29,28 +29,71 @@ class _MyHomePageState extends State<MyHomePage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: SfCalendar(
-        view: CalendarView.month,
-        dataSource: MeetingDataSource(_getDataSource()),
-        // by default the month appointment display mode set as Indicator, we can
-        // change the display mode as appointment using the appointment display
-        // mode property
-        monthViewSettings: const MonthViewSettings(
-          appointmentDisplayMode: MonthAppointmentDisplayMode.appointment,
+      body: Padding(
+        padding: const EdgeInsets.symmetric(horizontal: 16.0, vertical: 50),
+        child: Column(
+          children: [
+            Expanded(
+              child: SfCalendar(
+                view: CalendarView.week, // .week, .day
+                showNavigationArrow: true,
+                headerStyle: const CalendarHeaderStyle(
+                  backgroundColor: Colors.white,
+                ),
+                backgroundColor: Colors.white,
+                viewHeaderStyle: const ViewHeaderStyle(
+                  backgroundColor: Colors.white,
+                  dayTextStyle: TextStyle(fontSize: 8),
+                ),
+                monthViewSettings: MonthViewSettings(
+                  dayFormat: "EEEE",
+                ),
+
+                initialDisplayDate: DateTime.now(),
+                dataSource: _getCalendarDataSource(),
+                // monthCellBuilder:
+                //     (BuildContext context, MonthCellDetails details) {
+                //   // for dividers
+                //   return Container(
+                //     child: Text(details.date.day.toString()),
+                //   );
+                // },
+                customHeaderWidget: (context, details, leftArrow, rightArrow) {
+                  return Row(
+                    children: [
+                      Container(
+                        child: Text(
+                          details.date.month.toString() +
+                              ' ,' +
+                              details.date.year.toString(),
+                        ),
+                      ),
+                      leftArrow,
+                      rightArrow,
+                    ],
+                  );
+                },
+
+                //* week
+              ),
+            ),
+          ],
         ),
       ),
     );
   }
 
-  List<Meeting> _getDataSource() {
-    final List<Meeting> meetings = <Meeting>[];
-    final DateTime today = DateTime.now();
-    final DateTime startTime = DateTime(today.year, today.month, today.day, 9);
-    final DateTime endTime = startTime.add(const Duration(hours: 2));
-    meetings.add(
-      Meeting('Conference', startTime, endTime, const Color(0xFF0F8644), false),
-    );
-    return meetings;
+  CalendarDataSource _getCalendarDataSource() {
+    final List<Meeting> appointments = <Meeting>[
+      Meeting(
+        'Meeting',
+        DateTime.now(),
+        DateTime.now().add(const Duration(hours: 1)),
+        Colors.blue,
+        false,
+      ),
+    ];
+    return MeetingDataSource(appointments);
   }
 }
 

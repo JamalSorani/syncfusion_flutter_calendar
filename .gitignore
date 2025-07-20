@@ -1,0 +1,21 @@
+
+# FVM Version Cache
+.fvm/
+
+pubspec.lock
+
+.dart_tool/
+
+example/android/.gradle/
+
+example/build/
+
+example/macos/
+
+example/ios/
+
+example/linux/
+
+example/web/
+
+example/windows/

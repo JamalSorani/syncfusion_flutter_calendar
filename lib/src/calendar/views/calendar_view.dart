@@ -412,15 +412,11 @@ class _CustomCalendarScrollViewState extends State<CustomCalendarScrollView>
               (!isTimelineView &&
                   oldWidget.calendar.timeSlotViewSettings.timeIntervalHeight !=
                       widget
-                          .calendar
-                          .timeSlotViewSettings
-                          .timeIntervalHeight) ||
+                          .calendar.timeSlotViewSettings.timeIntervalHeight) ||
               (isTimelineView &&
                   oldWidget.calendar.timeSlotViewSettings.timeIntervalWidth !=
                       widget
-                          .calendar
-                          .timeSlotViewSettings
-                          .timeIntervalWidth))) {
+                          .calendar.timeSlotViewSettings.timeIntervalWidth))) {
         if (_currentChildIndex == 0) {
           _previousViewKey.currentState!._retainScrolledDateTime();
         } else if (_currentChildIndex == 1) {
@@ -444,9 +440,7 @@ class _CustomCalendarScrollViewState extends State<CustomCalendarScrollView>
                 ) ||
                 widget.calendar.timeSlotViewSettings.numberOfDaysInView !=
                     oldWidget
-                        .calendar
-                        .timeSlotViewSettings
-                        .numberOfDaysInView)) ||
+                        .calendar.timeSlotViewSettings.numberOfDaysInView)) ||
         widget.isRTL != oldWidget.isRTL) {
       _updateVisibleDates();
       _position = 0;
@@ -527,8 +521,8 @@ class _CustomCalendarScrollViewState extends State<CustomCalendarScrollView>
         bottomPosition = 0;
     final bool isHorizontalNavigation =
         widget.calendar.monthViewSettings.navigationDirection ==
-            MonthNavigationDirection.horizontal ||
-        widget.view != CalendarView.month;
+                MonthNavigationDirection.horizontal ||
+            widget.view != CalendarView.month;
     if (isHorizontalNavigation) {
       leftPosition = -widget.width;
       rightPosition = -widget.width;
@@ -544,8 +538,7 @@ class _CustomCalendarScrollViewState extends State<CustomCalendarScrollView>
       widget.calendar.monthViewSettings.numberOfWeeksInView,
     );
     final bool isTimelineView = CalendarViewHelper.isTimelineView(widget.view);
-    final bool isNeedDragAndDrop =
-        widget.calendar.allowDragAndDrop &&
+    final bool isNeedDragAndDrop = widget.calendar.allowDragAndDrop &&
         widget.view != CalendarView.schedule &&
         (!widget.isMobilePlatform ||
             (widget.view != CalendarView.month &&
@@ -572,18 +565,16 @@ class _CustomCalendarScrollViewState extends State<CustomCalendarScrollView>
             widget.calendar.dataSource!.resources!.length,
           )
         : 0;
-    final double resourceViewSize = isResourceEnabled
-        ? widget.calendar.resourceViewSettings.size
-        : 0;
-    final bool isMonthView =
-        widget.view == CalendarView.month ||
+    final double resourceViewSize =
+        isResourceEnabled ? widget.calendar.resourceViewSettings.size : 0;
+    final bool isMonthView = widget.view == CalendarView.month ||
         widget.view == CalendarView.timelineMonth;
     final double weekNumberPanelWidth =
         CalendarViewHelper.getWeekNumberPanelWidth(
-          widget.calendar.showWeekNumber,
-          widget.width,
-          widget.isMobilePlatform,
-        );
+      widget.calendar.showWeekNumber,
+      widget.width,
+      widget.isMobilePlatform,
+    );
 
     final Widget customScrollWidget = GestureDetector(
       onTapDown: (TapDownDetails details) {
@@ -738,50 +729,49 @@ class _CustomCalendarScrollViewState extends State<CustomCalendarScrollView>
                         gestures: <Type, GestureRecognizerFactory>{
                           HorizontalDragGestureRecognizer:
                               GestureRecognizerFactoryWithHandlers<
-                                HorizontalDragGestureRecognizer
-                              >(() => HorizontalDragGestureRecognizer(), (
-                                HorizontalDragGestureRecognizer instance,
-                              ) {
-                                instance.onUpdate =
-                                    (DragUpdateDetails details) {
-                                      _handleDragUpdate(
-                                        details,
-                                        isTimelineView,
-                                        isResourceEnabled,
-                                        isMonthView,
-                                        viewHeaderHeight,
-                                        timeLabelWidth,
-                                        resourceItemHeight,
-                                        weekNumberPanelWidth,
-                                        isNeedDragAndDrop,
-                                        resourceViewSize,
-                                      );
-                                    };
-                                instance.onStart = (DragStartDetails details) {
-                                  _handleDragStart(
-                                    details,
-                                    isNeedDragAndDrop,
-                                    isTimelineView,
-                                    isResourceEnabled,
-                                    viewHeaderHeight,
-                                    timeLabelWidth,
-                                    resourceViewSize,
-                                  );
-                                };
-                                instance.onEnd = (DragEndDetails details) {
-                                  _handleDragEnd(
-                                    details,
-                                    isTimelineView,
-                                    isResourceEnabled,
-                                    isMonthView,
-                                    viewHeaderHeight,
-                                    timeLabelWidth,
-                                    weekNumberPanelWidth,
-                                    isNeedDragAndDrop,
-                                  );
-                                };
-                                instance.onCancel = _handleDragCancel;
-                              }),
+                                      HorizontalDragGestureRecognizer>(
+                                  () => HorizontalDragGestureRecognizer(), (
+                            HorizontalDragGestureRecognizer instance,
+                          ) {
+                            instance.onUpdate = (DragUpdateDetails details) {
+                              _handleDragUpdate(
+                                details,
+                                isTimelineView,
+                                isResourceEnabled,
+                                isMonthView,
+                                viewHeaderHeight,
+                                timeLabelWidth,
+                                resourceItemHeight,
+                                weekNumberPanelWidth,
+                                isNeedDragAndDrop,
+                                resourceViewSize,
+                              );
+                            };
+                            instance.onStart = (DragStartDetails details) {
+                              _handleDragStart(
+                                details,
+                                isNeedDragAndDrop,
+                                isTimelineView,
+                                isResourceEnabled,
+                                viewHeaderHeight,
+                                timeLabelWidth,
+                                resourceViewSize,
+                              );
+                            };
+                            instance.onEnd = (DragEndDetails details) {
+                              _handleDragEnd(
+                                details,
+                                isTimelineView,
+                                isResourceEnabled,
+                                isMonthView,
+                                viewHeaderHeight,
+                                timeLabelWidth,
+                                weekNumberPanelWidth,
+                                isNeedDragAndDrop,
+                              );
+                            };
+                            instance.onCancel = _handleDragCancel;
+                          }),
                         },
                         behavior: HitTestBehavior.opaque,
                         child: customScrollWidget,
@@ -863,23 +853,19 @@ class _CustomCalendarScrollViewState extends State<CustomCalendarScrollView>
     double xPosition;
     double yPosition;
     if (isTimelineView) {
-      xPosition =
-          (appointmentPosition.dx -
+      xPosition = (appointmentPosition.dx -
               currentState._scrollController!.position.pixels) -
           details.dx;
       if (widget.isRTL) {
-        xPosition =
-            currentState._scrollController!.offset +
+        xPosition = currentState._scrollController!.offset +
             currentState._scrollController!.position.viewportDimension;
-        xPosition =
-            xPosition -
+        xPosition = xPosition -
             ((currentState._scrollController!.position.viewportDimension +
                     currentState._scrollController!.position.maxScrollExtent) -
                 appointmentPosition.dx);
         xPosition -= details.dx;
       }
-      yPosition =
-          appointmentPosition.dy +
+      yPosition = appointmentPosition.dy +
           viewHeaderHeight +
           timeLabelWidth -
           details.dy;
@@ -897,8 +883,7 @@ class _CustomCalendarScrollViewState extends State<CustomCalendarScrollView>
           ? _updateCalendarStateDetails.allDayPanelHeight
           : currentState._allDayHeight;
       xPosition = appointmentPosition.dx - details.dx;
-      yPosition =
-          appointmentPosition.dy +
+      yPosition = appointmentPosition.dy +
           viewHeaderHeight +
           allDayHeight -
           currentState._scrollController!.position.pixels;
@@ -927,8 +912,8 @@ class _CustomCalendarScrollViewState extends State<CustomCalendarScrollView>
     _dragDetails.value.position.value = details + _dragDifferenceOffset!;
     _dragDetails.value.draggingTime =
         yPosition <= 0 && widget.view != CalendarView.month && !isTimelineView
-        ? null
-        : _dragDetails.value.appointmentView!.appointment!.actualStartTime;
+            ? null
+            : _dragDetails.value.appointmentView!.appointment!.actualStartTime;
     final dynamic dragStartAppointment = _getCalendarAppointmentToObject(
       appointmentView.appointment,
       widget.calendar,
@@ -1094,8 +1079,8 @@ class _CustomCalendarScrollViewState extends State<CustomCalendarScrollView>
 
     final bool isHorizontalNavigation =
         widget.calendar.monthViewSettings.navigationDirection ==
-            MonthNavigationDirection.horizontal ||
-        widget.view != CalendarView.month;
+                MonthNavigationDirection.horizontal ||
+            widget.view != CalendarView.month;
 
     if (widget.calendar.dragAndDropSettings.allowScroll &&
         widget.view != CalendarView.month &&
@@ -1112,7 +1097,7 @@ class _CustomCalendarScrollViewState extends State<CustomCalendarScrollView>
           Future<void> updateScrollPosition() async {
             double scrollPosition =
                 currentState._scrollController!.position.pixels -
-                timeIntervalHeight;
+                    timeIntervalHeight;
             if (scrollPosition < 0) {
               scrollPosition = 0;
             }
@@ -1167,17 +1152,14 @@ class _CustomCalendarScrollViewState extends State<CustomCalendarScrollView>
         if (_dragDetails.value.position.value != null &&
             _dragDetails.value.position.value!.dy +
                     _dragDetails
-                        .value
-                        .appointmentView!
-                        .appointmentRect!
-                        .height >=
+                        .value.appointmentView!.appointmentRect!.height >=
                 widget.height &&
             currentState._scrollController!.position.pixels !=
                 currentState._scrollController!.position.maxScrollExtent) {
           Future<void> updateScrollPosition() async {
             double scrollPosition =
                 currentState._scrollController!.position.pixels +
-                timeIntervalHeight;
+                    timeIntervalHeight;
             if (scrollPosition >
                 currentState._scrollController!.position.maxScrollExtent) {
               scrollPosition =
@@ -1207,10 +1189,7 @@ class _CustomCalendarScrollViewState extends State<CustomCalendarScrollView>
             if (_dragDetails.value.position.value != null &&
                 _dragDetails.value.position.value!.dy +
                         _dragDetails
-                            .value
-                            .appointmentView!
-                            .appointmentRect!
-                            .height >=
+                            .value.appointmentView!.appointmentRect!.height >=
                     widget.height &&
                 currentState._scrollController!.position.pixels !=
                     currentState._scrollController!.position.maxScrollExtent) {
@@ -1230,20 +1209,14 @@ class _CustomCalendarScrollViewState extends State<CustomCalendarScrollView>
     } else if (widget.calendar.dragAndDropSettings.allowNavigation &&
         ((isHorizontalNavigation &&
                 (appointmentPosition.dx +
-                            _dragDetails
-                                .value
-                                .appointmentView!
-                                .appointmentRect!
+                            _dragDetails.value.appointmentView!.appointmentRect!
                                 .width) -
                         rtlValue >=
                     widget.width) ||
             (!isHorizontalNavigation &&
                 (appointmentPosition.dy +
                         _dragDetails
-                            .value
-                            .appointmentView!
-                            .appointmentRect!
-                            .height >=
+                            .value.appointmentView!.appointmentRect!.height >=
                     widget.height)))) {
       if (_timer != null) {
         return;
@@ -1254,20 +1227,14 @@ class _CustomCalendarScrollViewState extends State<CustomCalendarScrollView>
           if (_dragDetails.value.position.value != null &&
               ((isHorizontalNavigation &&
                       (_dragDetails.value.position.value!.dx +
-                                  _dragDetails
-                                      .value
-                                      .appointmentView!
-                                      .appointmentRect!
-                                      .width) -
+                                  _dragDetails.value.appointmentView!
+                                      .appointmentRect!.width) -
                               rtlValue >=
                           widget.width + navigationThresholdValue) ||
                   (!isHorizontalNavigation &&
                       _dragDetails.value.position.value!.dy +
-                              _dragDetails
-                                  .value
-                                  .appointmentView!
-                                  .appointmentRect!
-                                  .height >=
+                              _dragDetails.value.appointmentView!
+                                  .appointmentRect!.height >=
                           widget.height))) {
             if (widget.isRTL) {
               _moveToPreviousViewWithAnimation();
@@ -1381,18 +1348,15 @@ class _CustomCalendarScrollViewState extends State<CustomCalendarScrollView>
             ((widget.isRTL &&
                     currentState._scrollController!.position.pixels !=
                         currentState
-                            ._scrollController!
-                            .position
-                            .maxScrollExtent) ||
+                            ._scrollController!.position.maxScrollExtent) ||
                 (!widget.isRTL &&
                     currentState._scrollController!.position.pixels != 0))) {
           Future<void> updateScrollPosition() async {
             double scrollPosition =
                 currentState._scrollController!.position.pixels -
-                timeIntervalHeight;
+                    timeIntervalHeight;
             if (widget.isRTL) {
-              scrollPosition =
-                  currentState._scrollController!.position.pixels +
+              scrollPosition = currentState._scrollController!.position.pixels +
                   timeIntervalHeight;
             }
             if (!widget.isRTL && scrollPosition < 0) {
@@ -1428,9 +1392,7 @@ class _CustomCalendarScrollViewState extends State<CustomCalendarScrollView>
                 ((widget.isRTL &&
                         currentState._scrollController!.position.pixels !=
                             currentState
-                                ._scrollController!
-                                .position
-                                .maxScrollExtent) ||
+                                ._scrollController!.position.maxScrollExtent) ||
                     (!widget.isRTL &&
                         currentState._scrollController!.position.pixels !=
                             0))) {
@@ -1480,10 +1442,7 @@ class _CustomCalendarScrollViewState extends State<CustomCalendarScrollView>
     } else if (widget.calendar.dragAndDropSettings.allowScroll &&
         (appointmentPosition.dx +
                     _dragDetails
-                        .value
-                        .appointmentView!
-                        .appointmentRect!
-                        .width) -
+                        .value.appointmentView!.appointmentRect!.width) -
                 rtlValue >=
             widget.width &&
         ((widget.isRTL &&
@@ -1491,9 +1450,7 @@ class _CustomCalendarScrollViewState extends State<CustomCalendarScrollView>
             (!widget.isRTL &&
                 currentState._scrollController!.position.pixels !=
                     currentState
-                        ._scrollController!
-                        .position
-                        .maxScrollExtent))) {
+                        ._scrollController!.position.maxScrollExtent))) {
       if (_timer != null) {
         return;
       }
@@ -1501,10 +1458,7 @@ class _CustomCalendarScrollViewState extends State<CustomCalendarScrollView>
         if (_dragDetails.value.position.value != null &&
             (_dragDetails.value.position.value!.dx +
                         _dragDetails
-                            .value
-                            .appointmentView!
-                            .appointmentRect!
-                            .width) -
+                            .value.appointmentView!.appointmentRect!.width) -
                     rtlValue >=
                 widget.width &&
             ((widget.isRTL &&
@@ -1512,16 +1466,13 @@ class _CustomCalendarScrollViewState extends State<CustomCalendarScrollView>
                 (!widget.isRTL &&
                     currentState._scrollController!.position.pixels !=
                         currentState
-                            ._scrollController!
-                            .position
-                            .maxScrollExtent))) {
+                            ._scrollController!.position.maxScrollExtent))) {
           Future<void> updateScrollPosition() async {
             double scrollPosition =
                 currentState._scrollController!.position.pixels +
-                timeIntervalHeight;
+                    timeIntervalHeight;
             if (widget.isRTL) {
-              scrollPosition =
-                  currentState._scrollController!.position.pixels -
+              scrollPosition = currentState._scrollController!.position.pixels -
                   timeIntervalHeight;
             }
             if (!widget.isRTL &&
@@ -1555,10 +1506,7 @@ class _CustomCalendarScrollViewState extends State<CustomCalendarScrollView>
 
             if (_dragDetails.value.position.value != null &&
                 (_dragDetails.value.position.value!.dx +
-                            _dragDetails
-                                .value
-                                .appointmentView!
-                                .appointmentRect!
+                            _dragDetails.value.appointmentView!.appointmentRect!
                                 .width) -
                         rtlValue >=
                     widget.width &&
@@ -1566,9 +1514,7 @@ class _CustomCalendarScrollViewState extends State<CustomCalendarScrollView>
                         currentState._scrollController!.position.pixels != 0) ||
                     (!widget.isRTL &&
                         currentState._scrollController!.position.pixels !=
-                            currentState
-                                ._scrollController!
-                                .position
+                            currentState._scrollController!.position
                                 .maxScrollExtent))) {
               updateScrollPosition();
             } else if (_timer != null) {
@@ -1650,35 +1596,28 @@ class _CustomCalendarScrollViewState extends State<CustomCalendarScrollView>
                       timeIntervalHeight <=
                   0 &&
               currentState
-                      ._timelineViewVerticalScrollController!
-                      .position
-                      .pixels !=
+                      ._timelineViewVerticalScrollController!.position.pixels !=
                   0) {
             Future<void> updateScrollPosition() async {
-              double scrollPosition =
-                  currentState
-                      ._timelineViewVerticalScrollController!
-                      .position
-                      .pixels -
+              double scrollPosition = currentState
+                      ._timelineViewVerticalScrollController!.position.pixels -
                   resourceItemHeight;
               if (scrollPosition < 0) {
                 scrollPosition = 0;
               }
               await currentState._timelineViewVerticalScrollController!.position
                   .moveTo(
-                    scrollPosition,
-                    duration: const Duration(milliseconds: 100),
-                    curve: Curves.easeInOut,
-                  );
+                scrollPosition,
+                duration: const Duration(milliseconds: 100),
+                curve: Curves.easeInOut,
+              );
 
               if (_dragDetails.value.position.value != null &&
                   _dragDetails.value.position.value!.dy -
                           viewHeaderHeight -
                           timeIntervalHeight <=
                       0 &&
-                  currentState
-                          ._timelineViewVerticalScrollController!
-                          .position
+                  currentState._timelineViewVerticalScrollController!.position
                           .pixels !=
                       0) {
                 updateScrollPosition();
@@ -1699,9 +1638,7 @@ class _CustomCalendarScrollViewState extends State<CustomCalendarScrollView>
                   _dragDetails.value.appointmentView!.appointmentRect!.height >=
               widget.height &&
           currentState._timelineViewVerticalScrollController!.position.pixels !=
-              currentState
-                  ._timelineViewVerticalScrollController!
-                  .position
+              currentState._timelineViewVerticalScrollController!.position
                   .maxScrollExtent) {
         if (_timer != null) {
           return;
@@ -1710,30 +1647,18 @@ class _CustomCalendarScrollViewState extends State<CustomCalendarScrollView>
           if (_dragDetails.value.position.value != null &&
               _dragDetails.value.position.value!.dy +
                       _dragDetails
-                          .value
-                          .appointmentView!
-                          .appointmentRect!
-                          .height >=
+                          .value.appointmentView!.appointmentRect!.height >=
                   widget.height &&
               currentState
-                      ._timelineViewVerticalScrollController!
-                      .position
-                      .pixels !=
-                  currentState
-                      ._timelineViewVerticalScrollController!
-                      .position
+                      ._timelineViewVerticalScrollController!.position.pixels !=
+                  currentState._timelineViewVerticalScrollController!.position
                       .maxScrollExtent) {
             Future<void> updateScrollPosition() async {
-              double scrollPosition =
-                  currentState
-                      ._timelineViewVerticalScrollController!
-                      .position
-                      .pixels +
+              double scrollPosition = currentState
+                      ._timelineViewVerticalScrollController!.position.pixels +
                   resourceItemHeight;
               if (scrollPosition >
-                  currentState
-                      ._timelineViewVerticalScrollController!
-                      .position
+                  currentState._timelineViewVerticalScrollController!.position
                       .maxScrollExtent) {
                 scrollPosition = currentState
                     ._timelineViewVerticalScrollController!
@@ -1743,27 +1668,20 @@ class _CustomCalendarScrollViewState extends State<CustomCalendarScrollView>
 
               await currentState._timelineViewVerticalScrollController!.position
                   .moveTo(
-                    scrollPosition,
-                    duration: const Duration(milliseconds: 100),
-                    curve: Curves.easeInOut,
-                  );
+                scrollPosition,
+                duration: const Duration(milliseconds: 100),
+                curve: Curves.easeInOut,
+              );
 
               if (_dragDetails.value.position.value != null &&
                   _dragDetails.value.position.value!.dy +
                           _dragDetails
-                              .value
-                              .appointmentView!
-                              .appointmentRect!
-                              .height >=
+                              .value.appointmentView!.appointmentRect!.height >=
                       widget.height &&
-                  currentState
-                          ._timelineViewVerticalScrollController!
-                          .position
+                  currentState._timelineViewVerticalScrollController!.position
                           .pixels !=
-                      currentState
-                          ._timelineViewVerticalScrollController!
-                          .position
-                          .maxScrollExtent) {
+                      currentState._timelineViewVerticalScrollController!
+                          .position.maxScrollExtent) {
                 updateScrollPosition();
               } else if (_timer != null) {
                 _timer!.cancel();
@@ -1799,10 +1717,7 @@ class _CustomCalendarScrollViewState extends State<CustomCalendarScrollView>
     if (widget.calendar.dragAndDropSettings.allowNavigation &&
         (appointmentPosition.dx +
                     _dragDetails
-                        .value
-                        .appointmentView!
-                        .appointmentRect!
-                        .width) -
+                        .value.appointmentView!.appointmentRect!.width) -
                 rtlValue >=
             widget.width &&
         ((!widget.isRTL &&
@@ -1818,18 +1733,13 @@ class _CustomCalendarScrollViewState extends State<CustomCalendarScrollView>
           if (_dragDetails.value.position.value != null &&
               (_dragDetails.value.position.value!.dx +
                           _dragDetails
-                              .value
-                              .appointmentView!
-                              .appointmentRect!
-                              .width) -
+                              .value.appointmentView!.appointmentRect!.width) -
                       rtlValue >=
                   widget.width &&
               ((!widget.isRTL &&
                       currentState._scrollController!.offset ==
                           currentState
-                              ._scrollController!
-                              .position
-                              .maxScrollExtent) ||
+                              ._scrollController!.position.maxScrollExtent) ||
                   (widget.isRTL &&
                       currentState._scrollController!.offset == 0))) {
             if (widget.isRTL) {
@@ -1874,9 +1784,7 @@ class _CustomCalendarScrollViewState extends State<CustomCalendarScrollView>
             ((widget.isRTL &&
                     currentState._scrollController!.position.pixels ==
                         currentState
-                            ._scrollController!
-                            .position
-                            .maxScrollExtent) ||
+                            ._scrollController!.position.maxScrollExtent) ||
                 (!widget.isRTL &&
                     currentState._scrollController!.offset == 0))) {
           if (widget.isRTL) {
@@ -1971,20 +1879,19 @@ class _CustomCalendarScrollViewState extends State<CustomCalendarScrollView>
 
     final double overAllWidth = isTimelineView
         ? currentState._timeIntervalHeight *
-              (currentState._horizontalLinesCount! *
-                  currentState.widget.visibleDates.length)
+            (currentState._horizontalLinesCount! *
+                currentState.widget.visibleDates.length)
         : widget.width;
     final double overAllHeight = isTimelineView || isMonthView
         ? widget.height
         : currentState._timeIntervalHeight *
-              currentState._horizontalLinesCount!;
+            currentState._horizontalLinesCount!;
 
     if (isTimelineView &&
         overAllWidth < widget.width &&
         xPosition + _dragDetails.value.appointmentView!.appointmentRect!.width >
             overAllWidth) {
-      xPosition =
-          overAllWidth -
+      xPosition = overAllWidth -
           _dragDetails.value.appointmentView!.appointmentRect!.width;
     } else if (!isTimelineView &&
         !isMonthView &&
@@ -1992,8 +1899,7 @@ class _CustomCalendarScrollViewState extends State<CustomCalendarScrollView>
         yPosition +
                 _dragDetails.value.appointmentView!.appointmentRect!.height >
             overAllHeight) {
-      yPosition =
-          overAllHeight -
+      yPosition = overAllHeight -
           _dragDetails.value.appointmentView!.appointmentRect!.height;
     }
 
@@ -2046,8 +1952,8 @@ class _CustomCalendarScrollViewState extends State<CustomCalendarScrollView>
     );
     _dragDetails.value.draggingTime =
         yPosition <= 0 && widget.view != CalendarView.month && !isTimelineView
-        ? null
-        : draggingTime;
+            ? null
+            : draggingTime;
     _dragDetails.value.position.value = Offset(
       _dragDetails.value.position.value!.dx,
       _dragDetails.value.position.value!.dy + 0.1,
@@ -2083,10 +1989,8 @@ class _CustomCalendarScrollViewState extends State<CustomCalendarScrollView>
           widget.calendar.dataSource!.resources![sourceSelectedResourceIndex];
     }
 
-    final int currentMonth = currentState
-        .widget
-        .visibleDates[currentState.widget.visibleDates.length ~/ 2]
-        .month;
+    final int currentMonth = currentState.widget
+        .visibleDates[currentState.widget.visibleDates.length ~/ 2].month;
 
     final int timeInterval = CalendarViewHelper.getTimeInterval(
       widget.calendar.timeSlotViewSettings,
@@ -2094,8 +1998,8 @@ class _CustomCalendarScrollViewState extends State<CustomCalendarScrollView>
 
     final DateTime updateStartTime = draggingTime;
 
-    final Duration appointmentDuration =
-        _dragDetails.value.appointmentView!.appointment!.isAllDay &&
+    final Duration appointmentDuration = _dragDetails
+                .value.appointmentView!.appointment!.isAllDay &&
             widget.view != CalendarView.month &&
             !isTimelineView
         ? const Duration(hours: 1)
@@ -2217,20 +2121,19 @@ class _CustomCalendarScrollViewState extends State<CustomCalendarScrollView>
 
     final double overAllWidth = isTimelineView
         ? currentState._timeIntervalHeight *
-              (currentState._horizontalLinesCount! *
-                  currentState.widget.visibleDates.length)
+            (currentState._horizontalLinesCount! *
+                currentState.widget.visibleDates.length)
         : widget.width;
     final double overAllHeight = isTimelineView || isMonthView
         ? widget.height
         : currentState._timeIntervalHeight *
-              currentState._horizontalLinesCount!;
+            currentState._horizontalLinesCount!;
 
     if (isTimelineView &&
         overAllWidth < widget.width &&
         xPosition + _dragDetails.value.appointmentView!.appointmentRect!.width >
             overAllWidth) {
-      xPosition =
-          overAllWidth -
+      xPosition = overAllWidth -
           _dragDetails.value.appointmentView!.appointmentRect!.width;
     } else if (!isTimelineView &&
         !isMonthView &&
@@ -2238,8 +2141,7 @@ class _CustomCalendarScrollViewState extends State<CustomCalendarScrollView>
         yPosition +
                 _dragDetails.value.appointmentView!.appointmentRect!.height >
             overAllHeight) {
-      yPosition =
-          overAllHeight -
+      yPosition = overAllHeight -
           _dragDetails.value.appointmentView!.appointmentRect!.height;
     }
 
@@ -2304,10 +2206,8 @@ class _CustomCalendarScrollViewState extends State<CustomCalendarScrollView>
           widget.calendar.dataSource!.resources![sourceSelectedResourceIndex];
     }
 
-    final int currentMonth = currentState
-        .widget
-        .visibleDates[currentState.widget.visibleDates.length ~/ 2]
-        .month;
+    final int currentMonth = currentState.widget
+        .visibleDates[currentState.widget.visibleDates.length ~/ 2].month;
 
     bool isAllDay = appointment!.isAllDay;
     if (!isTimelineView && widget.view != CalendarView.month) {
@@ -2324,15 +2224,13 @@ class _CustomCalendarScrollViewState extends State<CustomCalendarScrollView>
         ? DateTime(dropTime!.year, dropTime.month, dropTime.day)
         : dropTime!;
 
-    final Duration appointmentDuration =
-        appointment.isAllDay &&
+    final Duration appointmentDuration = appointment.isAllDay &&
             widget.view != CalendarView.month &&
             !isTimelineView
         ? const Duration(hours: 1)
         : appointment.endTime.difference(appointment.startTime);
-    DateTime updatedEndTime = isAllDay
-        ? updateStartTime
-        : updateStartTime.add(appointmentDuration);
+    DateTime updatedEndTime =
+        isAllDay ? updateStartTime : updateStartTime.add(appointmentDuration);
 
     final int timeInterval = CalendarViewHelper.getTimeInterval(
       widget.calendar.timeSlotViewSettings,
@@ -2388,11 +2286,9 @@ class _CustomCalendarScrollViewState extends State<CustomCalendarScrollView>
     if ((appointment.recurrenceRule != null &&
             appointment.recurrenceRule!.isNotEmpty) ||
         appointment.recurrenceId != null) {
-      for (
-        int i = 0;
-        i < _updateCalendarStateDetails.appointments.length;
-        i++
-      ) {
+      for (int i = 0;
+          i < _updateCalendarStateDetails.appointments.length;
+          i++) {
         final CalendarAppointment app =
             _updateCalendarStateDetails.appointments[i];
         if (app.id == appointment.id || app.id == appointment.recurrenceId) {
@@ -2403,23 +2299,20 @@ class _CustomCalendarScrollViewState extends State<CustomCalendarScrollView>
 
       final List<DateTime> recurrenceDates =
           RecurrenceHelper.getRecurrenceDateTimeCollection(
-            parentAppointment!.recurrenceRule ?? '',
-            parentAppointment.exactStartTime,
-            recurrenceDuration: AppointmentHelper.getDifference(
-              parentAppointment.exactStartTime,
-              parentAppointment.exactEndTime,
-            ),
-            specificStartDate: currentState.widget.visibleDates[0],
-            specificEndDate: currentState
-                .widget
-                .visibleDates[currentState.widget.visibleDates.length - 1],
-          );
+        parentAppointment!.recurrenceRule ?? '',
+        parentAppointment.exactStartTime,
+        recurrenceDuration: AppointmentHelper.getDifference(
+          parentAppointment.exactStartTime,
+          parentAppointment.exactEndTime,
+        ),
+        specificStartDate: currentState.widget.visibleDates[0],
+        specificEndDate: currentState
+            .widget.visibleDates[currentState.widget.visibleDates.length - 1],
+      );
 
-      for (
-        int i = 0;
-        i < _updateCalendarStateDetails.appointments.length;
-        i++
-      ) {
+      for (int i = 0;
+          i < _updateCalendarStateDetails.appointments.length;
+          i++) {
         final CalendarAppointment calendarApp =
             _updateCalendarStateDetails.appointments[i];
         if (calendarApp.recurrenceId != null &&
@@ -2435,11 +2328,9 @@ class _CustomCalendarScrollViewState extends State<CustomCalendarScrollView>
       }
 
       if (parentAppointment.recurrenceExceptionDates != null) {
-        for (
-          int i = 0;
-          i < parentAppointment.recurrenceExceptionDates!.length;
-          i++
-        ) {
+        for (int i = 0;
+            i < parentAppointment.recurrenceExceptionDates!.length;
+            i++) {
           recurrenceDates.remove(
             AppointmentHelper.convertTimeToAppointmentTimeZone(
               parentAppointment.recurrenceExceptionDates![i],
@@ -2472,8 +2363,7 @@ class _CustomCalendarScrollViewState extends State<CustomCalendarScrollView>
               recurrenceDates[currentRecurrenceIndex - 1];
           final DateTime nextRecurrence =
               recurrenceDates[currentRecurrenceIndex + 1];
-          canAddRecurrence =
-              (isDateWithInDateRange(
+          canAddRecurrence = (isDateWithInDateRange(
                     previousRecurrence,
                     nextRecurrence,
                     callbackStartDate,
@@ -2517,19 +2407,18 @@ class _CustomCalendarScrollViewState extends State<CustomCalendarScrollView>
         );
         final DateTime exceptionDate =
             AppointmentHelper.convertTimeToAppointmentTimeZone(
-              appointment.exactStartTime,
-              widget.calendar.timeZone,
-              '',
-            );
+          appointment.exactStartTime,
+          widget.calendar.timeZone,
+          '',
+        );
         parentAppointment.recurrenceExceptionDates != null
             ? parentAppointment.recurrenceExceptionDates!.add(exceptionDate)
             : parentAppointment.recurrenceExceptionDates = <DateTime>[
                 exceptionDate,
               ];
 
-        appointment.id = appointment.recurrenceId != null
-            ? appointment.id
-            : null;
+        appointment.id =
+            appointment.recurrenceId != null ? appointment.id : null;
         appointment.recurrenceId =
             appointment.recurrenceId ?? parentAppointment.id;
         appointment.recurrenceRule = null;
@@ -2850,23 +2739,19 @@ class _CustomCalendarScrollViewState extends State<CustomCalendarScrollView>
   void _handlePointerSignal(PointerSignalEvent event) {
     final _CalendarViewState? viewKey = _getCurrentViewByVisibleDates();
     if (event is PointerScrollEvent && viewKey != null) {
-      double scrolledPosition = widget.isRTL
-          ? -event.scrollDelta.dx
-          : event.scrollDelta.dx;
+      double scrolledPosition =
+          widget.isRTL ? -event.scrollDelta.dx : event.scrollDelta.dx;
 
       /// Check the scrolling is vertical and timeline view does not have
       /// vertical scroll view then scroll the vertical movement on
       /// Horizontal direction.
       if (widget.height <= _viewPortHeight! &&
           event.scrollDelta.dy.abs() > event.scrollDelta.dx.abs() &&
-          viewKey
-                  ._timelineViewVerticalScrollController!
-                  .position
+          viewKey._timelineViewVerticalScrollController!.position
                   .maxScrollExtent ==
               0) {
-        scrolledPosition = widget.isRTL
-            ? -event.scrollDelta.dy
-            : event.scrollDelta.dy;
+        scrolledPosition =
+            widget.isRTL ? -event.scrollDelta.dy : event.scrollDelta.dy;
       }
 
       final double targetScrollOffset = math.min(
@@ -2884,8 +2769,7 @@ class _CustomCalendarScrollViewState extends State<CustomCalendarScrollView>
 
   void _updateVisibleDates() {
     widget.getCalendarState(_updateCalendarStateDetails);
-    final List<int>? nonWorkingDays =
-        (widget.view == CalendarView.workWeek ||
+    final List<int>? nonWorkingDays = (widget.view == CalendarView.workWeek ||
             widget.view == CalendarView.timelineWorkWeek)
         ? widget.calendar.timeSlotViewSettings.nonWorkingDays
         : null;
@@ -2964,8 +2848,7 @@ class _CustomCalendarScrollViewState extends State<CustomCalendarScrollView>
 
   void _updateNextViewVisibleDates() {
     DateTime currentViewDate = _currentViewVisibleDates[0];
-    final List<int>? nonWorkingDays =
-        (widget.view == CalendarView.workWeek ||
+    final List<int>? nonWorkingDays = (widget.view == CalendarView.workWeek ||
             widget.view == CalendarView.timelineWorkWeek)
         ? widget.calendar.timeSlotViewSettings.nonWorkingDays
         : null;
@@ -2978,9 +2861,8 @@ class _CustomCalendarScrollViewState extends State<CustomCalendarScrollView>
 
     if (widget.view == CalendarView.month &&
         widget.calendar.monthViewSettings.numberOfWeeksInView == 6) {
-      currentViewDate =
-          _currentViewVisibleDates[(_currentViewVisibleDates.length / 2)
-              .truncate()];
+      currentViewDate = _currentViewVisibleDates[
+          (_currentViewVisibleDates.length / 2).truncate()];
     }
 
     if (widget.isRTL) {
@@ -3023,8 +2905,7 @@ class _CustomCalendarScrollViewState extends State<CustomCalendarScrollView>
 
   void _updatePreviousViewVisibleDates() {
     DateTime currentViewDate = _currentViewVisibleDates[0];
-    final List<int>? nonWorkingDays =
-        (widget.view == CalendarView.workWeek ||
+    final List<int>? nonWorkingDays = (widget.view == CalendarView.workWeek ||
             widget.view == CalendarView.timelineWorkWeek)
         ? widget.calendar.timeSlotViewSettings.nonWorkingDays
         : null;
@@ -3037,9 +2918,8 @@ class _CustomCalendarScrollViewState extends State<CustomCalendarScrollView>
 
     if (widget.view == CalendarView.month &&
         widget.calendar.monthViewSettings.numberOfWeeksInView == 6) {
-      currentViewDate =
-          _currentViewVisibleDates[(_currentViewVisibleDates.length / 2)
-              .truncate()];
+      currentViewDate = _currentViewVisibleDates[
+          (_currentViewVisibleDates.length / 2).truncate()];
     }
 
     if (widget.isRTL) {
@@ -3135,10 +3015,10 @@ class _CustomCalendarScrollViewState extends State<CustomCalendarScrollView>
       );
       region.actualStartTime =
           AppointmentHelper.convertTimeToAppointmentTimeZone(
-            region.startTime,
-            region.timeZone,
-            widget.calendar.timeZone,
-          );
+        region.startTime,
+        region.timeZone,
+        widget.calendar.timeZone,
+      );
       region.actualEndTime = AppointmentHelper.convertTimeToAppointmentTimeZone(
         region.endTime,
         region.timeZone,
@@ -3193,15 +3073,15 @@ class _CustomCalendarScrollViewState extends State<CustomCalendarScrollView>
 
     final List<DateTime> recursiveDates =
         RecurrenceHelper.getRecurrenceDateTimeCollection(
-          rule,
-          region.actualStartTime,
-          recurrenceDuration: AppointmentHelper.getDifference(
-            region.actualStartTime,
-            region.actualEndTime,
-          ),
-          specificStartDate: visibleStartDate,
-          specificEndDate: visibleEndDate,
-        );
+      rule,
+      region.actualStartTime,
+      recurrenceDuration: AppointmentHelper.getDifference(
+        region.actualStartTime,
+        region.actualEndTime,
+      ),
+      specificStartDate: visibleStartDate,
+      specificEndDate: visibleEndDate,
+    );
 
     for (int j = 0; j < recursiveDates.length; j++) {
       final DateTime recursiveDate = recursiveDates[j];
@@ -3210,10 +3090,10 @@ class _CustomCalendarScrollViewState extends State<CustomCalendarScrollView>
         for (int i = 0; i < region.recurrenceExceptionDates!.length; i++) {
           final DateTime date =
               AppointmentHelper.convertTimeToAppointmentTimeZone(
-                region.recurrenceExceptionDates![i],
-                '',
-                calendarTimeZone,
-              );
+            region.recurrenceExceptionDates![i],
+            '',
+            calendarTimeZone,
+          );
           if (isSameDate(date, recursiveDate)) {
             isDateContains = true;
             break;
@@ -3248,10 +3128,10 @@ class _CustomCalendarScrollViewState extends State<CustomCalendarScrollView>
     );
     final DateTime startDate =
         AppointmentHelper.convertTimeToAppointmentTimeZone(
-          recursiveDate,
-          calendarTimeZone,
-          region.timeZone,
-        );
+      recursiveDate,
+      calendarTimeZone,
+      region.timeZone,
+    );
 
     final DateTime endDate = AppointmentHelper.convertTimeToAppointmentTimeZone(
       actualEndTime,
@@ -3302,8 +3182,7 @@ class _CustomCalendarScrollViewState extends State<CustomCalendarScrollView>
       }
 
       dateCollection[currentDate.day.toString() +
-              currentDate.month.toString()] =
-          currentDate;
+          currentDate.month.toString()] = currentDate;
       visibleMonthDates.add(currentDate);
     }
 
@@ -3589,10 +3468,7 @@ class _CustomCalendarScrollViewState extends State<CustomCalendarScrollView>
         if (viewKey.currentState!._selectionPainter != null &&
             viewKey.currentState!._selectionPainter!.appointmentView != null &&
             (!_updateCalendarStateDetails.visibleAppointments.contains(
-              viewKey
-                  .currentState!
-                  ._selectionPainter!
-                  .appointmentView!
+              viewKey.currentState!._selectionPainter!.appointmentView!
                   .appointment,
             ))) {
           viewKey.currentState!._selectionPainter!.appointmentView = null;
@@ -3981,8 +3857,8 @@ class _CustomCalendarScrollViewState extends State<CustomCalendarScrollView>
 
     _animationController.duration = const Duration(milliseconds: 250);
     _animationController.forward().then<dynamic>(
-      (dynamic value) => _updateNextView(),
-    );
+          (dynamic value) => _updateNextView(),
+        );
 
     /// updates the current view visible dates when the view swiped
     _updateCurrentViewVisibleDates(isNextView: true);
@@ -4034,8 +3910,8 @@ class _CustomCalendarScrollViewState extends State<CustomCalendarScrollView>
 
     _animationController.duration = const Duration(milliseconds: 250);
     _animationController.forward().then<dynamic>(
-      (dynamic value) => _updatePreviousView(),
-    );
+          (dynamic value) => _updatePreviousView(),
+        );
 
     /// updates the current view visible dates when the view swiped.
     _updateCurrentViewVisibleDates();
@@ -4184,10 +4060,7 @@ class _CustomCalendarScrollViewState extends State<CustomCalendarScrollView>
     if (_previousViewKey.currentState!._scrollController!.offset !=
             scrolledPosition &&
         _previousViewKey
-                .currentState!
-                ._scrollController!
-                .position
-                .maxScrollExtent >=
+                .currentState!._scrollController!.position.maxScrollExtent >=
             scrolledPosition) {
       _previousViewKey.currentState!._scrollController!.jumpTo(
         scrolledPosition,
@@ -4197,10 +4070,7 @@ class _CustomCalendarScrollViewState extends State<CustomCalendarScrollView>
     if (_currentViewKey.currentState!._scrollController!.offset !=
             scrolledPosition &&
         _currentViewKey
-                .currentState!
-                ._scrollController!
-                .position
-                .maxScrollExtent >=
+                .currentState!._scrollController!.position.maxScrollExtent >=
             scrolledPosition) {
       _currentViewKey.currentState!._scrollController!.jumpTo(scrolledPosition);
     }
@@ -4208,10 +4078,7 @@ class _CustomCalendarScrollViewState extends State<CustomCalendarScrollView>
     if (_nextViewKey.currentState!._scrollController!.offset !=
             scrolledPosition &&
         _nextViewKey
-                .currentState!
-                ._scrollController!
-                .position
-                .maxScrollExtent >=
+                .currentState!._scrollController!.position.maxScrollExtent >=
             scrolledPosition) {
       _nextViewKey.currentState!._scrollController!.jumpTo(scrolledPosition);
     }
@@ -4275,13 +4142,11 @@ class _CustomCalendarScrollViewState extends State<CustomCalendarScrollView>
           )) {
         _moveToNextViewWithAnimation();
       } else if (widget.view == CalendarView.workWeek) {
-        for (
-          int i = 0;
-          i <
-              DateTime.daysPerWeek -
-                  widget.calendar.timeSlotViewSettings.nonWorkingDays.length;
-          i++
-        ) {
+        for (int i = 0;
+            i <
+                DateTime.daysPerWeek -
+                    widget.calendar.timeSlotViewSettings.nonWorkingDays.length;
+            i++) {
           if (widget.calendar.timeSlotViewSettings.nonWorkingDays.contains(
             selectedDate!.weekday,
           )) {
@@ -4326,8 +4191,7 @@ class _CustomCalendarScrollViewState extends State<CustomCalendarScrollView>
                   .add(widget.calendar.timeSlotViewSettings.timeInterval)
                   .day !=
               currentView
-                  .visibleDates[currentView.visibleDates.length - 1]
-                  .day) {
+                  .visibleDates[currentView.visibleDates.length - 1].day) {
         _moveToNextViewWithAnimation();
       }
 
@@ -4360,13 +4224,11 @@ class _CustomCalendarScrollViewState extends State<CustomCalendarScrollView>
         );
       }
       if (widget.view == CalendarView.timelineWorkWeek) {
-        for (
-          int i = 0;
-          i <
-              DateTime.daysPerWeek -
-                  widget.calendar.timeSlotViewSettings.nonWorkingDays.length;
-          i++
-        ) {
+        for (int i = 0;
+            i <
+                DateTime.daysPerWeek -
+                    widget.calendar.timeSlotViewSettings.nonWorkingDays.length;
+            i++) {
           if (widget.calendar.timeSlotViewSettings.nonWorkingDays.contains(
             selectedDate!.weekday,
           )) {
@@ -4411,19 +4273,16 @@ class _CustomCalendarScrollViewState extends State<CustomCalendarScrollView>
             widget.calendar.monthViewSettings.numberOfWeeksInView,
             widget.calendar.monthViewSettings.showTrailingAndLeadingDates,
             currentView
-                .visibleDates[currentView.visibleDates.length ~/ 2]
-                .month,
+                .visibleDates[currentView.visibleDates.length ~/ 2].month,
             selectedDate,
           )) {
         _moveToPreviousViewWithAnimation();
       } else if (widget.view == CalendarView.workWeek) {
-        for (
-          int i = 0;
-          i <
-              DateTime.daysPerWeek -
-                  widget.calendar.timeSlotViewSettings.nonWorkingDays.length;
-          i++
-        ) {
+        for (int i = 0;
+            i <
+                DateTime.daysPerWeek -
+                    widget.calendar.timeSlotViewSettings.nonWorkingDays.length;
+            i++) {
           if (widget.calendar.timeSlotViewSettings.nonWorkingDays.contains(
             selectedDate!.weekday,
           )) {
@@ -4489,13 +4348,11 @@ class _CustomCalendarScrollViewState extends State<CustomCalendarScrollView>
         );
       }
       if (widget.view == CalendarView.timelineWorkWeek) {
-        for (
-          int i = 0;
-          i <
-              DateTime.daysPerWeek -
-                  widget.calendar.timeSlotViewSettings.nonWorkingDays.length;
-          i++
-        ) {
+        for (int i = 0;
+            i <
+                DateTime.daysPerWeek -
+                    widget.calendar.timeSlotViewSettings.nonWorkingDays.length;
+            i++) {
           if (widget.calendar.timeSlotViewSettings.nonWorkingDays.contains(
             selectedDate!.weekday,
           )) {
@@ -4594,11 +4451,11 @@ class _CustomCalendarScrollViewState extends State<CustomCalendarScrollView>
     )) {
       final double resourceItemHeight =
           CalendarViewHelper.getResourceItemHeight(
-            widget.calendar.resourceViewSettings.size,
-            widget.height,
-            widget.calendar.resourceViewSettings,
-            widget.calendar.dataSource!.resources!.length,
-          );
+        widget.calendar.resourceViewSettings.size,
+        widget.height,
+        widget.calendar.resourceViewSettings,
+        widget.calendar.dataSource!.resources!.length,
+      );
 
       currentViewState._selectedResourceIndex -= 1;
 
@@ -4611,7 +4468,7 @@ class _CustomCalendarScrollViewState extends State<CustomCalendarScrollView>
           currentViewState._timelineViewVerticalScrollController!.offset) {
         double scrollPosition =
             currentViewState._timelineViewVerticalScrollController!.offset -
-            resourceItemHeight;
+                resourceItemHeight;
         scrollPosition = scrollPosition > 0 ? scrollPosition : 0;
         currentViewState._timelineViewVerticalScrollController!.jumpTo(
           scrollPosition,
@@ -4701,9 +4558,7 @@ class _CustomCalendarScrollViewState extends State<CustomCalendarScrollView>
                   (widget.height - viewHeaderHeight) <
               currentViewState._scrollController!.position.viewportDimension +
                   currentViewState
-                      ._scrollController!
-                      .position
-                      .maxScrollExtent &&
+                      ._scrollController!.position.maxScrollExtent &&
           yPosition +
                   currentViewState._timeIntervalHeight +
                   widget.calendar.headerHeight +
@@ -4711,9 +4566,7 @@ class _CustomCalendarScrollViewState extends State<CustomCalendarScrollView>
               currentViewState._scrollController!.offset + widget.height &&
           currentViewState._scrollController!.offset +
                   currentViewState
-                      ._scrollController!
-                      .position
-                      .viewportDimension !=
+                      ._scrollController!.position.viewportDimension !=
               currentViewState._scrollController!.position.maxScrollExtent) {
         currentViewState._scrollController!.jumpTo(
           currentViewState._scrollController!.offset +
@@ -4729,11 +4582,11 @@ class _CustomCalendarScrollViewState extends State<CustomCalendarScrollView>
     )) {
       final double resourceItemHeight =
           CalendarViewHelper.getResourceItemHeight(
-            widget.calendar.resourceViewSettings.size,
-            widget.height,
-            widget.calendar.resourceViewSettings,
-            widget.calendar.dataSource!.resources!.length,
-          );
+        widget.calendar.resourceViewSettings.size,
+        widget.height,
+        widget.calendar.resourceViewSettings,
+        widget.calendar.dataSource!.resources!.length,
+      );
       if (currentViewState._selectedResourceIndex ==
               widget.calendar.dataSource!.resources!.length - 1 ||
           currentViewState._selectedResourceIndex == -1) {
@@ -4744,23 +4597,16 @@ class _CustomCalendarScrollViewState extends State<CustomCalendarScrollView>
 
       if (currentViewState._selectedResourceIndex * resourceItemHeight >=
           currentViewState._timelineViewVerticalScrollController!.offset +
-              currentViewState
-                  ._timelineViewVerticalScrollController!
-                  .position
+              currentViewState._timelineViewVerticalScrollController!.position
                   .viewportDimension) {
         double scrollPosition =
             currentViewState._timelineViewVerticalScrollController!.offset +
-            resourceItemHeight;
-        scrollPosition =
-            scrollPosition >
-                currentViewState
-                    ._timelineViewVerticalScrollController!
-                    .position
+                resourceItemHeight;
+        scrollPosition = scrollPosition >
+                currentViewState._timelineViewVerticalScrollController!.position
                     .maxScrollExtent
             ? currentViewState
-                  ._timelineViewVerticalScrollController!
-                  .position
-                  .maxScrollExtent
+                ._timelineViewVerticalScrollController!.position.maxScrollExtent
             : scrollPosition;
         currentViewState._timelineViewVerticalScrollController!.jumpTo(
           scrollPosition,
@@ -4784,10 +4630,10 @@ class _CustomCalendarScrollViewState extends State<CustomCalendarScrollView>
       currentViewState = _nextViewKey.currentState!;
     }
 
-    final double scrollPosition = currentViewState
-        ._getScrollPositionForCurrentDate(
-          currentViewState._selectionPainter!.selectedDate!,
-        );
+    final double scrollPosition =
+        currentViewState._getScrollPositionForCurrentDate(
+      currentViewState._selectionPainter!.selectedDate!,
+    );
     if (scrollPosition == -1 ||
         currentViewState._scrollController!.position.pixels == scrollPosition) {
       return;
@@ -4809,8 +4655,7 @@ class _CustomCalendarScrollViewState extends State<CustomCalendarScrollView>
     DateTime? selectedAppointmentDate,
     bool isAllDayAppointment,
   ) {
-    DateTime? selectedDate =
-        currentViewState._selectionPainter!.selectedDate ??
+    DateTime? selectedDate = currentViewState._selectionPainter!.selectedDate ??
         selectedAppointmentDate;
     if (event.logicalKey == LogicalKeyboardKey.arrowRight) {
       do {
@@ -4917,8 +4762,7 @@ class _CustomCalendarScrollViewState extends State<CustomCalendarScrollView>
     int resourceIndex, [
     bool isMinMaxDate = false,
   ]) {
-    final bool isMonthView =
-        widget.view == CalendarView.month ||
+    final bool isMonthView = widget.view == CalendarView.month ||
         widget.view == CalendarView.timelineMonth;
     final int timeInterval = CalendarViewHelper.getTimeInterval(
       widget.calendar.timeSlotViewSettings,
@@ -5001,8 +4845,7 @@ class _CustomCalendarScrollViewState extends State<CustomCalendarScrollView>
     final TargetPlatform platform = Theme.of(context).platform;
 
     double difference = 0;
-    final double scrollViewHeight =
-        scrollController.position.maxScrollExtent +
+    final double scrollViewHeight = scrollController.position.maxScrollExtent +
         scrollController.position.viewportDimension;
     double divideValue = 0.25;
     if (scrollController.position.pixels > scrollViewHeight / 2) {
@@ -5081,9 +4924,8 @@ class _CustomCalendarScrollViewState extends State<CustomCalendarScrollView>
         .getAppointmentViewCollection();
     final List<AppointmentView> allDayAppointmentCollection =
         _updateCalendarStateDetails.allDayAppointmentViewCollection;
-    final List<AppointmentView> tempAppColl = isAllDay
-        ? allDayAppointmentCollection
-        : appointmentCollection;
+    final List<AppointmentView> tempAppColl =
+        isAllDay ? allDayAppointmentCollection : appointmentCollection;
     if (HardwareKeyboard.instance.isShiftPressed) {
       if (event.logicalKey == LogicalKeyboardKey.tab) {
         if (currentAllDayAppointment != null ||
@@ -5102,8 +4944,8 @@ class _CustomCalendarScrollViewState extends State<CustomCalendarScrollView>
         if (currentSelectedAppointment != null && selectedAppointment == null) {
           isAllDay = allDayAppointmentCollection.isNotEmpty;
           selectedAppointment = isAllDay
-              ? allDayAppointmentCollection[allDayAppointmentCollection.length -
-                    1]
+              ? allDayAppointmentCollection[
+                  allDayAppointmentCollection.length - 1]
               : null;
         } else if (currentSelectedAppointment == null &&
             currentAllDayAppointment == null &&
@@ -5175,8 +5017,8 @@ class _CustomCalendarScrollViewState extends State<CustomCalendarScrollView>
           selectedAppointment = isAllDay
               ? allDayAppointmentCollection[0]
               : appointmentCollection.isNotEmpty
-              ? appointmentCollection[0]
-              : null;
+                  ? appointmentCollection[0]
+                  : null;
         }
       }
 
@@ -5205,8 +5047,7 @@ class _CustomCalendarScrollViewState extends State<CustomCalendarScrollView>
       currentVisibleViewState.widget.visibleDates[0],
     );
     final DateTime visibleEndDate = AppointmentHelper.convertToEndTime(
-      currentVisibleViewState
-          .widget
+      currentVisibleViewState.widget
           .visibleDates[currentVisibleViewState.widget.visibleDates.length - 1],
     );
 
@@ -5244,18 +5085,12 @@ class _CustomCalendarScrollViewState extends State<CustomCalendarScrollView>
       if (widget.controller.view != CalendarView.month) {
         late double offset;
         late double viewPortSize;
-        final double scrollViewHeight =
+        final double scrollViewHeight = currentVisibleViewState
+                ._scrollController!.position.maxScrollExtent +
             currentVisibleViewState
-                ._scrollController!
-                .position
-                .maxScrollExtent +
-            currentVisibleViewState
-                ._scrollController!
-                .position
-                .viewportDimension;
-        final double resourceViewSize = isResourceEnabled
-            ? widget.calendar.resourceViewSettings.size
-            : 0;
+                ._scrollController!.position.viewportDimension;
+        final double resourceViewSize =
+            isResourceEnabled ? widget.calendar.resourceViewSettings.size : 0;
         final bool isTimeline = CalendarViewHelper.isTimelineView(
           widget.controller.view!,
         );
@@ -5290,8 +5125,8 @@ class _CustomCalendarScrollViewState extends State<CustomCalendarScrollView>
         );
 
         if (isResourceEnabled) {
-          final double resourcePanelHeight =
-              widget.resourcePanelScrollController!.position.viewportDimension +
+          final double resourcePanelHeight = widget
+                  .resourcePanelScrollController!.position.viewportDimension +
               widget.resourcePanelScrollController!.position.maxScrollExtent;
           final double timeRulerSize = CalendarViewHelper.getTimeLabelWidth(
                 widget.calendar.timeSlotViewSettings.timeRulerSize,
@@ -5439,27 +5274,24 @@ class _CustomCalendarScrollViewState extends State<CustomCalendarScrollView>
         CalendarViewHelper.shouldRaiseCalendarTapCallback(
           widget.calendar.onTap,
         )) {
-      final AppointmentView? selectedAppointment =
-          currentVisibleViewState
-              ._allDaySelectionNotifier
-              .value
-              ?.appointmentView ??
+      final AppointmentView? selectedAppointment = currentVisibleViewState
+              ._allDaySelectionNotifier.value?.appointmentView ??
           currentVisibleViewState._selectionPainter!.appointmentView;
       final List<CalendarAppointment>? selectedAppointments =
           widget.controller.view == CalendarView.month &&
-              selectedAppointment == null
-          ? AppointmentHelper.getSelectedDateAppointments(
-              _updateCalendarStateDetails.appointments,
-              widget.calendar.timeZone,
-              _updateCalendarStateDetails.selectedDate,
-            )
-          : selectedAppointment != null
-          ? <CalendarAppointment>[selectedAppointment.appointment!]
-          : null;
+                  selectedAppointment == null
+              ? AppointmentHelper.getSelectedDateAppointments(
+                  _updateCalendarStateDetails.appointments,
+                  widget.calendar.timeZone,
+                  _updateCalendarStateDetails.selectedDate,
+                )
+              : selectedAppointment != null
+                  ? <CalendarAppointment>[selectedAppointment.appointment!]
+                  : null;
       final CalendarElement tappedElement =
           _updateCalendarStateDetails.selectedDate != null
-          ? CalendarElement.calendarCell
-          : CalendarElement.appointment;
+              ? CalendarElement.calendarCell
+              : CalendarElement.appointment;
 
       CalendarViewHelper.raiseCalendarTapCallback(
         widget.calendar,
@@ -5472,8 +5304,8 @@ class _CustomCalendarScrollViewState extends State<CustomCalendarScrollView>
         ),
         tappedElement,
         isResourcesEnabled
-            ? widget.calendar.dataSource!.resources![currentVisibleViewState
-                  ._selectedResourceIndex]
+            ? widget.calendar.dataSource!
+                .resources![currentVisibleViewState._selectedResourceIndex]
             : null,
       );
     }
@@ -5485,13 +5317,8 @@ class _CustomCalendarScrollViewState extends State<CustomCalendarScrollView>
     if ((currentVisibleViewState._selectionPainter!.selectedDate != null &&
             isDateWithInDateRange(
               currentVisibleViewState.widget.visibleDates[0],
-              currentVisibleViewState
-                  .widget
-                  .visibleDates[currentVisibleViewState
-                      .widget
-                      .visibleDates
-                      .length -
-                  1],
+              currentVisibleViewState.widget.visibleDates[
+                  currentVisibleViewState.widget.visibleDates.length - 1],
               currentVisibleViewState._selectionPainter!.selectedDate,
             )) ||
         (currentSelectedAppointment != null ||
@@ -5539,15 +5366,14 @@ class _CustomCalendarScrollViewState extends State<CustomCalendarScrollView>
               ) ||
               (isResourcesEnabled &&
                   currentVisibleViewState
-                          ._selectionPainter!
-                          .selectedResourceIndex !=
+                          ._selectionPainter!.selectedResourceIndex !=
                       currentVisibleViewState._selectedResourceIndex))) {
         CalendarViewHelper.raiseCalendarSelectionChangedCallback(
           widget.calendar,
           selectedDate,
           isResourcesEnabled
-              ? widget.resourceCollection![currentVisibleViewState
-                    ._selectedResourceIndex]
+              ? widget.resourceCollection![
+                  currentVisibleViewState._selectedResourceIndex]
               : null,
         );
       }
@@ -5782,8 +5608,8 @@ class _CustomCalendarScrollViewState extends State<CustomCalendarScrollView>
             }
 
             _animationController.forward().then<dynamic>(
-              (dynamic value) => _updateNextView(),
-            );
+                  (dynamic value) => _updateNextView(),
+                );
 
             /// updates the current view visible dates when the view swiped in
             /// right to left direction
@@ -5840,8 +5666,8 @@ class _CustomCalendarScrollViewState extends State<CustomCalendarScrollView>
             }
 
             _animationController.forward().then<dynamic>(
-              (dynamic value) => _updatePreviousView(),
-            );
+                  (dynamic value) => _updatePreviousView(),
+                );
 
             /// updates the current view visible dates when the view swiped in
             /// left to right direction
@@ -6057,8 +5883,8 @@ class _CustomCalendarScrollViewState extends State<CustomCalendarScrollView>
             }
 
             _animationController.forward().then<dynamic>(
-              (dynamic value) => _updateNextView(),
-            );
+                  (dynamic value) => _updateNextView(),
+                );
 
             /// updates the current view visible dates when the view swiped in
             /// bottom to top direction
@@ -6115,8 +5941,8 @@ class _CustomCalendarScrollViewState extends State<CustomCalendarScrollView>
             }
 
             _animationController.forward().then<dynamic>(
-              (dynamic value) => _updatePreviousView(),
-            );
+                  (dynamic value) => _updatePreviousView(),
+                );
 
             /// updates the current view visible dates when the view swiped in
             /// top to bottom direction
@@ -6419,15 +6245,15 @@ class _CalendarViewState extends State<_CalendarView>
         duration: const Duration(milliseconds: 100),
         vsync: this,
       );
-      _allDayExpanderAnimation =
-          CurveTween(
-            curve: Curves.easeIn,
-          ).animate(_expanderAnimationController!)..addListener(() {
-            setState(() {
-              /* Animates the all day panel height when
+      _allDayExpanderAnimation = CurveTween(
+        curve: Curves.easeIn,
+      ).animate(_expanderAnimationController!)
+        ..addListener(() {
+          setState(() {
+            /* Animates the all day panel height when
               expanding or collapsing */
-            });
           });
+        });
     }
 
     _timeIntervalHeight = _getTimeIntervalHeight(
@@ -6518,7 +6344,7 @@ class _CalendarViewState extends State<_CalendarView>
     /// day to week views to avoid the blank space at the bottom of the view.
     final bool isCurrentView =
         _updateCalendarStateDetails.currentViewVisibleDates ==
-        widget.visibleDates;
+            widget.visibleDates;
     _updateAllDayHeight(isCurrentView);
 
     _timeIntervalHeight = _getTimeIntervalHeight(
@@ -6586,6 +6412,7 @@ class _CalendarViewState extends State<_CalendarView>
   Widget build(BuildContext context) {
     _isRTL = CalendarViewHelper.isRTLLayout(context);
     widget.getCalendarState(_updateCalendarStateDetails);
+
     switch (widget.view) {
       case CalendarView.schedule:
         return Container();
@@ -6738,12 +6565,12 @@ class _CalendarViewState extends State<_CalendarView>
   Widget _getMonthView() {
     final SystemMouseCursor currentCursor =
         _mouseCursor == SystemMouseCursors.resizeUp ||
-            _mouseCursor == SystemMouseCursors.resizeDown
-        ? SystemMouseCursors.resizeUpDown
-        : _mouseCursor == SystemMouseCursors.resizeRight ||
-              _mouseCursor == SystemMouseCursors.resizeLeft
-        ? SystemMouseCursors.resizeLeftRight
-        : _mouseCursor;
+                _mouseCursor == SystemMouseCursors.resizeDown
+            ? SystemMouseCursors.resizeUpDown
+            : _mouseCursor == SystemMouseCursors.resizeRight ||
+                    _mouseCursor == SystemMouseCursors.resizeLeft
+                ? SystemMouseCursors.resizeLeftRight
+                : _mouseCursor;
 
     return MouseRegion(
       cursor: currentCursor,
@@ -6769,7 +6596,7 @@ class _CalendarViewState extends State<_CalendarView>
   Widget _getDayView() {
     final bool isCurrentView =
         _updateCalendarStateDetails.currentViewVisibleDates ==
-        widget.visibleDates;
+            widget.visibleDates;
 
     // Check and update the time interval height while the all day panel
     // appointments updated(all day height is default value) for current view.
@@ -6803,12 +6630,12 @@ class _CalendarViewState extends State<_CalendarView>
 
     final SystemMouseCursor currentCursor =
         _mouseCursor == SystemMouseCursors.resizeUp ||
-            _mouseCursor == SystemMouseCursors.resizeDown
-        ? SystemMouseCursors.resizeUpDown
-        : _mouseCursor == SystemMouseCursors.resizeRight ||
-              _mouseCursor == SystemMouseCursors.resizeLeft
-        ? SystemMouseCursors.resizeLeftRight
-        : _mouseCursor;
+                _mouseCursor == SystemMouseCursors.resizeDown
+            ? SystemMouseCursors.resizeUpDown
+            : _mouseCursor == SystemMouseCursors.resizeRight ||
+                    _mouseCursor == SystemMouseCursors.resizeLeft
+                ? SystemMouseCursors.resizeLeftRight
+                : _mouseCursor;
 
     return MouseRegion(
       cursor: currentCursor,
@@ -6859,13 +6686,12 @@ class _CalendarViewState extends State<_CalendarView>
         widget.view,
       );
       if (isCurrentView) {
-        _allDayHeight =
-            _kAllDayLayoutHeight > viewHeaderHeight &&
+        _allDayHeight = _kAllDayLayoutHeight > viewHeaderHeight &&
                 _updateCalendarStateDetails.allDayPanelHeight > viewHeaderHeight
             ? _updateCalendarStateDetails.allDayPanelHeight >
-                      _kAllDayLayoutHeight
-                  ? _kAllDayLayoutHeight
-                  : _updateCalendarStateDetails.allDayPanelHeight
+                    _kAllDayLayoutHeight
+                ? _kAllDayLayoutHeight
+                : _updateCalendarStateDetails.allDayPanelHeight
             : viewHeaderHeight;
         if (_allDayHeight < _updateCalendarStateDetails.allDayPanelHeight) {
           _allDayHeight += kAllDayAppointmentHeight;
@@ -6876,8 +6702,8 @@ class _CalendarViewState extends State<_CalendarView>
     } else if (isCurrentView) {
       _allDayHeight =
           _updateCalendarStateDetails.allDayPanelHeight > _kAllDayLayoutHeight
-          ? _kAllDayLayoutHeight
-          : _updateCalendarStateDetails.allDayPanelHeight;
+              ? _kAllDayLayoutHeight
+              : _updateCalendarStateDetails.allDayPanelHeight;
       _allDayHeight = _allDayHeight * _heightAnimation!.value;
     }
   }
@@ -6885,12 +6711,12 @@ class _CalendarViewState extends State<_CalendarView>
   Widget _getTimelineView() {
     final SystemMouseCursor currentCursor =
         _mouseCursor == SystemMouseCursors.resizeUp ||
-            _mouseCursor == SystemMouseCursors.resizeDown
-        ? SystemMouseCursors.resizeUpDown
-        : _mouseCursor == SystemMouseCursors.resizeRight ||
-              _mouseCursor == SystemMouseCursors.resizeLeft
-        ? SystemMouseCursors.resizeLeftRight
-        : _mouseCursor;
+                _mouseCursor == SystemMouseCursors.resizeDown
+            ? SystemMouseCursors.resizeUpDown
+            : _mouseCursor == SystemMouseCursors.resizeRight ||
+                    _mouseCursor == SystemMouseCursors.resizeLeft
+                ? SystemMouseCursors.resizeLeftRight
+                : _mouseCursor;
     return MouseRegion(
       cursor: currentCursor,
       onEnter: _pointerEnterEvent,
@@ -6981,8 +6807,7 @@ class _CalendarViewState extends State<_CalendarView>
         if (widget.view == CalendarView.timelineMonth) {
           timeToPosition = _timeIntervalHeight * i;
         } else {
-          timeToPosition =
-              (_getSingleViewWidthForTimeLineView(this) * i) +
+          timeToPosition = (_getSingleViewWidthForTimeLineView(this) * i) +
               AppointmentHelper.timeToPosition(
                 widget.calendar,
                 date,
@@ -7031,8 +6856,7 @@ class _CalendarViewState extends State<_CalendarView>
     final double columnIndex = scrolledPosition / _timeIntervalHeight;
 
     /// Calculate the time based on calculated horizontal position.
-    final double time =
-        ((CalendarViewHelper.getTimeInterval(
+    final double time = ((CalendarViewHelper.getTimeInterval(
                   widget.calendar.timeSlotViewSettings,
                 ) /
                 60) *
@@ -7082,8 +6906,7 @@ class _CalendarViewState extends State<_CalendarView>
         if (widget.view == CalendarView.timelineMonth) {
           timeToPosition = _timeIntervalHeight * i;
         } else {
-          timeToPosition =
-              (_getSingleViewWidthForTimeLineView(this) * i) +
+          timeToPosition = (_getSingleViewWidthForTimeLineView(this) * i) +
               AppointmentHelper.timeToPosition(
                 widget.calendar,
                 date,
@@ -7097,8 +6920,7 @@ class _CalendarViewState extends State<_CalendarView>
 
     double maxScrollPosition = 0;
     if (!isTimelineView) {
-      final double scrollViewHeight =
-          widget.height -
+      final double scrollViewHeight = widget.height -
           _allDayHeight -
           CalendarViewHelper.getViewHeaderHeight(
             widget.calendar.viewHeaderHeight,
@@ -7106,19 +6928,19 @@ class _CalendarViewState extends State<_CalendarView>
           );
       final double scrollViewContentHeight =
           CalendarViewHelper.getHorizontalLinesCount(
-            widget.calendar.timeSlotViewSettings,
-            widget.view,
-          ) *
-          _timeIntervalHeight;
+                widget.calendar.timeSlotViewSettings,
+                widget.view,
+              ) *
+              _timeIntervalHeight;
       maxScrollPosition = scrollViewContentHeight - scrollViewHeight;
     } else {
       final double scrollViewContentWidth =
           CalendarViewHelper.getHorizontalLinesCount(
-            widget.calendar.timeSlotViewSettings,
-            widget.view,
-          ) *
-          _timeIntervalHeight *
-          visibleDatesCount;
+                widget.calendar.timeSlotViewSettings,
+                widget.view,
+              ) *
+              _timeIntervalHeight *
+              visibleDatesCount;
       maxScrollPosition = scrollViewContentWidth - widget.width;
     }
 
@@ -7246,8 +7068,7 @@ class _CalendarViewState extends State<_CalendarView>
         widget.view,
       );
     } else {
-      _horizontalLinesCount =
-          _horizontalLinesCount ??
+      _horizontalLinesCount = _horizontalLinesCount ??
           CalendarViewHelper.getHorizontalLinesCount(
             widget.calendar.timeSlotViewSettings,
             widget.view,
@@ -7455,9 +7276,9 @@ class _CalendarViewState extends State<_CalendarView>
   ]) {
     final List<CalendarAppointment>? visibleAppointments =
         widget.visibleDates ==
-            _updateCalendarStateDetails.currentViewVisibleDates
-        ? _updateCalendarStateDetails.visibleAppointments
-        : null;
+                _updateCalendarStateDetails.currentViewVisibleDates
+            ? _updateCalendarStateDetails.visibleAppointments
+            : null;
     _appointmentLayout = AppointmentLayout(
       widget.calendar,
       widget.view,
@@ -7515,8 +7336,7 @@ class _CalendarViewState extends State<_CalendarView>
           ? _updateCalendarStateDetails.allDayPanelHeight
           : _allDayHeight;
 
-      yPosition =
-          yPosition -
+      yPosition = yPosition -
           viewHeaderHeight -
           allDayPanelHeight +
           _scrollController!.offset;
@@ -7535,8 +7355,7 @@ class _CalendarViewState extends State<_CalendarView>
       }
 
       _resizingDetails.value.isAllDayPanel = false;
-      yPosition =
-          details.localPosition.dy -
+      yPosition = details.localPosition.dy -
           viewHeaderHeight -
           allDayPanelHeight +
           _scrollController!.offset;
@@ -7675,10 +7494,9 @@ class _CalendarViewState extends State<_CalendarView>
 
     final double currentYPosition =
         _resizingDetails.value.position.value!.dy > widget.height - 1
-        ? widget.height - 1
-        : _resizingDetails.value.position.value!.dy;
-    double yPosition =
-        currentYPosition -
+            ? widget.height - 1
+            : _resizingDetails.value.position.value!.dy;
+    double yPosition = currentYPosition -
         viewHeaderHeight -
         allDayPanelHeight +
         _scrollController!.offset;
@@ -7775,11 +7593,9 @@ class _CalendarViewState extends State<_CalendarView>
     CalendarAppointment? parentAppointment;
     if (appointment.recurrenceRule != null &&
         appointment.recurrenceRule!.isNotEmpty) {
-      for (
-        int i = 0;
-        i < _updateCalendarStateDetails.appointments.length;
-        i++
-      ) {
+      for (int i = 0;
+          i < _updateCalendarStateDetails.appointments.length;
+          i++) {
         final CalendarAppointment app =
             _updateCalendarStateDetails.appointments[i];
         if (app.id == appointment.id) {
@@ -7796,10 +7612,10 @@ class _CalendarViewState extends State<_CalendarView>
 
       final DateTime exceptionDate =
           AppointmentHelper.convertTimeToAppointmentTimeZone(
-            appointment.exactStartTime,
-            widget.calendar.timeZone,
-            '',
-          );
+        appointment.exactStartTime,
+        widget.calendar.timeZone,
+        '',
+      );
       parentAppointment.recurrenceExceptionDates != null
           ? parentAppointment.recurrenceExceptionDates!.add(exceptionDate)
           : parentAppointment.recurrenceExceptionDates = <DateTime>[
@@ -7828,9 +7644,8 @@ class _CalendarViewState extends State<_CalendarView>
     appointment.recurrenceId = parentAppointment != null
         ? parentAppointment.id
         : appointment.recurrenceId;
-    appointment.recurrenceRule = appointment.recurrenceId != null
-        ? null
-        : appointment.recurrenceRule;
+    appointment.recurrenceRule =
+        appointment.recurrenceId != null ? null : appointment.recurrenceRule;
     appointment.id = parentAppointment != null ? null : appointment.id;
     final dynamic newAppointment = _getCalendarAppointmentToObject(
       appointment,
@@ -7917,12 +7732,10 @@ class _CalendarViewState extends State<_CalendarView>
       yPosition -= viewHeaderHeight + timeLabelWidth;
       xPosition = _scrollController!.offset + details.localPosition.dx;
       if (_isRTL) {
-        xPosition =
-            _scrollController!.offset +
+        xPosition = _scrollController!.offset +
             (_scrollController!.position.viewportDimension -
                 details.localPosition.dx);
-        xPosition =
-            (_scrollController!.position.viewportDimension +
+        xPosition = (_scrollController!.position.viewportDimension +
                 _scrollController!.position.maxScrollExtent) -
             xPosition;
       }
@@ -7953,14 +7766,13 @@ class _CalendarViewState extends State<_CalendarView>
       if (isResourceEnabled) {
         resource =
             widget.calendar.dataSource!.resources![_getSelectedResourceIndex(
-              appointmentView.appointmentRect!.top,
-              viewHeaderHeight,
-              timeLabelWidth,
-            )];
+          appointmentView.appointmentRect!.top,
+          viewHeaderHeight,
+          timeLabelWidth,
+        )];
       }
 
-      yPosition =
-          appointmentView.appointmentRect!.top +
+      yPosition = appointmentView.appointmentRect!.top +
           viewHeaderHeight +
           timeLabelWidth;
       if (isResourceEnabled) {
@@ -8107,8 +7919,7 @@ class _CalendarViewState extends State<_CalendarView>
         resizingPosition = widget.height - viewHeaderHeight - 1;
       }
 
-      final double cellHeight =
-          (widget.height - viewHeaderHeight) /
+      final double cellHeight = (widget.height - viewHeaderHeight) /
           widget.calendar.monthViewSettings.numberOfWeeksInView;
       final int appointmentRowIndex =
           (_resizingDetails.value.appointmentView!.appointmentRect!.top /
@@ -8117,10 +7928,10 @@ class _CalendarViewState extends State<_CalendarView>
       int resizingRowIndex = (resizingPosition / cellHeight).truncate();
       final double weekNumberPanelWidth =
           CalendarViewHelper.getWeekNumberPanelWidth(
-            widget.calendar.showWeekNumber,
-            widget.width,
-            widget.isMobilePlatform,
-          );
+        widget.calendar.showWeekNumber,
+        widget.width,
+        widget.isMobilePlatform,
+      );
       if (!_isRTL) {
         if (xPosition < weekNumberPanelWidth) {
           xPosition = weekNumberPanelWidth;
@@ -8161,15 +7972,13 @@ class _CalendarViewState extends State<_CalendarView>
           if (_isRTL) {
             final double currentXPosition =
                 (DateTime.daysPerWeek - endColumnCount - 1) * cellWidth;
-            xPosition = xPosition > currentXPosition
-                ? xPosition
-                : currentXPosition;
+            xPosition =
+                xPosition > currentXPosition ? xPosition : currentXPosition;
           } else {
             final double currentXPosition =
                 ((endColumnCount + 1) * cellWidth) + weekNumberPanelWidth - 1;
-            xPosition = xPosition > currentXPosition
-                ? currentXPosition
-                : xPosition;
+            xPosition =
+                xPosition > currentXPosition ? currentXPosition : xPosition;
           }
         } else if (resizingRowIndex <= startRowCount) {
           resizingRowIndex = startRowCount;
@@ -8183,15 +7992,13 @@ class _CalendarViewState extends State<_CalendarView>
               currentXPosition -= 1;
             }
 
-            xPosition = xPosition < currentXPosition
-                ? xPosition
-                : currentXPosition;
+            xPosition =
+                xPosition < currentXPosition ? xPosition : currentXPosition;
           } else {
             final double currentXPosition =
                 (startColumnCount * cellWidth) + weekNumberPanelWidth;
-            xPosition = xPosition < currentXPosition
-                ? currentXPosition
-                : xPosition;
+            xPosition =
+                xPosition < currentXPosition ? currentXPosition : xPosition;
           }
         }
       }
@@ -8244,11 +8051,11 @@ class _CalendarViewState extends State<_CalendarView>
       )!;
       final int rowDifference = isBackwardResize
           ? _isRTL
-                ? (appointmentRowIndex - resizingRowIndex).abs()
-                : appointmentRowIndex - resizingRowIndex
+              ? (appointmentRowIndex - resizingRowIndex).abs()
+              : appointmentRowIndex - resizingRowIndex
           : _isRTL
-          ? appointmentRowIndex - resizingRowIndex
-          : (appointmentRowIndex - resizingRowIndex).abs();
+              ? appointmentRowIndex - resizingRowIndex
+              : (appointmentRowIndex - resizingRowIndex).abs();
       if (((!_isRTL &&
                   ((isBackwardResize &&
                           appointmentRowIndex > resizingRowIndex) ||
@@ -8298,7 +8105,7 @@ class _CalendarViewState extends State<_CalendarView>
         _resizingDetails.value.monthCellHeight = cellHeight;
         yPosition =
             _resizingDetails.value.appointmentView!.appointmentRect!.top +
-            viewHeaderHeight;
+                viewHeaderHeight;
       }
     } else {
       if ((isForwardResize && xPosition < _maximumResizingPosition!) ||
@@ -8439,10 +8246,10 @@ class _CalendarViewState extends State<_CalendarView>
     } else if (widget.view == CalendarView.month) {
       final double weekNumberPanelWidth =
           CalendarViewHelper.getWeekNumberPanelWidth(
-            widget.calendar.showWeekNumber,
-            widget.width,
-            widget.isMobilePlatform,
-          );
+        widget.calendar.showWeekNumber,
+        widget.width,
+        widget.isMobilePlatform,
+      );
       _resizingDetails.value.monthRowCount = 0;
       if (!_isRTL) {
         if (xPosition < weekNumberPanelWidth) {
@@ -8461,8 +8268,7 @@ class _CalendarViewState extends State<_CalendarView>
         xPosition = widget.width - 1;
       }
 
-      final double overAllWidth =
-          _timeIntervalHeight *
+      final double overAllWidth = _timeIntervalHeight *
           (_horizontalLinesCount! * widget.visibleDates.length);
 
       if (overAllWidth < widget.width && xPosition > overAllWidth) {
@@ -8514,8 +8320,7 @@ class _CalendarViewState extends State<_CalendarView>
       resource = widget.calendar.dataSource!.resources![selectedResourceIndex];
     }
 
-    final bool isMonthView =
-        widget.view == CalendarView.timelineMonth ||
+    final bool isMonthView = widget.view == CalendarView.timelineMonth ||
         widget.view == CalendarView.month;
 
     final int timeInterval = CalendarViewHelper.getTimeInterval(
@@ -8598,11 +8403,9 @@ class _CalendarViewState extends State<_CalendarView>
     if ((appointment.recurrenceRule != null &&
             appointment.recurrenceRule!.isNotEmpty) ||
         appointment.recurrenceId != null) {
-      for (
-        int i = 0;
-        i < _updateCalendarStateDetails.appointments.length;
-        i++
-      ) {
+      for (int i = 0;
+          i < _updateCalendarStateDetails.appointments.length;
+          i++) {
         final CalendarAppointment app =
             _updateCalendarStateDetails.appointments[i];
         if (app.id == appointment.id || app.id == appointment.recurrenceId) {
@@ -8613,22 +8416,19 @@ class _CalendarViewState extends State<_CalendarView>
 
       final List<DateTime> recurrenceDates =
           RecurrenceHelper.getRecurrenceDateTimeCollection(
-            parentAppointment!.recurrenceRule ?? '',
-            parentAppointment.exactStartTime,
-            recurrenceDuration: AppointmentHelper.getDifference(
-              parentAppointment.exactStartTime,
-              parentAppointment.exactEndTime,
-            ),
-            specificStartDate: widget.visibleDates[0],
-            specificEndDate:
-                widget.visibleDates[widget.visibleDates.length - 1],
-          );
+        parentAppointment!.recurrenceRule ?? '',
+        parentAppointment.exactStartTime,
+        recurrenceDuration: AppointmentHelper.getDifference(
+          parentAppointment.exactStartTime,
+          parentAppointment.exactEndTime,
+        ),
+        specificStartDate: widget.visibleDates[0],
+        specificEndDate: widget.visibleDates[widget.visibleDates.length - 1],
+      );
 
-      for (
-        int i = 0;
-        i < _updateCalendarStateDetails.appointments.length;
-        i++
-      ) {
+      for (int i = 0;
+          i < _updateCalendarStateDetails.appointments.length;
+          i++) {
         final CalendarAppointment calendarApp =
             _updateCalendarStateDetails.appointments[i];
         if (calendarApp.recurrenceId != null &&
@@ -8644,11 +8444,9 @@ class _CalendarViewState extends State<_CalendarView>
       }
 
       if (parentAppointment.recurrenceExceptionDates != null) {
-        for (
-          int i = 0;
-          i < parentAppointment.recurrenceExceptionDates!.length;
-          i++
-        ) {
+        for (int i = 0;
+            i < parentAppointment.recurrenceExceptionDates!.length;
+            i++) {
           recurrenceDates.remove(
             AppointmentHelper.convertTimeToAppointmentTimeZone(
               parentAppointment.recurrenceExceptionDates![i],
@@ -8669,8 +8467,8 @@ class _CalendarViewState extends State<_CalendarView>
             : recurrenceDates[currentRecurrenceIndex - 1];
         final DateTime? nextRecurrence =
             currentRecurrenceIndex >= recurrenceDates.length - 1
-            ? null
-            : recurrenceDates[currentRecurrenceIndex + 1];
+                ? null
+                : recurrenceDates[currentRecurrenceIndex + 1];
 
         /// Check the resizing time is in between previous and next recurrence
         /// date. If previous recurrence is null(means resized appointment
@@ -8719,10 +8517,10 @@ class _CalendarViewState extends State<_CalendarView>
 
         final DateTime exceptionDate =
             AppointmentHelper.convertTimeToAppointmentTimeZone(
-              appointment.exactStartTime,
-              widget.calendar.timeZone,
-              '',
-            );
+          appointment.exactStartTime,
+          widget.calendar.timeZone,
+          '',
+        );
         parentAppointment.recurrenceExceptionDates != null
             ? parentAppointment.recurrenceExceptionDates!.add(exceptionDate)
             : parentAppointment.recurrenceExceptionDates = <DateTime>[
@@ -8752,9 +8550,8 @@ class _CalendarViewState extends State<_CalendarView>
     appointment.recurrenceId = parentAppointment != null
         ? parentAppointment.id
         : appointment.recurrenceId;
-    appointment.recurrenceRule = appointment.recurrenceId != null
-        ? null
-        : appointment.recurrenceRule;
+    appointment.recurrenceRule =
+        appointment.recurrenceId != null ? null : appointment.recurrenceRule;
     appointment.id = parentAppointment != null ? null : appointment.id;
     final dynamic newAppointment = _getCalendarAppointmentToObject(
       appointment,
@@ -9208,19 +9005,18 @@ class _CalendarViewState extends State<_CalendarView>
             );
             final double minimumCellWidth =
                 ((widget.width - timeLabelWidth) / widget.visibleDates.length) /
-                2;
+                    2;
             if (isForwardResize) {
-              _maximumResizingPosition =
-                  appointmentView.appointmentRect!.left +
+              _maximumResizingPosition = appointmentView.appointmentRect!.left +
                   (appointmentView.appointmentRect!.width > minimumCellWidth
                       ? minimumCellWidth
                       : appointmentView.appointmentRect!.width);
             } else if (isBackwardResize) {
               _maximumResizingPosition =
                   appointmentView.appointmentRect!.right -
-                  (appointmentView.appointmentRect!.width > minimumCellWidth
-                      ? minimumCellWidth
-                      : appointmentView.appointmentRect!.width);
+                      (appointmentView.appointmentRect!.width > minimumCellWidth
+                          ? minimumCellWidth
+                          : appointmentView.appointmentRect!.width);
             }
           } else {
             final double timeIntervalSize = _getTimeIntervalHeight(
@@ -9237,8 +9033,7 @@ class _CalendarViewState extends State<_CalendarView>
             }
 
             if (isForwardResize) {
-              _maximumResizingPosition =
-                  (appointmentView.appointmentRect!.top -
+              _maximumResizingPosition = (appointmentView.appointmentRect!.top -
                       _scrollController!.offset +
                       allDayPanelHeight! +
                       viewHeaderHeight!) +
@@ -9249,13 +9044,13 @@ class _CalendarViewState extends State<_CalendarView>
             } else if (isBackwardResize) {
               _maximumResizingPosition =
                   (appointmentView.appointmentRect!.bottom -
-                      _scrollController!.offset +
-                      allDayPanelHeight! +
-                      viewHeaderHeight!) -
-                  (appointmentView.appointmentRect!.height / 2 >
-                          minimumTimeIntervalSize
-                      ? minimumTimeIntervalSize
-                      : appointmentView.appointmentRect!.height / 2);
+                          _scrollController!.offset +
+                          allDayPanelHeight! +
+                          viewHeaderHeight!) -
+                      (appointmentView.appointmentRect!.height / 2 >
+                              minimumTimeIntervalSize
+                          ? minimumTimeIntervalSize
+                          : appointmentView.appointmentRect!.height / 2);
             }
           }
         }
@@ -9273,40 +9068,33 @@ class _CalendarViewState extends State<_CalendarView>
             widget.visibleDates.length,
             widget.isMobilePlatform,
           );
-          double minimumTimeIntervalSize =
-              timeIntervalSize /
+          double minimumTimeIntervalSize = timeIntervalSize /
               (widget.view == CalendarView.timelineMonth ? 2 : 4);
           if (minimumTimeIntervalSize < 20) {
             minimumTimeIntervalSize = 20;
           }
           if (isForwardResize) {
-            _maximumResizingPosition =
-                appointmentView.appointmentRect!.left -
+            _maximumResizingPosition = appointmentView.appointmentRect!.left -
                 _scrollController!.offset;
             if (_isRTL) {
-              _maximumResizingPosition =
-                  _scrollController!.offset -
+              _maximumResizingPosition = _scrollController!.offset -
                   _scrollController!.position.maxScrollExtent +
                   appointmentView.appointmentRect!.left;
             }
-            _maximumResizingPosition =
-                _maximumResizingPosition! +
+            _maximumResizingPosition = _maximumResizingPosition! +
                 (appointmentView.appointmentRect!.width / 2 >
                         minimumTimeIntervalSize
                     ? minimumTimeIntervalSize
                     : appointmentView.appointmentRect!.width / 2);
           } else if (isBackwardResize) {
-            _maximumResizingPosition =
-                appointmentView.appointmentRect!.right -
+            _maximumResizingPosition = appointmentView.appointmentRect!.right -
                 _scrollController!.offset;
             if (_isRTL) {
-              _maximumResizingPosition =
-                  _scrollController!.offset -
+              _maximumResizingPosition = _scrollController!.offset -
                   _scrollController!.position.maxScrollExtent +
                   appointmentView.appointmentRect!.right;
             }
-            _maximumResizingPosition =
-                _maximumResizingPosition! -
+            _maximumResizingPosition = _maximumResizingPosition! -
                 (appointmentView.appointmentRect!.width / 2 >
                         minimumTimeIntervalSize
                     ? minimumTimeIntervalSize
@@ -9318,22 +9106,20 @@ class _CalendarViewState extends State<_CalendarView>
         {
           final double weekNumberPanelWidth =
               CalendarViewHelper.getWeekNumberPanelWidth(
-                widget.calendar.showWeekNumber,
-                widget.width,
-                widget.isMobilePlatform,
-              );
+            widget.calendar.showWeekNumber,
+            widget.width,
+            widget.isMobilePlatform,
+          );
           final double minimumCellWidth =
               ((widget.width - weekNumberPanelWidth) / DateTime.daysPerWeek) /
-              2;
+                  2;
           if (isForwardResize) {
-            _maximumResizingPosition =
-                appointmentView.appointmentRect!.left +
+            _maximumResizingPosition = appointmentView.appointmentRect!.left +
                 (appointmentView.appointmentRect!.width / 2 > minimumCellWidth
                     ? minimumCellWidth
                     : appointmentView.appointmentRect!.width / 2);
           } else if (isBackwardResize) {
-            _maximumResizingPosition =
-                appointmentView.appointmentRect!.right -
+            _maximumResizingPosition = appointmentView.appointmentRect!.right -
                 (appointmentView.appointmentRect!.width / 2 > minimumCellWidth
                     ? minimumCellWidth
                     : appointmentView.appointmentRect!.width / 2);
@@ -9386,8 +9172,7 @@ class _CalendarViewState extends State<_CalendarView>
     }
 
     if (CalendarViewHelper.isTimelineView(widget.view)) {
-      final double overAllWidth =
-          _timeIntervalHeight *
+      final double overAllWidth = _timeIntervalHeight *
           (_horizontalLinesCount! * widget.visibleDates.length);
       double updatedXPosition = details!.localPosition.dx;
       if (updatedXPosition > widget.width - 1) {
@@ -9433,9 +9218,8 @@ class _CalendarViewState extends State<_CalendarView>
       }
     } else {
       final double overAllHeight = _timeIntervalHeight * _horizontalLinesCount!;
-      double updatedYPosition = yPosition > widget.height - 1
-          ? widget.height - 1
-          : yPosition;
+      double updatedYPosition =
+          yPosition > widget.height - 1 ? widget.height - 1 : yPosition;
       if (overAllHeight < widget.height && updatedYPosition > overAllHeight) {
         updatedYPosition = overAllHeight;
       }
@@ -9495,8 +9279,7 @@ class _CalendarViewState extends State<_CalendarView>
           right: 0,
           height: viewHeaderHeight,
           child: Container(
-            color:
-                widget.calendar.viewHeaderStyle.backgroundColor ??
+            color: widget.calendar.viewHeaderStyle.backgroundColor ??
                 widget.calendarTheme.viewHeaderBackgroundColor,
             child: RepaintBoundary(
               child: CustomPaint(
@@ -9573,9 +9356,9 @@ class _CalendarViewState extends State<_CalendarView>
   Widget _getMonthWidget(bool isRTL, double height) {
     final List<CalendarAppointment>? visibleAppointments =
         widget.visibleDates ==
-            _updateCalendarStateDetails.currentViewVisibleDates
-        ? _updateCalendarStateDetails.visibleAppointments
-        : null;
+                _updateCalendarStateDetails.currentViewVisibleDates
+            ? _updateCalendarStateDetails.visibleAppointments
+            : null;
     _monthView = MonthViewWidget(
       widget.visibleDates,
       widget.calendar.monthViewSettings.numberOfWeeksInView,
@@ -9625,12 +9408,10 @@ class _CalendarViewState extends State<_CalendarView>
     final double allDayPanelHeight = _isExpanded
         ? _updateCalendarStateDetails.allDayPanelHeight
         : _allDayHeight;
-    final bool isVerticalResize =
-        _mouseCursor == SystemMouseCursors.resizeUp ||
+    final bool isVerticalResize = _mouseCursor == SystemMouseCursors.resizeUp ||
         _mouseCursor == SystemMouseCursors.resizeDown;
     final bool isTimelineView = CalendarViewHelper.isTimelineView(widget.view);
-    final bool isAllDayPanel =
-        !isVerticalResize &&
+    final bool isAllDayPanel = !isVerticalResize &&
         (!isTimelineView && widget.view != CalendarView.month);
     final double timeLabelWidth = CalendarViewHelper.getTimeLabelWidth(
       widget.calendar.timeSlotViewSettings.timeRulerSize,
@@ -9638,21 +9419,21 @@ class _CalendarViewState extends State<_CalendarView>
     );
     final double weekNumberPanelWidth =
         CalendarViewHelper.getWeekNumberPanelWidth(
-          widget.calendar.showWeekNumber,
-          widget.width,
-          widget.isMobilePlatform,
-        );
+      widget.calendar.showWeekNumber,
+      widget.width,
+      widget.isMobilePlatform,
+    );
 
     final double overAllWidth = isTimelineView
         ? _timeIntervalHeight *
-              (_horizontalLinesCount! * widget.visibleDates.length)
+            (_horizontalLinesCount! * widget.visibleDates.length)
         : widget.width;
     final double overAllHeight =
         isTimelineView || widget.view == CalendarView.month
-        ? widget.height
-        : viewHeaderHeight +
-              allDayPanelHeight +
-              (_timeIntervalHeight * _horizontalLinesCount!);
+            ? widget.height
+            : viewHeaderHeight +
+                allDayPanelHeight +
+                (_timeIntervalHeight * _horizontalLinesCount!);
 
     return Positioned(
       left: 0,
@@ -9667,8 +9448,7 @@ class _CalendarViewState extends State<_CalendarView>
         onHorizontalDragUpdate: isVerticalResize ? null : _onHorizontalUpdate,
         onHorizontalDragEnd: isVerticalResize ? null : _onHorizontalEnd,
         child: IgnorePointer(
-          ignoring:
-              _mouseCursor == SystemMouseCursors.basic ||
+          ignoring: _mouseCursor == SystemMouseCursors.basic ||
               _mouseCursor == SystemMouseCursors.move ||
               isAllDayPanel,
           child: RepaintBoundary(
@@ -9712,9 +9492,9 @@ class _CalendarViewState extends State<_CalendarView>
     double viewHeaderWidth = widget.width;
     final double actualViewHeaderHeight =
         CalendarViewHelper.getViewHeaderHeight(
-          widget.calendar.viewHeaderHeight,
-          widget.view,
-        );
+      widget.calendar.viewHeaderHeight,
+      widget.view,
+    );
     double viewHeaderHeight = actualViewHeaderHeight;
     final double timeLabelWidth = CalendarViewHelper.getTimeLabelWidth(
       widget.calendar.timeSlotViewSettings.timeRulerSize,
@@ -9728,9 +9508,8 @@ class _CalendarViewState extends State<_CalendarView>
     );
     if (isDayView) {
       viewHeaderWidth = timeLabelWidth < 50 ? 50 : timeLabelWidth;
-      viewHeaderHeight = _allDayHeight > viewHeaderHeight
-          ? _allDayHeight
-          : viewHeaderHeight;
+      viewHeaderHeight =
+          _allDayHeight > viewHeaderHeight ? _allDayHeight : viewHeaderHeight;
     }
 
     double panelHeight = isCurrentView
@@ -9751,8 +9530,7 @@ class _CalendarViewState extends State<_CalendarView>
           right: isRTL ? 0 : widget.width - viewHeaderWidth,
           height: actualViewHeaderHeight,
           child: Container(
-            color:
-                widget.calendar.viewHeaderStyle.backgroundColor ??
+            color: widget.calendar.viewHeaderStyle.backgroundColor ??
                 widget.calendarTheme.viewHeaderBackgroundColor,
             child: RepaintBoundary(
               child: CustomPaint(
@@ -9964,8 +9742,7 @@ class _CalendarViewState extends State<_CalendarView>
           right: 0,
           height: viewHeaderHeight,
           child: Container(
-            color:
-                widget.calendar.viewHeaderStyle.backgroundColor ??
+            color: widget.calendar.viewHeaderStyle.backgroundColor ??
                 widget.calendarTheme.viewHeaderBackgroundColor,
             child: _getTimelineViewHeader(
               width,
@@ -10135,10 +9912,10 @@ class _CalendarViewState extends State<_CalendarView>
     double yPosition = position.dy;
     final double weekNumberPanelWidth =
         CalendarViewHelper.getWeekNumberPanelWidth(
-          widget.calendar.showWeekNumber,
-          widget.width,
-          widget.isMobilePlatform,
-        );
+      widget.calendar.showWeekNumber,
+      widget.width,
+      widget.isMobilePlatform,
+    );
     if ((!_isRTL && xPosition < weekNumberPanelWidth) ||
         (_isRTL && xPosition > widget.width - weekNumberPanelWidth)) {
       /// Return null while the [getCalendarDetailsAtOffset] position placed on
@@ -10171,8 +9948,7 @@ class _CalendarViewState extends State<_CalendarView>
         xPosition,
         yPosition,
       );
-      isMoreTapped =
-          appointmentView != null &&
+      isMoreTapped = appointmentView != null &&
           appointmentView.startIndex == -1 &&
           appointmentView.endIndex == -1 &&
           appointmentView.position == -1 &&
@@ -10201,18 +9977,18 @@ class _CalendarViewState extends State<_CalendarView>
 
     final List<dynamic> selectedAppointments =
         appointmentView == null || isMoreTapped
-        ? _getSelectedAppointments(getDate)
-        : <dynamic>[
-            CalendarViewHelper.getAppointmentDetail(
-              appointmentView.appointment!,
-              widget.calendar.dataSource,
-            ),
-          ];
+            ? _getSelectedAppointments(getDate)
+            : <dynamic>[
+                CalendarViewHelper.getAppointmentDetail(
+                  appointmentView.appointment!,
+                  widget.calendar.dataSource,
+                ),
+              ];
     final CalendarElement selectedElement = appointmentView == null
         ? CalendarElement.calendarCell
         : isMoreTapped
-        ? CalendarElement.moreAppointmentRegion
-        : CalendarElement.appointment;
+            ? CalendarElement.moreAppointmentRegion
+            : CalendarElement.appointment;
 
     /// Return calendar details while the [getCalendarDetailsAtOffset]
     /// position placed on month cells in month view.
@@ -10253,10 +10029,10 @@ class _CalendarViewState extends State<_CalendarView>
     );
     final double weekNumberPanelWidth =
         CalendarViewHelper.getWeekNumberPanelWidth(
-          widget.calendar.showWeekNumber,
-          widget.width,
-          widget.isMobilePlatform,
-        );
+      widget.calendar.showWeekNumber,
+      widget.width,
+      widget.isMobilePlatform,
+    );
     if ((!_isRTL && xDetails < weekNumberPanelWidth) ||
         (_isRTL && xDetails > widget.width - weekNumberPanelWidth)) {
       return null;
@@ -10281,8 +10057,7 @@ class _CalendarViewState extends State<_CalendarView>
           xDetails,
           yDetails - viewHeaderHeight,
         );
-        isMoreTapped =
-            appointmentView != null &&
+        isMoreTapped = appointmentView != null &&
             appointmentView.startIndex == -1 &&
             appointmentView.endIndex == -1 &&
             appointmentView.position == -1 &&
@@ -10337,34 +10112,34 @@ class _CalendarViewState extends State<_CalendarView>
 
       final bool canRaiseTap =
           CalendarViewHelper.shouldRaiseCalendarTapCallback(
-            widget.calendar.onTap,
-          ) &&
-          isTapCallback;
+                widget.calendar.onTap,
+              ) &&
+              isTapCallback;
       final bool canRaiseLongPress =
           CalendarViewHelper.shouldRaiseCalendarLongPressCallback(
-            widget.calendar.onLongPress,
-          ) &&
-          !isTapCallback;
+                widget.calendar.onLongPress,
+              ) &&
+              !isTapCallback;
       final bool canRaiseSelectionChanged =
           CalendarViewHelper.shouldRaiseCalendarSelectionChangedCallback(
-            widget.calendar.onSelectionChanged,
-          );
+        widget.calendar.onSelectionChanged,
+      );
 
       if (canRaiseLongPress || canRaiseTap || canRaiseSelectionChanged) {
         final List<dynamic> selectedAppointments =
             appointmentView == null || isMoreTapped
-            ? _getSelectedAppointments(selectedDate)
-            : <dynamic>[
-                CalendarViewHelper.getAppointmentDetail(
-                  appointmentView.appointment!,
-                  widget.calendar.dataSource,
-                ),
-              ];
+                ? _getSelectedAppointments(selectedDate)
+                : <dynamic>[
+                    CalendarViewHelper.getAppointmentDetail(
+                      appointmentView.appointment!,
+                      widget.calendar.dataSource,
+                    ),
+                  ];
         final CalendarElement selectedElement = appointmentView == null
             ? CalendarElement.calendarCell
             : isMoreTapped
-            ? CalendarElement.moreAppointmentRegion
-            : CalendarElement.appointment;
+                ? CalendarElement.moreAppointmentRegion
+                : CalendarElement.appointment;
         if (canRaiseTap) {
           CalendarViewHelper.raiseCalendarTapCallback(
             widget.calendar,
@@ -10400,8 +10175,7 @@ class _CalendarViewState extends State<_CalendarView>
     CalendarResource? selectedResource,
     int? previousSelectedResourceIndex,
   ]) {
-    final bool isMonthView =
-        widget.view == CalendarView.month ||
+    final bool isMonthView = widget.view == CalendarView.month ||
         widget.view == CalendarView.timelineMonth;
     if (canRaiseSelectionChanged &&
         ((isMonthView &&
@@ -10451,8 +10225,7 @@ class _CalendarViewState extends State<_CalendarView>
     double viewHeaderHeight,
     double timeLabelSize,
   ) {
-    final int resourceCount =
-        widget.calendar.dataSource != null &&
+    final int resourceCount = widget.calendar.dataSource != null &&
             widget.calendar.dataSource!.resources != null
         ? widget.calendar.dataSource!.resources!.length
         : 0;
@@ -10519,17 +10292,15 @@ class _CalendarViewState extends State<_CalendarView>
     }
 
     if (_isRTL) {
-      xPosition =
-          _scrollController!.offset +
+      xPosition = _scrollController!.offset +
           (_scrollController!.position.viewportDimension - xDetails);
-      xPosition =
-          (_scrollController!.position.viewportDimension +
+      xPosition = (_scrollController!.position.viewportDimension +
               _scrollController!.position.maxScrollExtent) -
           xPosition;
     }
 
-    final AppointmentView? appointmentView = _appointmentLayout
-        .getAppointmentViewOnPoint(xPosition, yPosition);
+    final AppointmentView? appointmentView =
+        _appointmentLayout.getAppointmentViewOnPoint(xPosition, yPosition);
 
     final DateTime getDate = _getDateFromPosition(
       xDetails,
@@ -10634,17 +10405,15 @@ class _CalendarViewState extends State<_CalendarView>
       _selectionPainter!.selectedResourceIndex = _selectedResourceIndex;
 
       if (_isRTL) {
-        xPosition =
-            _scrollController!.offset +
+        xPosition = _scrollController!.offset +
             (_scrollController!.position.viewportDimension - xDetails);
-        xPosition =
-            (_scrollController!.position.viewportDimension +
+        xPosition = (_scrollController!.position.viewportDimension +
                 _scrollController!.position.maxScrollExtent) -
             xPosition;
       }
 
-      final AppointmentView? appointmentView = _appointmentLayout
-          .getAppointmentViewOnPoint(xPosition, yPosition);
+      final AppointmentView? appointmentView =
+          _appointmentLayout.getAppointmentViewOnPoint(xPosition, yPosition);
       if (appointmentView == null) {
         _drawSelection(xDetails, yPosition, timeLabelWidth);
         selectedDate = _selectionPainter!.selectedDate;
@@ -10662,18 +10431,18 @@ class _CalendarViewState extends State<_CalendarView>
       widget.updateCalendarState(_updateCalendarStateDetails);
       final bool canRaiseTap =
           CalendarViewHelper.shouldRaiseCalendarTapCallback(
-            widget.calendar.onTap,
-          ) &&
-          isTapCallback;
+                widget.calendar.onTap,
+              ) &&
+              isTapCallback;
       final bool canRaiseLongPress =
           CalendarViewHelper.shouldRaiseCalendarLongPressCallback(
-            widget.calendar.onLongPress,
-          ) &&
-          !isTapCallback;
+                widget.calendar.onLongPress,
+              ) &&
+              !isTapCallback;
       final bool canRaiseSelectionChanged =
           CalendarViewHelper.shouldRaiseCalendarSelectionChangedCallback(
-            widget.calendar.onSelectionChanged,
-          );
+        widget.calendar.onSelectionChanged,
+      );
 
       if (canRaiseLongPress || canRaiseTap || canRaiseSelectionChanged) {
         final DateTime? selectedDate = _getDateFromPosition(
@@ -10893,8 +10662,7 @@ class _CalendarViewState extends State<_CalendarView>
       );
 
       /// Check the count position tapped or not
-      bool isTappedOnCount =
-          appointmentView != null &&
+      bool isTappedOnCount = appointmentView != null &&
           _updateCalendarStateDetails.allDayPanelHeight > allDayHeight &&
           yPosition > allDayHeight - kAllDayAppointmentHeight;
       DateTime? selectedDate;
@@ -10913,14 +10681,11 @@ class _CalendarViewState extends State<_CalendarView>
         );
         if (currentSelectedIndex != -1) {
           moreRegionAppointments = <CalendarAppointment>[];
-          for (
-            int i = 0;
-            i <
-                _updateCalendarStateDetails
-                    .allDayAppointmentViewCollection
-                    .length;
-            i++
-          ) {
+          for (int i = 0;
+              i <
+                  _updateCalendarStateDetails
+                      .allDayAppointmentViewCollection.length;
+              i++) {
             final AppointmentView currentView =
                 _updateCalendarStateDetails.allDayAppointmentViewCollection[i];
             if (currentView.appointment == null) {
@@ -10957,14 +10722,11 @@ class _CalendarViewState extends State<_CalendarView>
           moreRegionAppointments = <CalendarAppointment>[];
           final List<AppointmentView> selectedIndexAppointment =
               <AppointmentView>[];
-          for (
-            int i = 0;
-            i <
-                _updateCalendarStateDetails
-                    .allDayAppointmentViewCollection
-                    .length;
-            i++
-          ) {
+          for (int i = 0;
+              i <
+                  _updateCalendarStateDetails
+                      .allDayAppointmentViewCollection.length;
+              i++) {
             final AppointmentView currentView =
                 _updateCalendarStateDetails.allDayAppointmentViewCollection[i];
             if (currentView.appointment == null) {
@@ -10985,9 +10747,10 @@ class _CalendarViewState extends State<_CalendarView>
                   (
                     AppointmentView currentAppView,
                     AppointmentView nextAppView,
-                  ) => currentAppView.maxPositions > nextAppView.maxPositions
-                      ? currentAppView
-                      : nextAppView,
+                  ) =>
+                      currentAppView.maxPositions > nextAppView.maxPositions
+                          ? currentAppView
+                          : nextAppView,
                 )
                 .maxPositions;
           }
@@ -11052,8 +10815,8 @@ class _CalendarViewState extends State<_CalendarView>
 
     double yPosition =
         yDetails - viewHeaderHeight - allDayHeight + _scrollController!.offset;
-    final AppointmentView? appointmentView = _appointmentLayout
-        .getAppointmentViewOnPoint(xDetails, yPosition);
+    final AppointmentView? appointmentView =
+        _appointmentLayout.getAppointmentViewOnPoint(xDetails, yPosition);
 
     if (appointmentView == null) {
       /// Remove the scroll position for internally handles the scroll position
@@ -11221,8 +10984,7 @@ class _CalendarViewState extends State<_CalendarView>
       }
 
       /// Check the count position tapped or not
-      bool isTappedOnCount =
-          appointmentView != null &&
+      bool isTappedOnCount = appointmentView != null &&
           _updateCalendarStateDetails.allDayPanelHeight > allDayHeight &&
           yPosition > allDayHeight - kAllDayAppointmentHeight;
 
@@ -11247,14 +11009,11 @@ class _CalendarViewState extends State<_CalendarView>
         if (currentSelectedIndex != -1) {
           final List<AppointmentView> selectedIndexAppointment =
               <AppointmentView>[];
-          for (
-            int i = 0;
-            i <
-                _updateCalendarStateDetails
-                    .allDayAppointmentViewCollection
-                    .length;
-            i++
-          ) {
+          for (int i = 0;
+              i <
+                  _updateCalendarStateDetails
+                      .allDayAppointmentViewCollection.length;
+              i++) {
             final AppointmentView currentView =
                 _updateCalendarStateDetails.allDayAppointmentViewCollection[i];
             if (currentView.appointment == null) {
@@ -11273,9 +11032,10 @@ class _CalendarViewState extends State<_CalendarView>
                   (
                     AppointmentView currentAppView,
                     AppointmentView nextAppView,
-                  ) => currentAppView.maxPositions > nextAppView.maxPositions
-                      ? currentAppView
-                      : nextAppView,
+                  ) =>
+                      currentAppView.maxPositions > nextAppView.maxPositions
+                          ? currentAppView
+                          : nextAppView,
                 )
                 .maxPositions;
           }
@@ -11331,13 +11091,12 @@ class _CalendarViewState extends State<_CalendarView>
 
       selectedAppointmentView = appointmentView;
     } else {
-      final double yPosition =
-          yDetails -
+      final double yPosition = yDetails -
           viewHeaderHeight -
           allDayHeight +
           _scrollController!.offset;
-      final AppointmentView? appointmentView = _appointmentLayout
-          .getAppointmentViewOnPoint(xDetails, yPosition);
+      final AppointmentView? appointmentView =
+          _appointmentLayout.getAppointmentViewOnPoint(xDetails, yPosition);
       _allDaySelectionNotifier.value = null;
       if (appointmentView == null) {
         if (_isRTL) {
@@ -11370,20 +11129,19 @@ class _CalendarViewState extends State<_CalendarView>
     }
 
     widget.updateCalendarState(_updateCalendarStateDetails);
-    final bool canRaiseTap =
-        CalendarViewHelper.shouldRaiseCalendarTapCallback(
+    final bool canRaiseTap = CalendarViewHelper.shouldRaiseCalendarTapCallback(
           widget.calendar.onTap,
         ) &&
         isTappedCallback;
     final bool canRaiseLongPress =
         CalendarViewHelper.shouldRaiseCalendarLongPressCallback(
-          widget.calendar.onLongPress,
-        ) &&
-        !isTappedCallback;
+              widget.calendar.onLongPress,
+            ) &&
+            !isTappedCallback;
     final bool canRaiseSelectionChanged =
         CalendarViewHelper.shouldRaiseCalendarSelectionChangedCallback(
-          widget.calendar.onSelectionChanged,
-        );
+      widget.calendar.onSelectionChanged,
+    );
     if (canRaiseLongPress || canRaiseTap || canRaiseSelectionChanged) {
       final double yPosition = yDetails - viewHeaderHeight - allDayHeight;
       if (_selectionPainter!.selectedDate != null &&
@@ -11530,25 +11288,22 @@ class _CalendarViewState extends State<_CalendarView>
       widget.isMobilePlatform,
     );
 
-    final double minuteHeight =
-        timeIntervalSize /
+    final double minuteHeight = timeIntervalSize /
         CalendarViewHelper.getTimeInterval(
           widget.calendar.timeSlotViewSettings,
         );
     final Duration startDuration = Duration(
       hours: widget.calendar.timeSlotViewSettings.startHour.toInt(),
-      minutes:
-          ((widget.calendar.timeSlotViewSettings.startHour -
-                      widget.calendar.timeSlotViewSettings.startHour.toInt()) *
-                  60)
-              .toInt(),
+      minutes: ((widget.calendar.timeSlotViewSettings.startHour -
+                  widget.calendar.timeSlotViewSettings.startHour.toInt()) *
+              60)
+          .toInt(),
     );
     int minutes;
     if (CalendarViewHelper.isTimelineView(widget.view)) {
       final double viewWidth = _timeIntervalHeight * _horizontalLinesCount!;
       if (_isRTL) {
-        minutes =
-            ((_scrollController!.offset +
+        minutes = ((_scrollController!.offset +
                     (_scrollController!.position.viewportDimension - y)) %
                 viewWidth) ~/
             minuteHeight;
@@ -11662,16 +11417,15 @@ class _CalendarViewState extends State<_CalendarView>
 
     final bool isCurrentView =
         _updateCalendarStateDetails.currentViewVisibleDates ==
-        widget.visibleDates;
+            widget.visibleDates;
     if (isDayView) {
       if (isCurrentView) {
-        allDayViewHeight =
-            _kAllDayLayoutHeight > viewHeaderHeight &&
+        allDayViewHeight = _kAllDayLayoutHeight > viewHeaderHeight &&
                 _updateCalendarStateDetails.allDayPanelHeight > viewHeaderHeight
             ? _updateCalendarStateDetails.allDayPanelHeight >
-                      _kAllDayLayoutHeight
-                  ? _kAllDayLayoutHeight
-                  : _updateCalendarStateDetails.allDayPanelHeight
+                    _kAllDayLayoutHeight
+                ? _kAllDayLayoutHeight
+                : _updateCalendarStateDetails.allDayPanelHeight
             : viewHeaderHeight;
         if (allDayViewHeight < _updateCalendarStateDetails.allDayPanelHeight) {
           allDayViewHeight += kAllDayAppointmentHeight;
@@ -11684,16 +11438,15 @@ class _CalendarViewState extends State<_CalendarView>
     } else if (isCurrentView) {
       allDayViewHeight =
           _updateCalendarStateDetails.allDayPanelHeight > _kAllDayLayoutHeight
-          ? _kAllDayLayoutHeight
-          : _updateCalendarStateDetails.allDayPanelHeight;
+              ? _kAllDayLayoutHeight
+              : _updateCalendarStateDetails.allDayPanelHeight;
     }
 
     switch (view) {
       case CalendarView.day:
       case CalendarView.week:
       case CalendarView.workWeek:
-        timeIntervalHeight =
-            (height - allDayViewHeight - viewHeaderHeight) /
+        timeIntervalHeight = (height - allDayViewHeight - viewHeaderHeight) /
             CalendarViewHelper.getHorizontalLinesCount(
               calendar.timeSlotViewSettings,
               view,
@@ -11706,9 +11459,9 @@ class _CalendarViewState extends State<_CalendarView>
         {
           final double horizontalLinesCount =
               CalendarViewHelper.getHorizontalLinesCount(
-                calendar.timeSlotViewSettings,
-                view,
-              );
+            calendar.timeSlotViewSettings,
+            view,
+          );
           timeIntervalHeight =
               width / (horizontalLinesCount * visibleDatesCount);
           if (!_isValidWidth(
@@ -11852,10 +11605,9 @@ class _CalendarViewState extends State<_CalendarView>
         if (isDayView) {
           index = 0;
         } else {
-          index =
-              ((localPosition.dx - (_isRTL ? 0 : timeLabelViewWidth)) /
-                      cellWidth)
-                  .truncate();
+          index = ((localPosition.dx - (_isRTL ? 0 : timeLabelViewWidth)) /
+                  cellWidth)
+              .truncate();
         }
       } else {
         cellWidth = width / DateTime.daysPerWeek;
@@ -11876,14 +11628,13 @@ class _CalendarViewState extends State<_CalendarView>
 
       return widget.visibleDates[index];
     } else {
-      index =
-          ((_scrollController!.offset +
-                      (_isRTL
-                          ? _scrollController!.position.viewportDimension -
-                                localPosition.dx
-                          : localPosition.dx)) /
-                  _getSingleViewWidthForTimeLineView(this))
-              .truncate();
+      index = ((_scrollController!.offset +
+                  (_isRTL
+                      ? _scrollController!.position.viewportDimension -
+                          localPosition.dx
+                      : localPosition.dx)) /
+              _getSingleViewWidthForTimeLineView(this))
+          .truncate();
 
       if (index < 0 || index >= visibleDatesLength) {
         return null;
@@ -12001,9 +11752,9 @@ class _CalendarViewState extends State<_CalendarView>
     if (widget.calendar.onTap == null && widget.calendar.onLongPress == null) {
       final bool isViewNavigationEnabled =
           widget.calendar.allowViewNavigation &&
-          widget.view != CalendarView.month &&
-          widget.view != CalendarView.day &&
-          widget.view != CalendarView.timelineDay;
+              widget.view != CalendarView.month &&
+              widget.view != CalendarView.day &&
+              widget.view != CalendarView.timelineDay;
       if (!isViewNavigationEnabled) {
         _removeAllWidgetHovering();
         return;
@@ -12163,8 +11914,7 @@ class _CalendarViewState extends State<_CalendarView>
 
     if (isAllDayPanel ||
         (widget.view == CalendarView.month || isTimelineViews)) {
-      final bool isMonthView =
-          widget.view == CalendarView.month ||
+      final bool isMonthView = widget.view == CalendarView.month ||
           widget.view == CalendarView.timelineMonth;
       final DateTime viewStartDate = AppointmentHelper.convertToStartTime(
         widget.visibleDates[0],
@@ -12177,25 +11927,25 @@ class _CalendarViewState extends State<_CalendarView>
 
       final bool canAddForwardSpanIcon =
           AppointmentHelper.canAddForwardSpanIcon(
-            appStartTime,
-            appEndTime,
-            viewStartDate,
-            viewEndDate,
-          );
+        appStartTime,
+        appEndTime,
+        viewStartDate,
+        viewEndDate,
+      );
       final bool canAddBackwardSpanIcon =
           AppointmentHelper.canAddBackwardSpanIcon(
-            appStartTime,
-            appEndTime,
-            viewStartDate,
-            viewEndDate,
-          );
+        appStartTime,
+        appEndTime,
+        viewStartDate,
+        viewEndDate,
+      );
 
       final DateTime appointmentStartTime =
           appointmentView.appointment!.isAllDay
-          ? AppointmentHelper.convertToStartTime(
-              appointmentView.appointment!.actualStartTime,
-            )
-          : appointmentView.appointment!.actualStartTime;
+              ? AppointmentHelper.convertToStartTime(
+                  appointmentView.appointment!.actualStartTime,
+                )
+              : appointmentView.appointment!.actualStartTime;
       final DateTime appointmentEndTime = appointmentView.appointment!.isAllDay
           ? AppointmentHelper.convertToEndTime(
               appointmentView.appointment!.actualEndTime,
@@ -12203,16 +11953,16 @@ class _CalendarViewState extends State<_CalendarView>
           : appointmentView.appointment!.actualEndTime;
       final DateTime appointmentExactStartTime =
           appointmentView.appointment!.isAllDay
-          ? AppointmentHelper.convertToStartTime(
-              appointmentView.appointment!.exactStartTime,
-            )
-          : appointmentView.appointment!.exactStartTime;
+              ? AppointmentHelper.convertToStartTime(
+                  appointmentView.appointment!.exactStartTime,
+                )
+              : appointmentView.appointment!.exactStartTime;
       final DateTime appointmentExactEndTime =
           appointmentView.appointment!.isAllDay
-          ? AppointmentHelper.convertToEndTime(
-              appointmentView.appointment!.exactEndTime,
-            )
-          : appointmentView.appointment!.exactEndTime;
+              ? AppointmentHelper.convertToEndTime(
+                  appointmentView.appointment!.exactEndTime,
+                )
+              : appointmentView.appointment!.exactEndTime;
 
       if (xPosition >= appointmentView.appointmentRect!.left &&
           xPosition <= appointmentView.appointmentRect!.left + padding &&
@@ -12416,11 +12166,11 @@ class _CalendarViewState extends State<_CalendarView>
 
       yPosition = localPosition.dy - (viewHeaderHeight + allDayHeight);
 
-      final AppointmentView? appointment = _appointmentLayout
-          .getAppointmentViewOnPoint(
-            localPosition.dx,
-            yPosition + _scrollController!.offset,
-          );
+      final AppointmentView? appointment =
+          _appointmentLayout.getAppointmentViewOnPoint(
+        localPosition.dx,
+        yPosition + _scrollController!.offset,
+      );
       _hoveringAppointmentView = appointment;
       if (appointment != null) {
         _updateHoveringForAppointment(
@@ -12443,10 +12193,10 @@ class _CalendarViewState extends State<_CalendarView>
       if (widget.calendar.showWeekNumber && widget.view == CalendarView.month) {
         final double weekNumberPanelWidth =
             CalendarViewHelper.getWeekNumberPanelWidth(
-              widget.calendar.showWeekNumber,
-              widget.width,
-              widget.isMobilePlatform,
-            );
+          widget.calendar.showWeekNumber,
+          widget.width,
+          widget.isMobilePlatform,
+        );
         if ((!_isRTL && xPosition < weekNumberPanelWidth) ||
             (_isRTL && xPosition > widget.width - weekNumberPanelWidth)) {
           _hoveringDate = null;
@@ -12470,8 +12220,7 @@ class _CalendarViewState extends State<_CalendarView>
       /// on all the calendar views.
       if (isTimelineViews) {
         if (_isRTL) {
-          xPosition =
-              (_getSingleViewWidthForTimeLineView(this) *
+          xPosition = (_getSingleViewWidthForTimeLineView(this) *
                   widget.visibleDates.length) -
               (_scrollController!.offset +
                   (_scrollController!.position.viewportDimension -
@@ -12499,8 +12248,8 @@ class _CalendarViewState extends State<_CalendarView>
         yPosition += _timelineViewVerticalScrollController!.offset;
       }
 
-      final AppointmentView? appointment = _appointmentLayout
-          .getAppointmentViewOnPoint(xPosition, yPosition);
+      final AppointmentView? appointment =
+          _appointmentLayout.getAppointmentViewOnPoint(xPosition, yPosition);
       _hoveringAppointmentView = appointment;
       if (appointment != null) {
         _updateHoveringForAppointment(xPosition, yPosition);
@@ -12536,8 +12285,7 @@ class _CalendarViewState extends State<_CalendarView>
 
     /// Remove the hovering when the position not in cell regions or non active
     /// cell regions.
-    final bool isMonthView =
-        widget.view == CalendarView.month ||
+    final bool isMonthView = widget.view == CalendarView.month ||
         widget.view == CalendarView.timelineMonth;
     final int timeInterval = CalendarViewHelper.getTimeInterval(
       widget.calendar.timeSlotViewSettings,
@@ -12803,8 +12551,7 @@ class _CalendarViewState extends State<_CalendarView>
     final int columnIndex = (y / cellHeight).truncate();
     int index = 0;
     if (_isRTL) {
-      index =
-          (columnIndex * DateTime.daysPerWeek) +
+      index = (columnIndex * DateTime.daysPerWeek) +
           (DateTime.daysPerWeek - rowIndex) -
           1;
     } else {
@@ -12824,16 +12571,16 @@ class _CalendarViewState extends State<_CalendarView>
     double x,
     double y,
   ) {
-    final int columnIndex = ((_scrollController!.offset + y) / cellHeight)
-        .truncate();
+    final int columnIndex =
+        ((_scrollController!.offset + y) / cellHeight).truncate();
     final double time = columnIndex == -1
         ? 0
         : ((CalendarViewHelper.getTimeInterval(
-                        widget.calendar.timeSlotViewSettings,
-                      ) /
-                      60) *
-                  columnIndex) +
-              widget.calendar.timeSlotViewSettings.startHour;
+                      widget.calendar.timeSlotViewSettings,
+                    ) /
+                    60) *
+                columnIndex) +
+            widget.calendar.timeSlotViewSettings.startHour;
     final int hour = time.toInt();
     final int minute = ((time - hour) * 60).round();
     int rowIndex = (x / cellWidth).truncate();
@@ -12858,19 +12605,17 @@ class _CalendarViewState extends State<_CalendarView>
   ) {
     int rowIndex, columnIndex;
     if (_isRTL) {
-      rowIndex =
-          (((_scrollController!.offset %
-                          _getSingleViewWidthForTimeLineView(this)) +
-                      (_scrollController!.position.viewportDimension - x)) /
-                  cellWidth)
-              .truncate();
+      rowIndex = (((_scrollController!.offset %
+                      _getSingleViewWidthForTimeLineView(this)) +
+                  (_scrollController!.position.viewportDimension - x)) /
+              cellWidth)
+          .truncate();
     } else {
-      rowIndex =
-          (((_scrollController!.offset %
-                          _getSingleViewWidthForTimeLineView(this)) +
-                      x) /
-                  cellWidth)
-              .truncate();
+      rowIndex = (((_scrollController!.offset %
+                      _getSingleViewWidthForTimeLineView(this)) +
+                  x) /
+              cellWidth)
+          .truncate();
     }
     columnIndex =
         (_scrollController!.offset / _getSingleViewWidthForTimeLineView(this))
@@ -12879,8 +12624,7 @@ class _CalendarViewState extends State<_CalendarView>
       columnIndex += rowIndex ~/ _horizontalLinesCount!;
       rowIndex = (rowIndex % _horizontalLinesCount!).toInt();
     }
-    final double time =
-        ((CalendarViewHelper.getTimeInterval(
+    final double time = ((CalendarViewHelper.getTimeInterval(
                   widget.calendar.timeSlotViewSettings,
                 ) /
                 60) *
@@ -12915,10 +12659,10 @@ class _CalendarViewState extends State<_CalendarView>
           /// Remove the selection when the position is to week number panel.
           final double weekNumberPanelWidth =
               CalendarViewHelper.getWeekNumberPanelWidth(
-                widget.calendar.showWeekNumber,
-                widget.width,
-                widget.isMobilePlatform,
-              );
+            widget.calendar.showWeekNumber,
+            widget.width,
+            widget.isMobilePlatform,
+          );
           if (x > widget.width ||
               (!_isRTL && x < weekNumberPanelWidth) ||
               (_isRTL && x > widget.width - weekNumberPanelWidth)) {
@@ -12933,8 +12677,7 @@ class _CalendarViewState extends State<_CalendarView>
 
           cellWidth =
               (widget.width - weekNumberPanelWidth) / DateTime.daysPerWeek;
-          cellHeight =
-              (widget.height -
+          cellHeight = (widget.height -
                   CalendarViewHelper.getViewHeaderHeight(
                     widget.calendar.viewHeaderHeight,
                     widget.view,
@@ -12960,8 +12703,7 @@ class _CalendarViewState extends State<_CalendarView>
       case CalendarView.timelineWorkWeek:
       case CalendarView.timelineMonth:
         {
-          final double viewWidth =
-              _timeIntervalHeight *
+          final double viewWidth = _timeIntervalHeight *
               (_horizontalLinesCount! * widget.visibleDates.length);
           if ((!_isRTL && x >= viewWidth) ||
               (_isRTL && x < (widget.width - viewWidth))) {
@@ -12976,8 +12718,7 @@ class _CalendarViewState extends State<_CalendarView>
 
   void _drawSelection(double x, double y, double timeLabelWidth) {
     final DateTime? selectedDate = _getDateFromPosition(x, y, timeLabelWidth);
-    final bool isMonthView =
-        widget.view == CalendarView.month ||
+    final bool isMonthView = widget.view == CalendarView.month ||
         widget.view == CalendarView.timelineMonth;
     final int timeInterval = CalendarViewHelper.getTimeInterval(
       widget.calendar.timeSlotViewSettings,
@@ -13172,10 +12913,10 @@ class _ViewHeaderViewPainter extends CustomPainter {
     canvas.clipRect(Rect.fromLTWH(0, 0, size.width, size.height));
     final double weekNumberPanelWidth =
         CalendarViewHelper.getWeekNumberPanelWidth(
-          showWeekNumber,
-          size.width,
-          isMobilePlatform,
-        );
+      showWeekNumber,
+      size.width,
+      isMobilePlatform,
+    );
     double width = view == CalendarView.month
         ? size.width - weekNumberPanelWidth
         : size.width;
@@ -13223,8 +12964,7 @@ class _ViewHeaderViewPainter extends CustomPainter {
         : weekNumberPanelWidth;
     double yPosition = 0;
     final int visibleDatesLength = visibleDates.length;
-    bool hasToday =
-        monthViewSettings.numberOfWeeksInView > 0 &&
+    bool hasToday = monthViewSettings.numberOfWeeksInView > 0 &&
             monthViewSettings.numberOfWeeksInView < 6 ||
         visibleDates[visibleDatesLength ~/ 2].month == today.month;
     if (hasToday) {
@@ -13247,10 +12987,10 @@ class _ViewHeaderViewPainter extends CustomPainter {
       if (hasToday && currentDate.weekday == today.weekday) {
         final Color? todayTextColor =
             CalendarViewHelper.getTodayHighlightTextColor(
-              todayHighlightColor,
-              todayTextStyle,
-              calendarTheme,
-            );
+          todayHighlightColor,
+          todayTextStyle,
+          calendarTheme,
+        );
 
         dayTextStyle = todayTextStyle != null
             ? calendarTheme.todayTextStyle!.copyWith(
@@ -13330,9 +13070,8 @@ class _ViewHeaderViewPainter extends CustomPainter {
       timeSlotViewSettings.nonWorkingDays,
       monthViewSettings.numberOfWeeksInView,
     );
-    final double labelWidth = isDayView && timeLabelWidth < 50
-        ? 50
-        : timeLabelWidth;
+    final double labelWidth =
+        isDayView && timeLabelWidth < 50 ? 50 : timeLabelWidth;
     TextStyle dayTextStyle = viewHeaderDayStyle;
     TextStyle dateTextStyle = viewHeaderDateStyle;
     const double topPadding = 5;
@@ -13369,10 +13108,10 @@ class _ViewHeaderViewPainter extends CustomPainter {
         final Color? todayTextStyleColor = calendarTheme.todayTextStyle!.color;
         final Color? todayTextColor =
             CalendarViewHelper.getTodayHighlightTextColor(
-              todayHighlightColor,
-              todayTextStyle,
-              calendarTheme,
-            );
+          todayHighlightColor,
+          todayTextStyle,
+          calendarTheme,
+        );
         dayTextStyle = todayTextStyle != null
             ? calendarTheme.todayTextStyle!.copyWith(
                 fontSize: viewHeaderDayStyle.fontSize,
@@ -13394,15 +13133,15 @@ class _ViewHeaderViewPainter extends CustomPainter {
           color: dayTextStyle.color != null
               ? dayTextStyle.color!.withValues(alpha: 0.38)
               : themeData.brightness == Brightness.light
-              ? Colors.black26
-              : Colors.white38,
+                  ? Colors.black26
+                  : Colors.white38,
         );
         dateTextStyle = dateTextStyle.copyWith(
           color: dateTextStyle.color != null
               ? dateTextStyle.color!.withValues(alpha: 0.38)
               : themeData.brightness == Brightness.light
-              ? Colors.black26
-              : Colors.white38,
+                  ? Colors.black26
+                  : Colors.white38,
         );
       }
 
@@ -13428,8 +13167,7 @@ class _ViewHeaderViewPainter extends CustomPainter {
       final double dateXPosition = (cellWidth - _dateTextPainter.width) / 2;
 
       const int inBetweenPadding = 2;
-      yPosition =
-          size.height / 2 -
+      yPosition = size.height / 2 -
           (_dayTextPainter.height +
                   topPadding +
                   _dateTextPainter.height +
@@ -13495,10 +13233,9 @@ class _ViewHeaderViewPainter extends CustomPainter {
         _dateTextPainter.layout(maxWidth: timeLabelWidth);
         final double weekNumberPosition = isRTL
             ? (size.width - timeLabelWidth) +
-                  ((timeLabelWidth - _dateTextPainter.width) / 2)
+                ((timeLabelWidth - _dateTextPainter.width) / 2)
             : (timeLabelWidth - _dateTextPainter.width) / 2;
-        final double weekNumberYPosition =
-            size.height / 2 -
+        final double weekNumberYPosition = size.height / 2 -
             (_dayTextPainter.height +
                     topPadding +
                     _dateTextPainter.height +
@@ -13515,8 +13252,7 @@ class _ViewHeaderViewPainter extends CustomPainter {
           weekNumberYPosition + _dateTextPainter.height + (padding / 2),
         );
         linePainter.style = PaintingStyle.fill;
-        linePainter.color =
-            weekNumberStyle.backgroundColor ??
+        linePainter.color = weekNumberStyle.backgroundColor ??
             calendarTheme.weekNumberBackgroundColor!;
         final RRect roundedRect = RRect.fromRectAndRadius(
           rect,
@@ -13570,11 +13306,10 @@ class _ViewHeaderViewPainter extends CustomPainter {
         xPosition + (width / 2 - _dayTextPainter.width / 2),
         yPosition,
         _dayTextPainter,
-        hoveringColor:
-            (themeData.brightness == Brightness.dark
-                    ? Colors.white
-                    : Colors.black87)
-                .withValues(alpha: 0.04),
+        hoveringColor: (themeData.brightness == Brightness.dark
+                ? Colors.white
+                : Colors.black87)
+            .withValues(alpha: 0.04),
       );
     }
   }
@@ -13595,9 +13330,9 @@ class _ViewHeaderViewPainter extends CustomPainter {
       final Color hoveringColor = isToday
           ? Colors.black.withValues(alpha: 0.12)
           : (themeData.brightness == Brightness.dark
-                    ? Colors.white
-                    : Colors.black87)
-                .withValues(alpha: 0.04);
+                  ? Colors.white
+                  : Colors.black87)
+              .withValues(alpha: 0.04);
       _drawTodayCircle(
         canvas,
         xPosition + dateXPosition,
@@ -13719,9 +13454,8 @@ class _ViewHeaderViewPainter extends CustomPainter {
     const double circlePadding = 5;
     final double painterWidth = dateTextPainter.width / 2;
     final double painterHeight = dateTextPainter.height / 2;
-    final double radius = painterHeight > painterWidth
-        ? painterHeight
-        : painterWidth;
+    final double radius =
+        painterHeight > painterWidth ? painterHeight : painterWidth;
     canvas.drawCircle(
       Offset(x + painterWidth, y + painterHeight),
       radius + circlePadding,
@@ -13952,8 +13686,7 @@ class _SelectionPainter extends CustomPainter {
       width -= timeLabelWidth;
     }
 
-    final bool isResourceEnabled =
-        isTimeline &&
+    final bool isResourceEnabled = isTimeline &&
         CalendarViewHelper.isResourceEnabled(calendar.dataSource, view);
     if ((selectedDate == null && appointmentView == null) ||
         visibleDates != _updateCalendarStateDetails.currentViewVisibleDates ||
@@ -14065,10 +13798,10 @@ class _SelectionPainter extends CustomPainter {
       if (isSameDate(visibleDates[i], selectedDate)) {
         final double weekNumberPanelWidth =
             CalendarViewHelper.getWeekNumberPanelWidth(
-              showWeekNumber,
-              width,
-              isMobilePlatform,
-            );
+          showWeekNumber,
+          width,
+          isMobilePlatform,
+        );
         _cellWidth = (size.width - weekNumberPanelWidth) / DateTime.daysPerWeek;
         final int columnIndex = (i / DateTime.daysPerWeek).truncate();
         _yPosition = columnIndex * _cellHeight;
@@ -14121,12 +13854,10 @@ class _SelectionPainter extends CustomPainter {
       calendar.timeSlotViewSettings,
     );
     final int startHour = calendar.timeSlotViewSettings.startHour.toInt();
-    final double startMinute =
-        (calendar.timeSlotViewSettings.startHour -
+    final double startMinute = (calendar.timeSlotViewSettings.startHour -
             calendar.timeSlotViewSettings.startHour.toInt()) *
         60;
-    final int selectedMinutes =
-        ((selectedDate!.hour - startHour) * 60) +
+    final int selectedMinutes = ((selectedDate!.hour - startHour) * 60) +
         (selectedDate!.minute - startMinute.toInt());
     if (selectedMinutes % timeInterval != 0) {
       final int diff = selectedMinutes % timeInterval;
@@ -14203,9 +13934,8 @@ class _SelectionPainter extends CustomPainter {
     for (int i = 0; i < visibleDates.length; i++) {
       if (isSameDate(visibleDates[i], selectedDate)) {
         _yPosition = _getTimelineYPosition();
-        _xPosition = isRTL
-            ? size.width - ((i + 1) * _cellWidth)
-            : i * _cellWidth;
+        _xPosition =
+            isRTL ? size.width - ((i + 1) * _cellWidth) : i * _cellWidth;
         final double height = selectedResourceIndex == -1
             ? size.height
             : _yPosition + resourceItemHeight!;
@@ -14225,8 +13955,7 @@ class _SelectionPainter extends CustomPainter {
       for (int i = 0; i < visibleDates.length; i++) {
         if (isSameDate(selectedDate, visibleDates[i])) {
           final double singleViewWidth = width / visibleDates.length;
-          _xPosition =
-              (i * singleViewWidth) +
+          _xPosition = (i * singleViewWidth) +
               AppointmentHelper.timeToPosition(
                 calendar,
                 selectedDate!,
@@ -14357,8 +14086,7 @@ class _TimeRulerView extends CustomPainter {
 
     final TextStyle timeTextStyle = calendarTheme.timeTextStyle!;
 
-    final double hour =
-        (timeSlotViewSettings.startHour -
+    final double hour = (timeSlotViewSettings.startHour -
             timeSlotViewSettings.startHour.toInt()) *
         60;
     if (isTimelineView) {
@@ -14418,11 +14146,9 @@ class _TimeRulerView extends CustomPainter {
     /// For timeline view we will draw 24 lines where as in day, week and work
     /// week view we will draw 23 lines excluding the 12 AM, hence to rectify
     /// this the i value handled accordingly.
-    for (
-      int i = isTimelineView ? 0 : 1;
-      i <= (isTimelineView ? horizontalLinesCount - 1 : horizontalLinesCount);
-      i++
-    ) {
+    for (int i = isTimelineView ? 0 : 1;
+        i <= (isTimelineView ? horizontalLinesCount - 1 : horizontalLinesCount);
+        i++) {
       if (isTimelineView) {
         canvas.save();
         canvas.clipRect(
@@ -14473,9 +14199,8 @@ class _TimeRulerView extends CustomPainter {
 
       if (isTimelineView) {
         startYPosition = (size.height - _textPainter.height) / 2;
-        startXPosition = isRTL
-            ? startXPosition - padding
-            : startXPosition + padding;
+        startXPosition =
+            isRTL ? startXPosition - padding : startXPosition + padding;
       }
 
       _textPainter.paint(canvas, Offset(startXPosition, startYPosition));
@@ -14534,8 +14259,8 @@ class _CalendarMultiChildContainer extends Stack {
 
   @override
   RenderStack createRenderObject(BuildContext context) {
-    final Directionality? widget = context
-        .dependOnInheritedWidgetOfExactType<Directionality>();
+    final Directionality? widget =
+        context.dependOnInheritedWidgetOfExactType<Directionality>();
     return _MultiChildContainerRenderObject(
       width,
       height,
@@ -14549,8 +14274,8 @@ class _CalendarMultiChildContainer extends Stack {
   void updateRenderObject(BuildContext context, RenderStack renderObject) {
     super.updateRenderObject(context, renderObject);
     if (renderObject is _MultiChildContainerRenderObject) {
-      final Directionality? widget = context
-          .dependOnInheritedWidgetOfExactType<Directionality>();
+      final Directionality? widget =
+          context.dependOnInheritedWidgetOfExactType<Directionality>();
       renderObject
         ..width = width
         ..height = height
@@ -14567,8 +14292,8 @@ class _MultiChildContainerRenderObject extends RenderStack {
     this.builder, {
     CustomPainter? painter,
     TextDirection? direction,
-  }) : _painter = painter,
-       super(textDirection: direction);
+  })  : _painter = painter,
+        super(textDirection: direction);
 
   final MonthCellBuilder? builder;
 
@@ -14763,12 +14488,10 @@ class _MultiChildContainerRenderObject extends RenderStack {
       semantics.addAll(painter!.semanticsBuilder!(size));
     }
     // ignore: avoid_as
-    for (
-      RenderRepaintBoundary? child = firstChild! as RenderRepaintBoundary;
-      child != null;
-      // ignore: avoid_as
-      child = childAfter(child) as RenderRepaintBoundary?
-    ) {
+    for (RenderRepaintBoundary? child = firstChild! as RenderRepaintBoundary;
+        child != null;
+        // ignore: avoid_as
+        child = childAfter(child) as RenderRepaintBoundary?) {
       if (child.child is! CustomCalendarRenderObject) {
         continue;
       }
@@ -14788,7 +14511,7 @@ class _MultiChildContainerRenderObject extends RenderStack {
 class _CustomNeverScrollableScrollPhysics extends NeverScrollableScrollPhysics {
   /// Creates scroll physics that does not let the user scroll.
   const _CustomNeverScrollableScrollPhysics({ScrollPhysics? parent})
-    : super(parent: parent);
+      : super(parent: parent);
 
   @override
   _CustomNeverScrollableScrollPhysics applyTo(ScrollPhysics? ancestor) {
@@ -14854,8 +14577,7 @@ class _CurrentTimeIndicator extends CustomPainter {
       return;
     }
 
-    final double minuteHeight =
-        timeIntervalSize /
+    final double minuteHeight = timeIntervalSize /
         CalendarViewHelper.getTimeInterval(timeSlotViewSettings);
 
     if (timeZoneLoaded && timeZone != '') {
@@ -14930,25 +14652,22 @@ DateTime? _timeFromPosition(
   double timeIntervalHeight,
   bool isTimelineView,
 ) {
-  final double topPosition = currentState == null
-      ? 0
-      : currentState._scrollController!.offset;
+  final double topPosition =
+      currentState == null ? 0 : currentState._scrollController!.offset;
 
   final double singleIntervalHeightForAnHour =
       (60 / CalendarViewHelper.getTimeInterval(timeSlotViewSettings)) *
-      timeIntervalHeight;
+          timeIntervalHeight;
   final double startHour = timeSlotViewSettings.startHour;
   final double endHour = timeSlotViewSettings.endHour;
   if (isTimelineView) {
     if (currentState!._isRTL) {
-      positionY =
-          (currentState._scrollController!.offset %
+      positionY = (currentState._scrollController!.offset %
               _getSingleViewWidthForTimeLineView(currentState)) +
           (currentState._scrollController!.position.viewportDimension -
               positionY);
     } else {
-      positionY +=
-          currentState._scrollController!.offset %
+      positionY += currentState._scrollController!.offset %
           _getSingleViewWidthForTimeLineView(currentState);
     }
   } else {
@@ -15068,14 +14787,12 @@ class _ResizingAppointmentPainter extends CustomPainter {
 
     final double scrollOffset =
         view == CalendarView.month || resizingDetails.value.isAllDayPanel
-        ? 0
-        : resizingDetails.value.scrollPosition ?? scrollController!.offset;
+            ? 0
+            : resizingDetails.value.scrollPosition ?? scrollController!.offset;
 
-    final bool isForwardResize =
-        mouseCursor == SystemMouseCursors.resizeDown ||
+    final bool isForwardResize = mouseCursor == SystemMouseCursors.resizeDown ||
         mouseCursor == SystemMouseCursors.resizeRight;
-    final bool isBackwardResize =
-        mouseCursor == SystemMouseCursors.resizeUp ||
+    final bool isBackwardResize = mouseCursor == SystemMouseCursors.resizeUp ||
         mouseCursor == SystemMouseCursors.resizeLeft;
 
     const int textStartPadding = 3;
@@ -15085,8 +14802,7 @@ class _ResizingAppointmentPainter extends CustomPainter {
     _shadowPainter.color = resizingDetails.value.appointmentColor;
     final bool isTimelineView = CalendarViewHelper.isTimelineView(view);
 
-    final bool isHorizontalResize =
-        resizingDetails.value.isAllDayPanel ||
+    final bool isHorizontalResize = resizingDetails.value.isAllDayPanel ||
         isTimelineView ||
         view == CalendarView.month;
     double left = resizingDetails.value.position.value!.dx,
@@ -15159,8 +14875,7 @@ class _ResizingAppointmentPainter extends CustomPainter {
           right = isRTL ? size.width : size.width - weekNumberPanelWidth;
         }
 
-        bottom =
-            top +
+        bottom = top +
             resizingDetails.value.appointmentView!.appointmentRect!.height;
         rect = Rect.fromLTRB(left, top, right, bottom);
         canvas.drawRect(rect, _shadowPainter);
@@ -15191,29 +14906,23 @@ class _ResizingAppointmentPainter extends CustomPainter {
           } else if (isTimelineView) {
             left =
                 resizingDetails.value.appointmentView!.appointmentRect!.left -
-                scrollOffset;
+                    scrollOffset;
             if (isRTL) {
               left =
                   scrollOffset + scrollController!.position.viewportDimension;
-              left =
-                  left -
+              left = left -
                   ((scrollController!.position.viewportDimension +
                           scrollController!.position.maxScrollExtent) -
                       resizingDetails
-                          .value
-                          .appointmentView!
-                          .appointmentRect!
-                          .left);
+                          .value.appointmentView!.appointmentRect!.left);
             }
           }
           right = resizingDetails.value.position.value!.dx;
           top = resizingDetails.value.position.value!.dy;
-          bottom =
-              top +
+          bottom = top +
               resizingDetails.value.appointmentView!.appointmentRect!.height;
         } else {
-          top =
-              resizingDetails.value.appointmentView!.appointmentRect!.top -
+          top = resizingDetails.value.appointmentView!.appointmentRect!.top -
               scrollOffset +
               allDayHeight +
               viewHeaderHeight;
@@ -15235,34 +14944,29 @@ class _ResizingAppointmentPainter extends CustomPainter {
           } else if (isTimelineView) {
             right =
                 resizingDetails.value.appointmentView!.appointmentRect!.right -
-                scrollOffset;
+                    scrollOffset;
             if (isRTL) {
               right =
                   scrollOffset + scrollController!.position.viewportDimension;
-              right =
-                  right -
+              right = right -
                   ((scrollController!.position.viewportDimension +
                           scrollController!.position.maxScrollExtent) -
                       resizingDetails
-                          .value
-                          .appointmentView!
-                          .appointmentRect!
-                          .right);
+                          .value.appointmentView!.appointmentRect!.right);
             }
           }
 
           left = resizingDetails.value.position.value!.dx;
           top = resizingDetails.value.position.value!.dy;
-          bottom =
-              top +
+          bottom = top +
               resizingDetails.value.appointmentView!.appointmentRect!.height;
         } else {
           top = resizingDetails.value.position.value!.dy;
           bottom =
               resizingDetails.value.appointmentView!.appointmentRect!.bottom -
-              scrollOffset +
-              allDayHeight +
-              viewHeaderHeight;
+                  scrollOffset +
+                  allDayHeight +
+                  viewHeaderHeight;
           if (top < viewHeaderHeight + allDayHeight) {
             top = viewHeaderHeight + allDayHeight;
           }
@@ -15298,13 +15002,9 @@ class _ResizingAppointmentPainter extends CustomPainter {
 
     final bool isRecurrenceAppointment =
         resizingDetails.value.appointmentView!.appointment!.recurrenceRule !=
-            null &&
-        resizingDetails
-            .value
-            .appointmentView!
-            .appointment!
-            .recurrenceRule!
-            .isNotEmpty;
+                null &&
+            resizingDetails
+                .value.appointmentView!.appointment!.recurrenceRule!.isNotEmpty;
 
     _updateTextPainter(span);
 
@@ -15407,12 +15107,12 @@ class _ResizingAppointmentPainter extends CustomPainter {
   ) {
     final double totalHeight =
         resizingDetails.value.appointmentView!.appointmentRect!.height -
-        textStartPadding;
+            textStartPadding;
     _updatePainterMaxLines(totalHeight);
 
     double maxTextWidth =
         resizingDetails.value.appointmentView!.appointmentRect!.width -
-        textStartPadding;
+            textStartPadding;
     maxTextWidth = maxTextWidth > 0 ? maxTextWidth : 0;
     _textPainter.layout(maxWidth: maxTextWidth);
     if (isRTL) {
@@ -15545,8 +15245,8 @@ class _ResizingAppointmentPainter extends CustomPainter {
     } else {
       double maxTextWidth =
           resizingDetails.value.appointmentView!.appointmentRect!.width -
-          textPadding! -
-          2;
+              textPadding! -
+              2;
       maxTextWidth = maxTextWidth > 0 ? maxTextWidth : 0;
       _textPainter.layout(maxWidth: maxTextWidth);
       canvas.drawRRect(
@@ -15594,8 +15294,8 @@ dynamic _getCalendarAppointmentToObject(
     return null;
   }
 
-  final Appointment appointment = calendarAppointment
-      .convertToCalendarAppointment();
+  final Appointment appointment =
+      calendarAppointment.convertToCalendarAppointment();
 
   if (calendarAppointment.data is Appointment) {
     return appointment;
@@ -16151,7 +15851,7 @@ class _DraggingAppointmentRenderObject extends RenderBox
         Offset(
           isRTL
               ? dragDetails.position.value!.dx -
-                    dragDetails.appointmentView!.appointmentRect!.width
+                  dragDetails.appointmentView!.appointmentRect!.width
               : dragDetails.position.value!.dx,
           dragDetails.position.value!.dy,
         ),
@@ -16174,8 +15874,8 @@ class _DraggingAppointmentRenderObject extends RenderBox
     double yPosition;
     xPosition = dragDetails.position.value!.dx;
     yPosition = dragDetails.position.value!.dy;
-    _shadowPainter.color = dragDetails.appointmentView!.appointment!.color
-        .withValues(alpha: 0.5);
+    _shadowPainter.color =
+        dragDetails.appointmentView!.appointment!.color.withValues(alpha: 0.5);
 
     final RRect rect = RRect.fromRectAndRadius(
       Rect.fromLTWH(
@@ -16257,9 +15957,8 @@ class _DraggingAppointmentRenderObject extends RenderBox
     _textPainter.textAlign = isRTL ? TextAlign.right : TextAlign.left;
     _textPainter.textWidthBasis = TextWidthBasis.longestLine;
     _textPainter.textScaler = TextScaler.linear(textScaleFactor);
-    final double timeLabelSize = isTimelineView
-        ? dragDetails.timeIntervalHeight!
-        : timeLabelWidth;
+    final double timeLabelSize =
+        isTimelineView ? dragDetails.timeIntervalHeight! : timeLabelWidth;
     _textPainter.layout(maxWidth: timeLabelSize);
     double xPosition;
     double yPosition;

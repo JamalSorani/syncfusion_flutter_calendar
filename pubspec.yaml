@@ -12,32 +12,29 @@ screenshots:
     path: screenshots/flutter-calendar-load-more.gif
 
 environment:
-  sdk: ^3.7.0
+  sdk: ^3.0.0
 
 dependencies:
   flutter:
     sdk: flutter
   timezone: ^0.10.0
-  syncfusion_flutter_core: ^30.1.39
+  syncfusion_flutter_core: ^29.1.38
     
       
       
       
 
-  syncfusion_flutter_datepicker: ^30.1.39
+  syncfusion_flutter_datepicker: ^29.1.38
     
       
       
-      
-  
-  syncfusion_localizations: ^30.1.39
-    
-      
+  syncfusion_localizations: ^29.1.38
       
 
   intl: '>=0.18.1 <0.21.0'
   flutter_localizations:
     sdk: flutter
+ 
 
 flutter:
   assets:
