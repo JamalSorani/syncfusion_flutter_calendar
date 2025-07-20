@@ -77,6 +77,11 @@ class _MyHomePageState extends State<MyHomePage> {
                 ),
                 todayHighlightColor: Colors.red, // primary color
                 todayBorderRadius: 10,
+                showCurrentTimeIndicator: false,
+                appointmentBuilder: (BuildContext context,
+                    CalendarAppointmentDetails calendarAppointmentDetails) {
+                  return const Text('siiiiiiii');
+                },
               ),
             ),
           ],
