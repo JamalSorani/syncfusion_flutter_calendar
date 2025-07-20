@@ -35,7 +35,7 @@ class _MyHomePageState extends State<MyHomePage> {
           children: [
             Expanded(
               child: SfCalendar(
-                view: CalendarView.week, // .week, .day
+                view: CalendarView.day,
                 showNavigationArrow: true,
                 headerStyle: const CalendarHeaderStyle(
                   backgroundColor: Colors.white,
@@ -43,7 +43,9 @@ class _MyHomePageState extends State<MyHomePage> {
                 backgroundColor: Colors.white,
                 viewHeaderStyle: const ViewHeaderStyle(
                   backgroundColor: Colors.white,
-                  dayTextStyle: TextStyle(fontSize: 8),
+                  dayTextStyle: TextStyle(
+                    fontSize: 12, //change it depend on CalendarView.
+                  ),
                 ),
                 monthViewSettings: const MonthViewSettings(
                   dayFormat: 'EEEE',
@@ -82,6 +84,8 @@ class _MyHomePageState extends State<MyHomePage> {
                     CalendarAppointmentDetails calendarAppointmentDetails) {
                   return const Text('siiiiiiii');
                 },
+
+                //* day
               ),
             ),
           ],
