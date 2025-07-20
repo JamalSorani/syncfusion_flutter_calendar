@@ -9313,6 +9313,7 @@ class _CalendarViewState extends State<_CalendarView>
                   widget.isMobilePlatform,
                   widget.calendar.weekNumberStyle,
                   widget.localizations,
+                  widget.calendar.todayBorderRadius,
                 ),
               ),
             ),
@@ -9561,6 +9562,7 @@ class _CalendarViewState extends State<_CalendarView>
                   widget.isMobilePlatform,
                   widget.calendar.weekNumberStyle,
                   widget.localizations,
+                  widget.calendar.todayBorderRadius,
                 ),
               ),
             ),
@@ -12880,6 +12882,7 @@ class _ViewHeaderViewPainter extends CustomPainter {
     this.isMobilePlatform,
     this.weekNumberStyle,
     this.localizations,
+    this.todayBorderRadius,
   ) : super(repaint: viewHeaderNotifier);
 
   final CalendarView view;
@@ -12907,6 +12910,7 @@ class _ViewHeaderViewPainter extends CustomPainter {
   final bool isMobilePlatform;
   final WeekNumberStyle weekNumberStyle;
   final SfLocalizations localizations;
+  final double todayBorderRadius;
 
   @override
   void paint(Canvas canvas, Size size) {
@@ -12937,6 +12941,7 @@ class _ViewHeaderViewPainter extends CustomPainter {
         viewHeaderDateStyle,
         width,
         today,
+        todayBorderRadius,
       );
     } else {
       _addViewHeaderForMonthView(
@@ -13062,6 +13067,7 @@ class _ViewHeaderViewPainter extends CustomPainter {
     TextStyle viewHeaderDateStyle,
     double width,
     DateTime today,
+    double todayBorderRadius,
   ) {
     double xPosition, yPosition;
     final bool isDayView = CalendarViewHelper.isDayView(
@@ -13184,6 +13190,7 @@ class _ViewHeaderViewPainter extends CustomPainter {
           canvas,
           xPosition + dateXPosition,
           yPosition + topPadding + _dayTextPainter.height + inBetweenPadding,
+          todayBorderRadius,
           _dateTextPainter,
         );
       }
@@ -13305,6 +13312,7 @@ class _ViewHeaderViewPainter extends CustomPainter {
         canvas,
         xPosition + (width / 2 - _dayTextPainter.width / 2),
         yPosition,
+        todayBorderRadius,
         _dayTextPainter,
         hoveringColor: (themeData.brightness == Brightness.dark
                 ? Colors.white
@@ -13337,6 +13345,7 @@ class _ViewHeaderViewPainter extends CustomPainter {
         canvas,
         xPosition + dateXPosition,
         yPosition + topPadding + _dayTextPainter.height + padding,
+        todayBorderRadius,
         _dateTextPainter,
         hoveringColor: hoveringColor,
       );
@@ -13447,20 +13456,26 @@ class _ViewHeaderViewPainter extends CustomPainter {
     Canvas canvas,
     double x,
     double y,
+    double todayBorderRadius,
     TextPainter dateTextPainter, {
     Color? hoveringColor,
   }) {
     _circlePainter.color = (hoveringColor ?? todayHighlightColor)!;
-    const double circlePadding = 5;
-    final double painterWidth = dateTextPainter.width / 2;
-    final double painterHeight = dateTextPainter.height / 2;
-    final double radius =
-        painterHeight > painterWidth ? painterHeight : painterWidth;
-    canvas.drawCircle(
-      Offset(x + painterWidth, y + painterHeight),
-      radius + circlePadding,
-      _circlePainter,
+
+    const double padding = 5.0;
+    final double width = dateTextPainter.width + padding * 2;
+    final double height = dateTextPainter.height + padding * 2;
+
+    final Rect rect = Rect.fromLTWH(
+      x - padding,
+      y - padding,
+      width,
+      height,
     );
+
+    final RRect rrect =
+        RRect.fromRectAndRadius(rect, Radius.circular(todayBorderRadius));
+    canvas.drawRRect(rrect, _circlePainter);
   }
 
   /// overrides this property to build the semantics information which uses to

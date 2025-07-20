@@ -225,6 +225,7 @@ class SfCalendar extends StatefulWidget {
     this.onDragEnd,
     this.customHeaderWidget,
     this.customBorderRadius = BorderRadius.zero,
+    required this.todayBorderRadius,
   })  : assert(firstDayOfWeek >= 1 && firstDayOfWeek <= 7),
         assert(headerHeight >= 0),
         assert(viewHeaderHeight >= -1),
@@ -365,6 +366,7 @@ class SfCalendar extends StatefulWidget {
   )? customHeaderWidget;
 
   final BorderRadius customBorderRadius;
+  final double todayBorderRadius;
 
   /// Displays the date picker when the [SfCalendar] header date is tapped.
   ///

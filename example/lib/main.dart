@@ -45,10 +45,9 @@ class _MyHomePageState extends State<MyHomePage> {
                   backgroundColor: Colors.white,
                   dayTextStyle: TextStyle(fontSize: 8),
                 ),
-                monthViewSettings: MonthViewSettings(
-                  dayFormat: "EEEE",
+                monthViewSettings: const MonthViewSettings(
+                  dayFormat: 'EEEE',
                 ),
-
                 initialDisplayDate: DateTime.now(),
                 dataSource: _getCalendarDataSource(),
                 // monthCellBuilder:
@@ -61,11 +60,9 @@ class _MyHomePageState extends State<MyHomePage> {
                 customHeaderWidget: (context, details, leftArrow, rightArrow) {
                   return Row(
                     children: [
-                      Container(
+                      SizedBox(
                         child: Text(
-                          details.date.month.toString() +
-                              ' ,' +
-                              details.date.year.toString(),
+                          '${details.date.month} ,${details.date.year}',
                         ),
                       ),
                       leftArrow,
@@ -75,6 +72,11 @@ class _MyHomePageState extends State<MyHomePage> {
                 },
 
                 //* week
+                timeSlotViewSettings: const TimeSlotViewSettings(
+                  dayFormat: 'EEEE',
+                ),
+                todayHighlightColor: Colors.red, // primary color
+                todayBorderRadius: 10,
               ),
             ),
           ],
