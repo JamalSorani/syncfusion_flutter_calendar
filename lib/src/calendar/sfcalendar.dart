@@ -121,7 +121,7 @@ typedef _CalendarHeaderCallback = void Function(double width);
 ///   return Container(
 ///      child: SfCalendar(
 ///        view: CalendarView.day,
-///        dataSource: _getCalendarDataSource(),
+///        dataSource: _get(),
 ///      ),
 ///    );
 ///  }
@@ -11083,7 +11083,6 @@ class _CalendarHeaderViewState extends State<_CalendarHeaderView> {
             color: headerBackgroundColor,
             width: arrowWidth,
             height: headerHeight,
-            padding: const EdgeInsets.all(2),
             child: Material(
               color: headerBackgroundColor,
               child: InkWell(
@@ -11126,7 +11125,6 @@ class _CalendarHeaderViewState extends State<_CalendarHeaderView> {
             color: headerBackgroundColor,
             width: arrowWidth,
             height: headerHeight,
-            padding: const EdgeInsets.all(2),
             child: Material(
               color: headerBackgroundColor,
               child: InkWell(

@@ -227,8 +227,8 @@ class _AppointmentLayoutState extends State<AppointmentLayout> {
         final DateTime date = appointmentView.startIndex != -1
             ? widget.visibleDates[appointmentView.startIndex]
             : appStartTime.isBefore(initialVisibleDate)
-            ? initialVisibleDate
-            : appStartTime;
+                ? initialVisibleDate
+                : appStartTime;
 
         final Widget child = widget.calendar.appointmentBuilder!(
           context,
@@ -389,16 +389,14 @@ class _AppointmentLayoutState extends State<AppointmentLayout> {
     }
 
     final List<CalendarAppointment> appointments = <CalendarAppointment>[];
-    final int viewStartHour = widget.calendar.timeSlotViewSettings.startHour
-        .toInt();
-    final int viewStartMinutes =
-        (viewStartHour * 60) +
+    final int viewStartHour =
+        widget.calendar.timeSlotViewSettings.startHour.toInt();
+    final int viewStartMinutes = (viewStartHour * 60) +
         ((widget.calendar.timeSlotViewSettings.startHour - viewStartHour) * 60)
             .toInt();
-    final int viewEndHour = widget.calendar.timeSlotViewSettings.endHour
-        .toInt();
-    final int viewEndMinutes =
-        (viewEndHour * 60) +
+    final int viewEndHour =
+        widget.calendar.timeSlotViewSettings.endHour.toInt();
+    final int viewEndMinutes = (viewEndHour * 60) +
         ((widget.calendar.timeSlotViewSettings.endHour - viewEndHour) * 60)
             .toInt();
 
@@ -416,10 +414,10 @@ class _AppointmentLayoutState extends State<AppointmentLayout> {
         )) {
           final int appointmentStartMinutes =
               (appointment.actualStartTime.hour * 60) +
-              appointment.actualStartTime.minute;
+                  appointment.actualStartTime.minute;
           final int appointmentEndMinutes =
               (appointment.actualEndTime.hour * 60) +
-              appointment.actualEndTime.minute;
+                  appointment.actualEndTime.minute;
           if (appointmentStartMinutes >= viewEndMinutes &&
               appointmentEndMinutes <= viewStartMinutes) {
             continue;
@@ -431,9 +429,8 @@ class _AppointmentLayoutState extends State<AppointmentLayout> {
       }
       final int appointmentStartMinutes =
           (appointment.actualStartTime.hour * 60) +
-          appointment.actualStartTime.minute;
-      final int appointmentEndMinutes =
-          (appointment.actualEndTime.hour * 60) +
+              appointment.actualStartTime.minute;
+      final int appointmentEndMinutes = (appointment.actualEndTime.hour * 60) +
           appointment.actualEndTime.minute;
 
       /// Check the appointment before time slot start hour then skip the
@@ -527,9 +524,9 @@ class _AppointmentLayoutState extends State<AppointmentLayout> {
     int visibleEndIndex = count - 1;
     final bool showTrailingLeadingDates =
         CalendarViewHelper.isLeadingAndTrailingDatesVisible(
-          widget.calendar.monthViewSettings.numberOfWeeksInView,
-          widget.calendar.monthViewSettings.showTrailingAndLeadingDates,
-        );
+      widget.calendar.monthViewSettings.numberOfWeeksInView,
+      widget.calendar.monthViewSettings.showTrailingAndLeadingDates,
+    );
     if (!showTrailingLeadingDates) {
       final DateTime currentMonthDate = widget.visibleDates[count ~/ 2];
       visibleStartDate = AppointmentHelper.convertToStartTime(
@@ -599,16 +596,15 @@ class _AppointmentLayoutState extends State<AppointmentLayout> {
               appointmentView.maxPositions == maximumDisplayCount)) {
         final double appointmentWidth =
             (appointmentView.endIndex - appointmentView.startIndex + 1) *
-            cellWidth;
+                cellWidth;
 
         if (widget.isRTL) {
           xPosition =
               (6 - (appointmentView.startIndex % DateTime.daysPerWeek)) *
-              cellWidth;
+                  cellWidth;
           xPosition -= appointmentWidth - cellWidth;
         } else {
-          xPosition =
-              ((appointmentView.startIndex % DateTime.daysPerWeek) *
+          xPosition = ((appointmentView.startIndex % DateTime.daysPerWeek) *
                   cellWidth) +
               _weekNumberPanelWidth;
         }
@@ -616,13 +612,11 @@ class _AppointmentLayoutState extends State<AppointmentLayout> {
         yPosition =
             (appointmentView.startIndex ~/ DateTime.daysPerWeek) * cellHeight;
         if (appointmentView.position <= maximumDisplayCount) {
-          yPosition =
-              yPosition +
+          yPosition = yPosition +
               startPosition +
               (appointmentHeight * (appointmentView.position - 1));
         } else {
-          yPosition =
-              yPosition +
+          yPosition = yPosition +
               startPosition +
               (appointmentHeight * (maximumDisplayCount - 1));
         }
@@ -653,8 +647,8 @@ class _AppointmentLayoutState extends State<AppointmentLayout> {
           .reduce(
             (AppointmentView currentAppView, AppointmentView nextAppView) =>
                 currentAppView.maxPositions > nextAppView.maxPositions
-                ? currentAppView
-                : nextAppView,
+                    ? currentAppView
+                    : nextAppView,
           )
           .maxPositions;
       if (maxPosition <= maximumDisplayCount) {
@@ -663,13 +657,11 @@ class _AppointmentLayoutState extends State<AppointmentLayout> {
       if (widget.isRTL) {
         xPosition = (6 - (index % DateTime.daysPerWeek)) * cellWidth;
       } else {
-        xPosition =
-            ((index % DateTime.daysPerWeek) * cellWidth) +
+        xPosition = ((index % DateTime.daysPerWeek) * cellWidth) +
             _weekNumberPanelWidth;
       }
 
-      yPosition =
-          ((index ~/ DateTime.daysPerWeek) * cellHeight) +
+      yPosition = ((index ~/ DateTime.daysPerWeek) * cellHeight) +
           cellHeight -
           appointmentHeight;
 
@@ -714,8 +706,8 @@ class _AppointmentLayoutState extends State<AppointmentLayout> {
     final int timeInterval = CalendarViewHelper.getTimeInterval(
       widget.calendar.timeSlotViewSettings,
     );
-    final int viewStartHour = widget.calendar.timeSlotViewSettings.startHour
-        .toInt();
+    final int viewStartHour =
+        widget.calendar.timeSlotViewSettings.startHour.toInt();
     final double viewStartMinutes =
         (widget.calendar.timeSlotViewSettings.startHour - viewStartHour) * 60;
 
@@ -754,13 +746,11 @@ class _AppointmentLayoutState extends State<AppointmentLayout> {
       final double appointmentWidth =
           (cellWidth - cellEndPadding) / appointmentView.maxPositions;
       if (widget.isRTL) {
-        xPosition =
-            column * cellWidth +
+        xPosition = column * cellWidth +
             (appointmentView.position * appointmentWidth) +
             cellEndPadding;
       } else {
-        xPosition =
-            column * cellWidth +
+        xPosition = column * cellWidth +
             (appointmentView.position * appointmentWidth) +
             timeLabelWidth;
       }
@@ -774,16 +764,11 @@ class _AppointmentLayoutState extends State<AppointmentLayout> {
       double height = difference.inMinutes * minuteHeight;
       if (widget.calendar.timeSlotViewSettings.minimumAppointmentDuration !=
               null &&
-          widget
-                  .calendar
-                  .timeSlotViewSettings
-                  .minimumAppointmentDuration!
+          widget.calendar.timeSlotViewSettings.minimumAppointmentDuration!
                   .inMinutes >
               0) {
         if (difference <
-                widget
-                    .calendar
-                    .timeSlotViewSettings
+                widget.calendar.timeSlotViewSettings
                     .minimumAppointmentDuration! &&
             difference.inMinutes * minuteHeight <
                 widget.calendar.timeSlotViewSettings.timeIntervalHeight) {
@@ -908,9 +893,8 @@ class _AppointmentLayoutState extends State<AppointmentLayout> {
       widget.calendar.cellEndPadding,
       widget.isMobilePlatform,
     );
-    final double slotHeight = isResourceEnabled
-        ? widget.resourceItemHeight!
-        : widget.height;
+    final double slotHeight =
+        isResourceEnabled ? widget.resourceItemHeight! : widget.height;
     final double timelineAppointmentHeight = _getTimelineAppointmentHeight(
       widget.calendar.timeSlotViewSettings,
       widget.view,
@@ -986,13 +970,13 @@ class _AppointmentLayoutState extends State<AppointmentLayout> {
       final bool isSameHour = exactStartTime.hour == exactEndTime.hour;
       final bool isMultiDaySpanWithinSameMonth =
           exactStartTime.year == exactEndTime.year &&
-          exactStartTime.month == exactEndTime.month &&
-          (exactStartTime.hour > exactEndTime.hour ||
-              (isSameHour && exactStartTime.minute > exactEndTime.minute) ||
-              (isSameHour &&
-                  exactStartTime.minute == exactEndTime.minute &&
-                  exactStartTime.second > exactEndTime.second)) &&
-          difference.inSeconds % (24 * 60 * 60) > 0;
+              exactStartTime.month == exactEndTime.month &&
+              (exactStartTime.hour > exactEndTime.hour ||
+                  (isSameHour && exactStartTime.minute > exactEndTime.minute) ||
+                  (isSameHour &&
+                      exactStartTime.minute == exactEndTime.minute &&
+                      exactStartTime.second > exactEndTime.second)) &&
+              difference.inSeconds % (24 * 60 * 60) > 0;
 
       /// For span appointment less than 23 hours the difference will fall
       /// as 0 hence to render the appointment on the next day, added one
@@ -1078,8 +1062,8 @@ class _AppointmentLayoutState extends State<AppointmentLayout> {
       widget.calendar.cellEndPadding,
       widget.isMobilePlatform,
     );
-    final int viewStartHour = widget.calendar.timeSlotViewSettings.startHour
-        .toInt();
+    final int viewStartHour =
+        widget.calendar.timeSlotViewSettings.startHour.toInt();
     final double viewStartMinutes =
         (widget.calendar.timeSlotViewSettings.startHour - viewStartHour) * 60;
     final double timelineAppointmentHeight = _getTimelineAppointmentHeight(
@@ -1155,10 +1139,9 @@ class _AppointmentLayoutState extends State<AppointmentLayout> {
         continue;
       }
 
-      int totalMinutes =
-          (((startTime.hour - viewStartHour) * 60) +
-                  (startTime.minute - viewStartMinutes))
-              .toInt();
+      int totalMinutes = (((startTime.hour - viewStartHour) * 60) +
+              (startTime.minute - viewStartMinutes))
+          .toInt();
 
       final double minuteHeight = cellWidth / timeInterval;
 
@@ -1186,10 +1169,9 @@ class _AppointmentLayoutState extends State<AppointmentLayout> {
         yPosition += appointmentView.resourceIndex * widget.resourceItemHeight!;
       }
 
-      totalMinutes =
-          (((endTime.hour - viewStartHour) * 60) +
-                  (endTime.minute - viewStartMinutes))
-              .toInt();
+      totalMinutes = (((endTime.hour - viewStartHour) * 60) +
+              (endTime.minute - viewStartMinutes))
+          .toInt();
       double endXPosition = endColumn * viewWidth;
       timePosition = totalMinutes * minuteHeight;
       if (timePosition < 0) {
@@ -1211,10 +1193,10 @@ class _AppointmentLayoutState extends State<AppointmentLayout> {
               )) {
         final double minWidth =
             AppointmentHelper.getAppointmentHeightFromDuration(
-              widget.calendar.timeSlotViewSettings.minimumAppointmentDuration,
-              widget.calendar,
-              widget.timeIntervalHeight,
-            );
+          widget.calendar.timeSlotViewSettings.minimumAppointmentDuration,
+          widget.calendar,
+          widget.timeIntervalHeight,
+        );
         width = width > minWidth ? width : minWidth;
       }
 
@@ -1956,9 +1938,9 @@ class _AppointmentRenderObject extends CustomCalendarRenderObject {
     );
     final bool showTrailingLeadingDates =
         CalendarViewHelper.isLeadingAndTrailingDatesVisible(
-          calendar.monthViewSettings.numberOfWeeksInView,
-          calendar.monthViewSettings.showTrailingAndLeadingDates,
-        );
+      calendar.monthViewSettings.numberOfWeeksInView,
+      calendar.monthViewSettings.showTrailingAndLeadingDates,
+    );
     if (!showTrailingLeadingDates) {
       final DateTime currentMonthDate = visibleDates[count ~/ 2];
       visibleStartDate = AppointmentHelper.convertToStartTime(
@@ -2050,7 +2032,7 @@ class _AppointmentRenderObject extends CustomCalendarRenderObject {
 
         final bool isRecurrenceAppointment =
             appointment.recurrenceRule != null &&
-            appointment.recurrenceRule!.isNotEmpty;
+                appointment.recurrenceRule!.isNotEmpty;
         final double iconTextSize = _getTextSize(
           appointmentRect,
           _textPainter.textScaler.scale(textSize),
@@ -2060,8 +2042,8 @@ class _AppointmentRenderObject extends CustomCalendarRenderObject {
         final double iconSize = iconTextSize + (2 * iconPadding);
         final double recurrenceIconSize =
             isRecurrenceAppointment || appointment.recurrenceId != null
-            ? iconSize
-            : 0;
+                ? iconSize
+                : 0;
         double forwardSpanIconSize = 0;
         double backwardSpanIconSize = 0;
 
@@ -2161,18 +2143,16 @@ class _AppointmentRenderObject extends CustomCalendarRenderObject {
         recurrenceIconSize + forwardSpanIconSize + backwardSpanIconSize;
     final double textWidth = appointmentRect.width - totalIconsWidth;
     _textPainter.layout(
-      maxWidth: textWidth - (2 * textPadding) > 0
-          ? textWidth - (2 * textPadding)
-          : 0,
+      maxWidth:
+          textWidth - (2 * textPadding) > 0 ? textWidth - (2 * textPadding) : 0,
     );
-    final double yPosition =
-        appointmentRect.top +
+    final double yPosition = appointmentRect.top +
         ((appointmentRect.height - _textPainter.height) / 2);
     final double xPosition = isRTL
         ? appointmentRect.right -
-              _textPainter.width -
-              backwardSpanIconSize -
-              textPadding
+            _textPainter.width -
+            backwardSpanIconSize -
+            textPadding
         : appointmentRect.left + backwardSpanIconSize + textPadding;
 
     _textPainter.paint(canvas, Offset(xPosition, yPosition));
@@ -2350,16 +2330,15 @@ class _AppointmentRenderObject extends CustomCalendarRenderObject {
     double yPosition = 0;
     const double radius = 2.5;
     const double diameter = radius * 2;
-    final double bottomPadding = cellHeight * 0.2 < radius
-        ? radius
-        : cellHeight * 0.2;
+    final double bottomPadding =
+        cellHeight * 0.2 < radius ? radius : cellHeight * 0.2;
     final int visibleDatesCount = visibleDates.length;
     final int currentMonth = visibleDates[visibleDatesCount ~/ 2].month;
     final bool showTrailingLeadingDates =
         CalendarViewHelper.isLeadingAndTrailingDatesVisible(
-          calendar.monthViewSettings.numberOfWeeksInView,
-          calendar.monthViewSettings.showTrailingAndLeadingDates,
-        );
+      calendar.monthViewSettings.numberOfWeeksInView,
+      calendar.monthViewSettings.showTrailingAndLeadingDates,
+    );
 
     for (int i = 0; i < visibleDatesCount; i++) {
       final DateTime currentVisibleDate = visibleDates[i];
@@ -2370,9 +2349,9 @@ class _AppointmentRenderObject extends CustomCalendarRenderObject {
 
       final List<CalendarAppointment> appointmentLists =
           AppointmentHelper.getSpecificDateVisibleAppointment(
-            currentVisibleDate,
-            visibleAppointments,
-          );
+        currentVisibleDate,
+        visibleAppointments,
+      );
       appointmentLists.sort(
         (CalendarAppointment app1, CalendarAppointment app2) =>
             app1.actualStartTime.compareTo(app2.actualStartTime),
@@ -2380,19 +2359,18 @@ class _AppointmentRenderObject extends CustomCalendarRenderObject {
       appointmentLists.sort(
         (CalendarAppointment app1, CalendarAppointment app2) =>
             AppointmentHelper.orderAppointmentsAscending(
-              app1.isAllDay,
-              app2.isAllDay,
-            ),
+          app1.isAllDay,
+          app2.isAllDay,
+        ),
       );
       appointmentLists.sort(
         (CalendarAppointment app1, CalendarAppointment app2) =>
             AppointmentHelper.orderAppointmentsAscending(
-              app1.isSpanned,
-              app2.isSpanned,
-            ),
+          app1.isSpanned,
+          app2.isSpanned,
+        ),
       );
-      final int count =
-          appointmentLists.length <=
+      final int count = appointmentLists.length <=
               calendar.monthViewSettings.appointmentDisplayCount
           ? appointmentLists.length
           : calendar.monthViewSettings.appointmentDisplayCount;
@@ -2441,8 +2419,8 @@ class _AppointmentRenderObject extends CustomCalendarRenderObject {
         rect.right > hoverPosition.dx &&
         rect.top < hoverPosition.dy &&
         rect.bottom > hoverPosition.dy) {
-      _appointmentPainter.color = calendarTheme.selectionBorderColor!
-          .withValues(alpha: 0.4);
+      _appointmentPainter.color =
+          calendarTheme.selectionBorderColor!.withValues(alpha: 0.4);
       _appointmentPainter.strokeWidth = 2;
       _appointmentPainter.style = PaintingStyle.stroke;
       canvas.drawRRect(rect, _appointmentPainter);
@@ -2480,10 +2458,10 @@ class _AppointmentRenderObject extends CustomCalendarRenderObject {
       bool canAddForwardIcon = false;
       final TextStyle appointmentTextStyle =
           AppointmentHelper.getAppointmentTextStyle(
-            calendar.appointmentTextStyle,
-            view,
-            themeData,
-          );
+        calendar.appointmentTextStyle,
+        view,
+        themeData,
+      );
       if (canAddSpanIcon) {
         if (CalendarViewHelper.isSameTimeSlot(
               appointment.exactStartTime,
@@ -2563,8 +2541,7 @@ class _AppointmentRenderObject extends CustomCalendarRenderObject {
           yPosition + textStartPadding,
         ),
       );
-      final bool isRecurrenceAppointment =
-          appointment.recurrenceRule != null &&
+      final bool isRecurrenceAppointment = appointment.recurrenceRule != null &&
           appointment.recurrenceRule!.isNotEmpty;
 
       if (canAddSpanIcon) {
@@ -2805,12 +2782,11 @@ class _AppointmentRenderObject extends CustomCalendarRenderObject {
       const double iconPadding = 2;
       final TextStyle appointmentTextStyle =
           AppointmentHelper.getAppointmentTextStyle(
-            calendar.appointmentTextStyle,
-            view,
-            themeData,
-          );
-      final double iconSize =
-          _getTextSize(
+        calendar.appointmentTextStyle,
+        view,
+        themeData,
+      );
+      final double iconSize = _getTextSize(
             appointmentRect,
             appointmentTextStyle.fontSize! * textScaleFactor,
           ) +
@@ -2845,8 +2821,7 @@ class _AppointmentRenderObject extends CustomCalendarRenderObject {
         }
       }
 
-      double maxWidth =
-          appointmentRect.width -
+      double maxWidth = appointmentRect.width -
           (2 * textStartPadding) -
           backwardSpanIconSize -
           forwardSpanIconSize;
@@ -2885,14 +2860,13 @@ class _AppointmentRenderObject extends CustomCalendarRenderObject {
 
       final double xPosition = isRTL
           ? appointmentRect.right -
-                backwardSpanIconSize -
-                _textPainter.width -
-                textStartPadding
+              backwardSpanIconSize -
+              _textPainter.width -
+              textStartPadding
           : appointmentRect.left + backwardSpanIconSize + textStartPadding;
       final int maxLines =
           (appointmentRect.height / _textPainter.preferredLineHeight).floor();
-      final bool isRecurrenceAppointment =
-          appointment.recurrenceRule != null &&
+      final bool isRecurrenceAppointment = appointment.recurrenceRule != null &&
           appointment.recurrenceRule!.isNotEmpty;
 
       if (maxLines == 1) {
@@ -3001,7 +2975,7 @@ class _AppointmentRenderObject extends CustomCalendarRenderObject {
     /// device.
     final double iconStartPosition =
         (_textPainter.height - (icon.style!.fontSize! * textScaleFactor) / 2) /
-        2;
+            2;
     return rect.top - iconStartPosition + (isMobilePlatform ? 1 : xPadding);
   }
 

@@ -35,7 +35,7 @@ class _MyHomePageState extends State<MyHomePage> {
           children: [
             Expanded(
               child: SfCalendar(
-                view: CalendarView.day,
+                view: CalendarView.month,
                 showNavigationArrow: true,
                 headerStyle: const CalendarHeaderStyle(
                   backgroundColor: Colors.white,
