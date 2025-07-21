@@ -11081,8 +11081,9 @@ class _CalendarHeaderViewState extends State<_CalendarHeaderView> {
         ? Container(
             alignment: Alignment.center,
             color: headerBackgroundColor,
-            width: arrowWidth,
+            width: 24,
             height: headerHeight,
+            padding: const EdgeInsets.all(2),
             child: Material(
               color: headerBackgroundColor,
               child: InkWell(
@@ -11095,7 +11096,7 @@ class _CalendarHeaderViewState extends State<_CalendarHeaderView> {
                 child: Semantics(
                   label: 'Backward',
                   child: Container(
-                    width: arrowWidth,
+                    width: 24,
                     height: headerHeight,
                     alignment: Alignment.center,
                     clipBehavior: Clip.antiAlias,
@@ -11123,8 +11124,9 @@ class _CalendarHeaderViewState extends State<_CalendarHeaderView> {
         ? Container(
             alignment: Alignment.center,
             color: headerBackgroundColor,
-            width: arrowWidth,
+            width: 24,
             height: headerHeight,
+            padding: const EdgeInsets.all(2),
             child: Material(
               color: headerBackgroundColor,
               child: InkWell(
@@ -11137,7 +11139,7 @@ class _CalendarHeaderViewState extends State<_CalendarHeaderView> {
                 child: Semantics(
                   label: 'Forward',
                   child: Container(
-                    width: arrowWidth,
+                    width: 24,
                     height: headerHeight,
                     alignment: Alignment.center,
                     clipBehavior: Clip.antiAlias,
