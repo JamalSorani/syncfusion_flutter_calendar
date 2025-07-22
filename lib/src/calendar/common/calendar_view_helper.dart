@@ -112,7 +112,7 @@ class CalendarViewHelper {
     String localizedString = '';
     for (int i = 0; i < stringFormatList.length; i++) {
       final String value = stringFormatList[i];
-      final String valueString = getFormattedString(date, value, 'en');
+      final String valueString = getFormattedString(date, value, locale);
       localizedString = '$localizedString$valueString';
     }
 
@@ -156,9 +156,9 @@ class CalendarViewHelper {
         currentFormatText == 'K' ||
         currentStringFormat == 'MM' ||
         currentStringFormat == 'M') {
-      formattedString = DateFormat(currentStringFormat).format(date);
+      formattedString = DateFormat(currentStringFormat, 'en').format(date);
     } else {
-      formattedString = DateFormat(currentStringFormat, locale).format(date);
+      formattedString = DateFormat(currentStringFormat, 'en').format(date);
     }
 
     return formattedString;
