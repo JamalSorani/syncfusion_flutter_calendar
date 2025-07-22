@@ -5815,7 +5815,7 @@ class _SfCalendarState extends State<SfCalendar>
 
       String rule = appointment.recurrenceRule!;
       if (!rule.contains('COUNT') && !rule.contains('UNTIL')) {
-        final DateFormat formatter = DateFormat('yyyyMMdd', 'en');
+        final DateFormat formatter = DateFormat('yyyyMMdd');
         final String newSubString = ';UNTIL=${formatter.format(endDate)}';
         rule = rule + newSubString;
       }
@@ -11577,7 +11577,7 @@ class _CalendarHeaderViewState extends State<_CalendarHeaderView> {
             );
           }
           // ignore: lines_longer_than_80_chars
-          return '${DateFormat(monthFormat, "en").format(widget.valueChangeNotifier.value!)} ${widget.valueChangeNotifier.value!.year}';
+          return '${DateFormat(monthFormat, widget.locale).format(widget.valueChangeNotifier.value!)} ${widget.valueChangeNotifier.value!.year}';
         }
       case CalendarView.month:
       case CalendarView.timelineMonth:
@@ -11593,7 +11593,7 @@ class _CalendarHeaderViewState extends State<_CalendarHeaderView> {
             }
             monthFormat = 'MMM';
             // ignore: lines_longer_than_80_chars
-            return '${DateFormat(monthFormat, "en").format(startDate)} ${startDate.year} - ${DateFormat(monthFormat, "en").format(endDate)} ${endDate.year}';
+            return '${DateFormat(monthFormat, widget.locale).format(startDate)} ${startDate.year} - ${DateFormat(monthFormat, widget.locale).format(endDate)} ${endDate.year}';
           }
 
           if (headerDateFormat != null) {
@@ -11605,7 +11605,7 @@ class _CalendarHeaderViewState extends State<_CalendarHeaderView> {
             );
           }
           // ignore: lines_longer_than_80_chars
-          return '${DateFormat(monthFormat, "en").format(widget.currentDate!)} ${widget.currentDate!.year}';
+          return '${DateFormat(monthFormat, widget.locale).format(widget.currentDate!)} ${widget.currentDate!.year}';
         }
       case CalendarView.day:
       case CalendarView.week:
@@ -11621,7 +11621,7 @@ class _CalendarHeaderViewState extends State<_CalendarHeaderView> {
             );
           }
           // ignore: lines_longer_than_80_chars
-          return '${DateFormat(monthFormat, "en").format(headerDate)} ${headerDate.year}';
+          return '${DateFormat(monthFormat, widget.locale).format(headerDate)} ${headerDate.year}';
         }
       case CalendarView.timelineDay:
       case CalendarView.timelineWeek:
@@ -11640,7 +11640,7 @@ class _CalendarHeaderViewState extends State<_CalendarHeaderView> {
               );
             }
             // ignore: lines_longer_than_80_chars
-            return '${DateFormat(monthFormat, "en").format(startDate)} ${startDate.year}';
+            return '${DateFormat(monthFormat, widget.locale).format(startDate)} ${startDate.year}';
           } else {
             if (headerDateFormat != null) {
               // ignore: lines_longer_than_80_chars
@@ -11648,11 +11648,14 @@ class _CalendarHeaderViewState extends State<_CalendarHeaderView> {
             }
 
             monthFormat = 'MMM';
-            String startText = DateFormat(monthFormat, 'en').format(startDate);
+            String startText = DateFormat(
+              monthFormat,
+              widget.locale,
+            ).format(startDate);
             startText = '${startDate.day} $startText - ';
             final String endText =
                 // ignore: lines_longer_than_80_chars
-                '${endDate.day} ${DateFormat(monthFormat, "en").format(endDate)} ${endDate.year}';
+                '${endDate.day} ${DateFormat(monthFormat, widget.locale).format(endDate)} ${endDate.year}';
             return startText + endText;
           }
         }
@@ -11942,14 +11945,14 @@ class _ScheduleLabelPainter extends CustomPainter {
         cellHeight = scheduleViewSettings.weekHeaderSettings.height;
         accessibilityText =
             // ignore: lines_longer_than_80_chars
-            '${DateFormat('MMMM dd', 'en').format(startDate)}to${DateFormat('MMMM dd', 'en').format(endDate!)}';
+            '${DateFormat('MMMM dd', locale).format(startDate)}to${DateFormat('MMMM dd', locale).format(endDate!)}';
       } else {
         cellHeight = size.height;
         accessibilityText = _localizations.noEventsCalendarLabel;
       }
     } else {
       cellHeight = scheduleViewSettings.monthHeaderSettings.height;
-      accessibilityText = DateFormat('MMMM yyyy', 'en').format(startDate);
+      accessibilityText = DateFormat('MMMM yyyy', locale).format(startDate);
     }
 
     semanticsBuilder.add(
@@ -12522,7 +12525,10 @@ class _AgendaDateTimePainter extends CustomPainter {
         ? scheduleViewSettings!.dayHeaderSettings.dayFormat
         : 'EEE';
     TextSpan span = TextSpan(
-      text: DateFormat(dayTextFormat, 'en').format(selectedDate!).toUpperCase(),
+      text: DateFormat(
+        dayTextFormat,
+        locale,
+      ).format(selectedDate!).toUpperCase(),
       style: dayTextStyle,
     );
     _updateTextPainter(span);
@@ -12594,12 +12600,11 @@ class _AgendaDateTimePainter extends CustomPainter {
     /// Calculate the date text maximum width value.
     const String maxWidthDateText = '30';
     final String dayText = DateFormat(
-            isRTL
-                ? '${scheduleViewSettings!.dayHeaderSettings.dayFormat}, MMM'
-                : 'MMM, ${scheduleViewSettings!.dayHeaderSettings.dayFormat}',
-            'en')
-        .format(selectedDate!)
-        .toUpperCase();
+      isRTL
+          ? '${scheduleViewSettings!.dayHeaderSettings.dayFormat}, MMM'
+          : 'MMM, ${scheduleViewSettings!.dayHeaderSettings.dayFormat}',
+      locale,
+    ).format(selectedDate!).toUpperCase();
 
     //// Draw Weekday
     TextSpan span = TextSpan(text: maxWidthDateText, style: dateTextStyle);
@@ -12725,8 +12730,8 @@ class _AgendaDateTimePainter extends CustomPainter {
         CustomPainterSemantics(
           rect: Offset.zero & size,
           properties: SemanticsProperties(
-            label: DateFormat('EEEEE', 'en').format(selectedDate!) +
-                DateFormat('dd MMMM yyyy', 'en').format(selectedDate!),
+            label: DateFormat('EEEEE').format(selectedDate!) +
+                DateFormat('dd MMMM yyyy').format(selectedDate!),
             textDirection: TextDirection.ltr,
           ),
         ),

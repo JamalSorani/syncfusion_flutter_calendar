@@ -200,7 +200,8 @@ class _TimelineWidgetState extends State<TimelineWidget> {
       return;
     }
 
-    final double minuteHeight = widget.timeIntervalWidth /
+    final double minuteHeight =
+        widget.timeIntervalWidth /
         CalendarViewHelper.getTimeInterval(widget.timeSlotViewSettings);
     final DateTime startDate = AppointmentHelper.convertToStartTime(
       widget.visibleDates[0],
@@ -209,7 +210,8 @@ class _TimelineWidgetState extends State<TimelineWidget> {
       widget.visibleDates[visibleDatesCount - 1],
     );
     final double viewWidth = widget.width / visibleDatesCount;
-    final bool isResourceEnabled = widget.resourceCollection != null &&
+    final bool isResourceEnabled =
+        widget.resourceCollection != null &&
         widget.resourceCollection!.isNotEmpty;
     for (int i = 0; i < widget.specialRegion!.length; i++) {
       final CalendarTimeRegion region = widget.specialRegion![i];
@@ -1039,13 +1041,14 @@ class _TimelineRenderObject extends CustomCalendarRenderObject {
   }
 
   void _addMouseHovering(Canvas canvas, Size size, bool isResourceEnabled) {
-    double left = (calendarCellNotifier.value!.dx ~/ timeIntervalWidth) *
+    double left =
+        (calendarCellNotifier.value!.dx ~/ timeIntervalWidth) *
         timeIntervalWidth;
     double top = 0;
     double height = size.height;
     if (isResourceEnabled) {
-      final int index =
-          (calendarCellNotifier.value!.dy / resourceItemHeight).truncate();
+      final int index = (calendarCellNotifier.value!.dy / resourceItemHeight)
+          .truncate();
       top = index * resourceItemHeight;
       height = resourceItemHeight;
     }
@@ -1053,8 +1056,8 @@ class _TimelineRenderObject extends CustomCalendarRenderObject {
     top = top == 0 ? padding : top;
     height = height == size.height
         ? top == padding
-            ? height - (padding * 2)
-            : height - padding
+              ? height - (padding * 2)
+              : height - padding
         : height;
     double width = timeIntervalWidth;
     double difference = 0;
@@ -1213,9 +1216,9 @@ class _TimelineRenderObject extends CustomCalendarRenderObject {
   String _getAccessibilityText(DateTime date, [CalendarResource? resource]) {
     String dateText;
     if (visibleDates.length > DateTime.daysPerWeek) {
-      dateText = DateFormat('EEEEE, dd MMMM yyyy', 'en').format(date);
+      dateText = DateFormat('EEEEE, dd MMMM yyyy').format(date);
     }
-    dateText = DateFormat('h a, dd MMMM yyyy', 'en').format(date);
+    dateText = DateFormat('h a, dd MMMM yyyy').format(date);
 
     if (resource != null) {
       dateText = dateText + resource.displayName;
@@ -1330,19 +1333,23 @@ class TimelineViewHeaderView extends CustomPainter {
     _xPosition = !isTimelineMonth
         ? timelineViewHeaderScrollController.offset
         : isRTL
-            ? size.width - childWidth
-            : 0;
+        ? size.width - childWidth
+        : 0;
 
-    final TextStyle defaultThemeViewHeaderDayTextStyle =
-        themeData.textTheme.bodySmall!.copyWith(
-      color: themeData.colorScheme.onSurface.withValues(alpha: 0.87),
-      fontSize: 11,
-    );
-    final TextStyle defaultThemeViewHeaderDateTextStyle =
-        themeData.textTheme.bodyMedium!.copyWith(
-      color: themeData.colorScheme.onSurface.withValues(alpha: 0.87),
-      fontSize: 15,
-    );
+    final TextStyle defaultThemeViewHeaderDayTextStyle = themeData
+        .textTheme
+        .bodySmall!
+        .copyWith(
+          color: themeData.colorScheme.onSurface.withValues(alpha: 0.87),
+          fontSize: 11,
+        );
+    final TextStyle defaultThemeViewHeaderDateTextStyle = themeData
+        .textTheme
+        .bodyMedium!
+        .copyWith(
+          color: themeData.colorScheme.onSurface.withValues(alpha: 0.87),
+          fontSize: 15,
+        );
 
     TextStyle viewHeaderDateStyle = calendarTheme.viewHeaderDateTextStyle!;
     TextStyle viewHeaderDayStyle = calendarTheme.viewHeaderDayTextStyle!;
@@ -1387,12 +1394,13 @@ class TimelineViewHeaderView extends CustomPainter {
       String dayFormat = 'EE';
       dayFormat =
           dayFormat == timeSlotViewSettings.dayFormat && !isTimelineMonth
-              ? 'EEEE'
-              : timeSlotViewSettings.dayFormat;
+          ? 'EEEE'
+          : timeSlotViewSettings.dayFormat;
 
-      final String dayText = DateFormat(dayFormat, 'en').format(currentDate);
-      final String dateText =
-          DateFormat(timeSlotViewSettings.dateFormat, 'en').format(currentDate);
+      final String dayText = DateFormat(dayFormat, locale).format(currentDate);
+      final String dateText = DateFormat(
+        timeSlotViewSettings.dateFormat,
+      ).format(currentDate);
 
       final bool isBlackoutDate = CalendarViewHelper.isDateInDateCollection(
         blackoutDates,
@@ -1436,15 +1444,15 @@ class TimelineViewHeaderView extends CustomPainter {
           color: dayTextStyle.color != null
               ? dayTextStyle.color!.withValues(alpha: 0.38)
               : themeData.brightness == Brightness.light
-                  ? Colors.black26
-                  : Colors.white38,
+              ? Colors.black26
+              : Colors.white38,
         );
         dateTextStyle = dateTextStyle.copyWith(
           color: dateTextStyle.color != null
               ? dateTextStyle.color!.withValues(alpha: 0.38)
               : themeData.brightness == Brightness.light
-                  ? Colors.black26
-                  : Colors.white38,
+              ? Colors.black26
+              : Colors.white38,
         );
       }
 
@@ -1490,7 +1498,8 @@ class TimelineViewHeaderView extends CustomPainter {
             (_padding * 2) +
             _dayTextPainter.width >
         (i + 1) * childWidth) {
-      _xPosition = ((i + 1) * childWidth) -
+      _xPosition =
+          ((i + 1) * childWidth) -
           (_dateTextPainter.width + (_padding * 2) + _dayTextPainter.width);
     }
 
@@ -1549,13 +1558,15 @@ class TimelineViewHeaderView extends CustomPainter {
   ) {
     canvas.clipRect(Rect.fromLTWH(_xPosition, 0, childWidth, size.height));
     const double leftPadding = 2;
-    final double startXPosition = _xPosition +
+    final double startXPosition =
+        _xPosition +
         (childWidth -
                 (_dateTextPainter.width +
                     leftPadding +
                     _dayTextPainter.width)) /
             2;
-    final double startYPosition = (size.height -
+    final double startYPosition =
+        (size.height -
             (_dayTextPainter.height > _dateTextPainter.height
                 ? _dayTextPainter.height
                 : _dateTextPainter.height)) /
@@ -1605,31 +1616,32 @@ class TimelineViewHeaderView extends CustomPainter {
             timelineViewHeaderScrollController.position.viewportDimension) {
       difference =
           timelineViewHeaderScrollController.position.viewportDimension -
-              size.width;
+          size.width;
     }
     final double leftPosition = isRTL && cellWidth == null
         ? size.width -
-            _xPosition -
-            (_padding * 2) -
-            _dayTextPainter.width -
-            _dateTextPainter.width -
-            _padding
+              _xPosition -
+              (_padding * 2) -
+              _dayTextPainter.width -
+              _dateTextPainter.width -
+              _padding
         : _xPosition;
     final double rightPosition = isRTL && cellWidth == null
         ? size.width - _xPosition
         : cellWidth != null
-            ? _xPosition + cellWidth - _padding
-            : _xPosition +
-                _dayTextPainter.width +
-                _dateTextPainter.width +
-                (2 * _padding);
+        ? _xPosition + cellWidth - _padding
+        : _xPosition +
+              _dayTextPainter.width +
+              _dateTextPainter.width +
+              (2 * _padding);
     if (leftPosition + difference <= viewHeaderNotifier.value!.dx &&
         rightPosition + difference >= viewHeaderNotifier.value!.dx &&
         (size.height) - _padding >= viewHeaderNotifier.value!.dy) {
-      _hoverPainter.color = (themeData.brightness == Brightness.dark
-              ? Colors.white
-              : Colors.black87)
-          .withValues(alpha: 0.04);
+      _hoverPainter.color =
+          (themeData.brightness == Brightness.dark
+                  ? Colors.white
+                  : Colors.black87)
+              .withValues(alpha: 0.04);
       canvas.drawRect(
         Rect.fromLTRB(leftPosition, 0, rightPosition + _padding, size.height),
         _hoverPainter,
@@ -1688,8 +1700,9 @@ class TimelineViewHeaderView extends CustomPainter {
   }
 
   String _getAccessibilityText(DateTime date) {
-    final String textString = DateFormat('EEEEE', 'en').format(date) +
-        DateFormat('dd/MMMM/yyyy', 'en').format(date);
+    final String textString =
+        DateFormat('EEEEE').format(date) +
+        DateFormat('dd/MMMM/yyyy').format(date);
     if (!isDateWithInDateRange(minDate, maxDate, date)) {
       return '$textString, Disabled date';
     }

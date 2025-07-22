@@ -205,37 +205,37 @@ class _AgendaViewLayoutState extends State<AgendaViewLayout> {
     widget.appointments!.sort(
       (CalendarAppointment app1, CalendarAppointment app2) =>
           AppointmentHelper.orderAppointmentsAscending(
-        app1.isAllDay,
-        app2.isAllDay,
-      ),
+            app1.isAllDay,
+            app2.isAllDay,
+          ),
     );
     widget.appointments!.sort(
       (CalendarAppointment app1, CalendarAppointment app2) =>
           AppointmentHelper.orderAppointmentsAscending(
-        app1.isSpanned,
-        app2.isSpanned,
-      ),
+            app1.isSpanned,
+            app2.isSpanned,
+          ),
     );
     final double agendaItemHeight =
         CalendarViewHelper.getScheduleAppointmentHeight(
-      widget.monthViewSettings,
-      widget.scheduleViewSettings,
-    );
+          widget.monthViewSettings,
+          widget.scheduleViewSettings,
+        );
     final double agendaAllDayItemHeight =
         CalendarViewHelper.getScheduleAllDayAppointmentHeight(
-      widget.monthViewSettings,
-      widget.scheduleViewSettings,
-    );
+          widget.monthViewSettings,
+          widget.scheduleViewSettings,
+        );
 
     for (int i = 0; i < widget.appointments!.length; i++) {
       final CalendarAppointment appointment = widget.appointments![i];
       final bool isSpanned =
           appointment.actualEndTime.day != appointment.actualStartTime.day ||
-              appointment.isSpanned;
+          appointment.isSpanned;
       final double appointmentHeight =
           (appointment.isAllDay || isSpanned) && !isLargerScheduleUI
-              ? agendaAllDayItemHeight
-              : agendaItemHeight;
+          ? agendaAllDayItemHeight
+          : agendaItemHeight;
       final Rect rect = Rect.fromLTWH(
         padding,
         yPosition,
@@ -869,7 +869,7 @@ class _AgendaViewRenderObject extends CustomCalendarRenderObject {
           properties: SemanticsProperties(
             label:
                 // ignore: lines_longer_than_80_chars
-                '${DateFormat('EEEEE', 'en').format(selectedDate!)}${DateFormat('dd MMMM yyyy', 'en').format(selectedDate!)}, No events',
+                '${DateFormat('EEEEE').format(selectedDate!)}${DateFormat('dd MMMM yyyy').format(selectedDate!)}, No events',
             textDirection: TextDirection.ltr,
           ),
         ),
@@ -922,22 +922,23 @@ class _AgendaViewRenderObject extends CustomCalendarRenderObject {
 
     final TextStyle appointmentTextStyle = monthViewSettings != null
         ? themeData.textTheme.bodyMedium!
-            .copyWith(color: Colors.white, fontSize: 13)
-            .merge(monthViewSettings!.agendaStyle.appointmentTextStyle)
+              .copyWith(color: Colors.white, fontSize: 13)
+              .merge(monthViewSettings!.agendaStyle.appointmentTextStyle)
         : themeData.textTheme.bodyMedium!
-            .copyWith(
-              color:
-                  isLargerScheduleUI && themeData.brightness == Brightness.light
-                      ? Colors.black87
-                      : Colors.white,
-              fontSize: 13,
-            )
-            .merge(scheduleViewSettings!.appointmentTextStyle);
+              .copyWith(
+                color:
+                    isLargerScheduleUI &&
+                        themeData.brightness == Brightness.light
+                    ? Colors.black87
+                    : Colors.white,
+                fontSize: 13,
+              )
+              .merge(scheduleViewSettings!.appointmentTextStyle);
 
     final List<String> appointmentStringFormats =
         appointmentTimeTextFormat == null
-            ? <String>[]
-            : CalendarViewHelper.getListFromString(appointmentTimeTextFormat!);
+        ? <String>[]
+        : CalendarViewHelper.getListFromString(appointmentTimeTextFormat!);
     final List<String> sameDateAppointmentStringFormats =
         CalendarViewHelper.getListFromString('hh:mm a');
     final List<String> diffDateAppointmentStringFormats =
@@ -954,7 +955,7 @@ class _AgendaViewRenderObject extends CustomCalendarRenderObject {
       _rectPainter.color = appointment.color;
       final bool isSpanned =
           appointment.actualEndTime.day != appointment.actualStartTime.day ||
-              appointment.isSpanned;
+          appointment.isSpanned;
       final double appointmentHeight = appointmentView.appointmentRect!.height;
       final RRect rect = appointmentView.appointmentRect!.shift(offset);
       xPosition = rect.left;
@@ -970,12 +971,14 @@ class _AgendaViewRenderObject extends CustomCalendarRenderObject {
         style: appointmentTextStyle,
       );
       _updateTextPainterProperties(span);
-      double timeWidth =
-          isLargerScheduleUI ? (size.width - (2 * padding)) * 0.3 : 0;
+      double timeWidth = isLargerScheduleUI
+          ? (size.width - (2 * padding)) * 0.3
+          : 0;
       timeWidth = timeWidth > 200 ? 200 : timeWidth;
       xPosition += timeWidth;
 
-      final bool isRecurrenceAppointment = appointment.recurrenceRule != null &&
+      final bool isRecurrenceAppointment =
+          appointment.recurrenceRule != null &&
           appointment.recurrenceRule!.isNotEmpty;
 
       final double textSize = _getTextSize(
@@ -1033,19 +1036,19 @@ class _AgendaViewRenderObject extends CustomCalendarRenderObject {
         if (isSpanned) {
           final List<double> iconPositions =
               _drawSpanningAppointmentForScheduleView(
-            canvas,
-            size,
-            xPosition,
-            yPosition,
-            padding,
-            appointment,
-            appointmentTextStyle,
-            appointmentHeight,
-            rect,
-            isMobilePlatform,
-            isLargerScheduleUI,
-            rect.tlRadius,
-          );
+                canvas,
+                size,
+                xPosition,
+                yPosition,
+                padding,
+                appointment,
+                appointmentTextStyle,
+                appointmentHeight,
+                rect,
+                isMobilePlatform,
+                isLargerScheduleUI,
+                rect.tlRadius,
+              );
           spanIconWidth = iconPositions[0];
           topPadding = iconPositions[1];
         }
@@ -1126,8 +1129,8 @@ class _AgendaViewRenderObject extends CustomCalendarRenderObject {
     final double textSize = isMobilePlatform
         ? appointmentTextStyle.fontSize ?? defaultFontSize
         : appointmentTextStyle.fontSize != null
-            ? appointmentTextStyle.fontSize! * 1.5
-            : defaultFontSize * 1.5;
+        ? appointmentTextStyle.fontSize! * 1.5
+        : defaultFontSize * 1.5;
     if (rect.width < textSize || rect.height < textSize) {
       return rect.width > rect.height ? rect.height : rect.width;
     }
@@ -1191,7 +1194,8 @@ class _AgendaViewRenderObject extends CustomCalendarRenderObject {
       /// value 2 used since the space on top and bottom of icon is not even,
       /// hence to rectify this tha value 2 used, and tested with multiple
       /// device.
-      iconStartPosition = (_textPainter.height -
+      iconStartPosition =
+          (_textPainter.height -
               (icon.style!.fontSize! * textScaleFactor) / 2) /
           2;
     }
@@ -1224,8 +1228,8 @@ class _AgendaViewRenderObject extends CustomCalendarRenderObject {
 
     /// Top and bottom padding 5
     const double verticalPadding = 10;
-    final int maxLines =
-        ((appointmentHeight - verticalPadding) / lineHeight).floor();
+    final int maxLines = ((appointmentHeight - verticalPadding) / lineHeight)
+        .floor();
     if (maxLines > 1) {
       _textPainter.maxLines = isSpanned || isAllDay ? maxLines : maxLines - 1;
     }
@@ -1270,8 +1274,8 @@ class _AgendaViewRenderObject extends CustomCalendarRenderObject {
 
     final List<String> format = appointmentFormatString.isEmpty
         ? (isSameDate(appointment.actualStartTime, appointment.actualEndTime)
-            ? sameDateAppointmentFormatString
-            : diffDateAppointmentFormatString)
+              ? sameDateAppointmentFormatString
+              : diffDateAppointmentFormatString)
         : appointmentFormatString;
     final String startDateText = CalendarViewHelper.getLocalizedString(
       appointment.actualStartTime,
@@ -1434,8 +1438,9 @@ class _AgendaViewRenderObject extends CustomCalendarRenderObject {
   ) {
     _textPainter.textScaler = TextScaler.linear(textScaleFactor);
     final double centerYPosition = appointmentHeight / 2;
-    final double circleRadius =
-        centerYPosition > padding ? padding : centerYPosition - 2;
+    final double circleRadius = centerYPosition > padding
+        ? padding
+        : centerYPosition - 2;
     final double circleStartPosition = offset.dx + (3 * circleRadius);
     canvas.drawCircle(
       Offset(
@@ -1463,7 +1468,8 @@ class _AgendaViewRenderObject extends CustomCalendarRenderObject {
     );
 
     if (isRTL) {
-      xPosition = size.width -
+      xPosition =
+          size.width -
           _textPainter.width -
           (3 * padding) -
           timeWidth -

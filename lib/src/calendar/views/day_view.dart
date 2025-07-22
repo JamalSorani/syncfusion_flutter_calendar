@@ -172,7 +172,8 @@ class _TimeSlotWidgetState extends State<TimeSlotWidget> {
       return;
     }
 
-    final double minuteHeight = widget.timeIntervalHeight /
+    final double minuteHeight =
+        widget.timeIntervalHeight /
         CalendarViewHelper.getTimeInterval(widget.timeSlotViewSettings);
     final DateTime startDate = AppointmentHelper.convertToStartTime(
       widget.visibleDates[0],
@@ -752,7 +753,8 @@ class _TimeSlotRenderObject extends CustomCalendarRenderObject {
     Canvas canvas,
     int visibleDatesCount,
   ) {
-    final double minuteHeight = timeIntervalHeight /
+    final double minuteHeight =
+        timeIntervalHeight /
         CalendarViewHelper.getTimeInterval(timeSlotViewSettings);
     final double viewWidth = width - timeLabelWidth;
     final double cellWidth = viewWidth / visibleDatesCount;
@@ -815,8 +817,9 @@ class _TimeSlotRenderObject extends CustomCalendarRenderObject {
     _linePainter.color = cellBorderColor ?? calendarTheme.cellBorderColor!;
 
     final double startXPosition = isRTL ? 0 : timeLabelWidth;
-    final double endXPosition =
-        isRTL ? size.width - timeLabelWidth : size.width;
+    final double endXPosition = isRTL
+        ? size.width - timeLabelWidth
+        : size.width;
     for (int i = 1; i <= horizontalLinesCount; i++) {
       canvas.drawLine(
         Offset(startXPosition, y),
@@ -845,7 +848,8 @@ class _TimeSlotRenderObject extends CustomCalendarRenderObject {
     const double strokeWidth = 2;
     const double padding = strokeWidth / 2;
     double left = (calendarCellNotifier.value!.dx ~/ _cellWidth) * _cellWidth;
-    double top = (calendarCellNotifier.value!.dy ~/ timeIntervalHeight) *
+    double top =
+        (calendarCellNotifier.value!.dy ~/ timeIntervalHeight) *
         timeIntervalHeight;
     _linePainter.style = PaintingStyle.stroke;
     _linePainter.strokeWidth = strokeWidth;
@@ -934,8 +938,8 @@ class _TimeSlotRenderObject extends CustomCalendarRenderObject {
     left = isRTL ? (size.width - timeLabelWidth) - cellWidth : timeLabelWidth;
     final double cellHeight = timeIntervalHeight;
     final int startHour = timeSlotViewSettings.startHour.toInt();
-    final int hour =
-        ((timeSlotViewSettings.startHour - startHour) * 60).toInt();
+    final int hour = ((timeSlotViewSettings.startHour - startHour) * 60)
+        .toInt();
     final int timeInterval = CalendarViewHelper.getTimeInterval(
       timeSlotViewSettings,
     );
@@ -948,7 +952,7 @@ class _TimeSlotRenderObject extends CustomCalendarRenderObject {
           CustomPainterSemantics(
             rect: Rect.fromLTWH(left, top, cellWidth, cellHeight),
             properties: SemanticsProperties(
-              label: DateFormat('h a, dd MMMM yyyy', 'en').format(date),
+              label: DateFormat('h a, dd MMMM yyyy').format(date),
               textDirection: TextDirection.ltr,
             ),
           ),
