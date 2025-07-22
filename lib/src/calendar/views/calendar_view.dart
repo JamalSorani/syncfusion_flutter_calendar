@@ -3066,7 +3066,7 @@ class _CustomCalendarScrollViewState extends State<CustomCalendarScrollView>
 
     String rule = region.recurrenceRule!;
     if (!rule.contains('COUNT') && !rule.contains('UNTIL')) {
-      final DateFormat formatter = DateFormat('yyyyMMdd');
+      final DateFormat formatter = DateFormat('yyyyMMdd', 'en');
       final String newSubString = ';UNTIL=${formatter.format(visibleEndDate)}';
       rule = rule + newSubString;
     }
@@ -12982,10 +12982,9 @@ class _ViewHeaderViewPainter extends CustomPainter {
 
     for (int i = 0; i < DateTime.daysPerWeek; i++) {
       final DateTime currentDate = visibleDates[i];
-      String dayText = DateFormat(
-        monthViewSettings.dayFormat,
-        locale,
-      ).format(currentDate).toUpperCase();
+      String dayText = DateFormat(monthViewSettings.dayFormat, 'en')
+          .format(currentDate)
+          .toUpperCase();
 
       dayText = _updateViewHeaderFormat(monthViewSettings.dayFormat, dayText);
 
@@ -13096,19 +13095,17 @@ class _ViewHeaderViewPainter extends CustomPainter {
     for (int i = 0; i < visibleDatesLength; i++) {
       final DateTime currentDate = visibleDates[i];
 
-      String dayText = DateFormat(
-        timeSlotViewSettings.dayFormat,
-        locale,
-      ).format(currentDate).toUpperCase();
+      String dayText = DateFormat(timeSlotViewSettings.dayFormat, 'en')
+          .format(currentDate)
+          .toUpperCase();
 
       dayText = _updateViewHeaderFormat(
         timeSlotViewSettings.dayFormat,
         dayText,
       );
 
-      final String dateText = DateFormat(
-        timeSlotViewSettings.dateFormat,
-      ).format(currentDate);
+      final String dateText =
+          DateFormat(timeSlotViewSettings.dateFormat, 'en').format(currentDate);
       final bool isToday = isSameDate(currentDate, today);
       if (isToday) {
         final Color? todayTextStyleColor = calendarTheme.todayTextStyle!.color;
@@ -13498,11 +13495,11 @@ class _ViewHeaderViewPainter extends CustomPainter {
   String _getAccessibilityText(DateTime date) {
     if (!isDateWithInDateRange(minDate, maxDate, date)) {
       // ignore: lines_longer_than_80_chars
-      return '${DateFormat('EEEEE').format(date)}${DateFormat('dd MMMM yyyy').format(date)}, Disabled date';
+      return '${DateFormat('EEEEE', 'en').format(date)}${DateFormat('dd MMMM yyyy', 'en').format(date)}, Disabled date';
     }
 
-    return DateFormat('EEEEE').format(date) +
-        DateFormat('dd MMMM yyyy').format(date);
+    return DateFormat('EEEEE', 'en').format(date) +
+        DateFormat('dd MMMM yyyy', 'en').format(date);
   }
 
   List<CustomPainterSemantics> _getSemanticsForMonthViewHeader(Size size) {
@@ -13516,7 +13513,8 @@ class _ViewHeaderViewPainter extends CustomPainter {
         CustomPainterSemantics(
           rect: Rect.fromLTWH(left, top, cellWidth, size.height),
           properties: SemanticsProperties(
-            label: DateFormat('EEEEE').format(visibleDates[i]).toUpperCase(),
+            label:
+                DateFormat('EEEEE', 'en').format(visibleDates[i]).toUpperCase(),
             textDirection: TextDirection.ltr,
           ),
         ),
@@ -15074,9 +15072,8 @@ class _ResizingAppointmentPainter extends CustomPainter {
     }
 
     final TextSpan span = TextSpan(
-      text: DateFormat(
-        dragAndDropSettings.indicatorTimeFormat,
-      ).format(resizingDetails.value.resizingTime!),
+      text: DateFormat(dragAndDropSettings.indicatorTimeFormat, 'en')
+          .format(resizingDetails.value.resizingTime!),
       style: calendarTheme.timeIndicatorTextStyle,
     );
     _updateTextPainter(span);
@@ -15961,9 +15958,8 @@ class _DraggingAppointmentRenderObject extends RenderBox
     }
 
     final TextSpan span = TextSpan(
-      text: DateFormat(
-        dragAndDropSettings.indicatorTimeFormat,
-      ).format(dragDetails.draggingTime!),
+      text: DateFormat(dragAndDropSettings.indicatorTimeFormat, 'en')
+          .format(dragDetails.draggingTime!),
       style: calendarTheme.timeIndicatorTextStyle,
     );
     _textPainter.text = span;
