@@ -11091,7 +11091,7 @@ class _CalendarHeaderViewState extends State<_CalendarHeaderView> {
                 splashColor: leftArrowSplashColor,
                 highlightColor: leftArrowSplashColor,
                 hoverColor: leftArrowSplashColor,
-                splashFactory: _CustomSplashFactory(),
+                splashFactory: NoSplash.splashFactory,
                 onTap: _backward,
                 child: Semantics(
                   label: 'Backward',
@@ -11134,7 +11134,7 @@ class _CalendarHeaderViewState extends State<_CalendarHeaderView> {
                 splashColor: rightArrowSplashColor,
                 highlightColor: rightArrowSplashColor,
                 hoverColor: rightArrowSplashColor,
-                splashFactory: _CustomSplashFactory(),
+                splashFactory: NoSplash.splashFactory,
                 onTap: _forward,
                 child: Semantics(
                   label: 'Forward',
