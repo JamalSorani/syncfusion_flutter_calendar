@@ -13106,9 +13106,8 @@ class _ViewHeaderViewPainter extends CustomPainter {
         dayText,
       );
 
-      final String dateText = DateFormat(
-        timeSlotViewSettings.dateFormat,
-      ).format(currentDate);
+      final String dateText =
+          DateFormat(timeSlotViewSettings.dateFormat, 'en').format(currentDate);
       final bool isToday = isSameDate(currentDate, today);
       if (isToday) {
         final Color? todayTextStyleColor = calendarTheme.todayTextStyle!.color;
