@@ -18,8 +18,8 @@ bool timeZoneLoaded = false;
 
 /// Signature for callback that used to get and update the calendar
 /// state details.
-typedef UpdateCalendarState =
-    void Function(UpdateCalendarStateDetails updateCalendarStateDetails);
+typedef UpdateCalendarState = void Function(
+    UpdateCalendarStateDetails updateCalendarStateDetails);
 
 //// Extra small devices (phones, 600px and down)
 //// @media only screen and (max-width: 600px) {...}
@@ -112,7 +112,7 @@ class CalendarViewHelper {
     String localizedString = '';
     for (int i = 0; i < stringFormatList.length; i++) {
       final String value = stringFormatList[i];
-      final String valueString = getFormattedString(date, value, locale);
+      final String valueString = getFormattedString(date, value, 'en');
       localizedString = '$localizedString$valueString';
     }
 
@@ -280,12 +280,12 @@ class CalendarViewHelper {
   ) {
     return monthViewSettings != null
         ? (monthViewSettings.agendaItemHeight == -1
-              ? 50
-              : monthViewSettings.agendaItemHeight)
+            ? 50
+            : monthViewSettings.agendaItemHeight)
         : (scheduleViewSettings == null ||
-                  scheduleViewSettings.appointmentItemHeight == -1
-              ? 50
-              : scheduleViewSettings.appointmentItemHeight);
+                scheduleViewSettings.appointmentItemHeight == -1
+            ? 50
+            : scheduleViewSettings.appointmentItemHeight);
   }
 
   /// Return schedule view all day appointment height and its value based on
@@ -296,12 +296,12 @@ class CalendarViewHelper {
   ) {
     return monthViewSettings != null
         ? (monthViewSettings.agendaItemHeight == -1
-              ? 25
-              : monthViewSettings.agendaItemHeight)
+            ? 25
+            : monthViewSettings.agendaItemHeight)
         : (scheduleViewSettings == null ||
-                  scheduleViewSettings.appointmentItemHeight == -1
-              ? 25
-              : scheduleViewSettings.appointmentItemHeight);
+                scheduleViewSettings.appointmentItemHeight == -1
+            ? 25
+            : scheduleViewSettings.appointmentItemHeight);
   }
 
   /// Returns the height for an resource item to render the resource within
@@ -754,8 +754,8 @@ class CalendarViewHelper {
   ) {
     if (appointment.recurrenceRule != null &&
         appointment.recurrenceRule!.isNotEmpty) {
-      final Appointment appointmentObject = appointment
-          .convertToCalendarAppointment();
+      final Appointment appointmentObject =
+          appointment.convertToCalendarAppointment();
       if (appointment.data is Appointment) {
         return appointmentObject;
       } else {
@@ -1061,8 +1061,8 @@ class CalendarAppointment {
     this.color = Colors.lightBlue,
     this.isSpanned = false,
     this.recurrenceExceptionDates,
-  }) : actualStartTime = startTime,
-       actualEndTime = endTime;
+  })  : actualStartTime = startTime,
+        actualEndTime = endTime;
 
   /// The start time for an [CalendarAppointment] in [SfCalendar].
   ///
@@ -1289,8 +1289,8 @@ class CalendarTimeRegion {
     this.timeZone,
     this.iconData,
     this.textStyle,
-  }) : actualStartTime = startTime,
-       actualEndTime = endTime;
+  })  : actualStartTime = startTime,
+        actualEndTime = endTime;
 
   /// Used to specify the start time of the [CalendarTimeRegion].
   final DateTime startTime;
